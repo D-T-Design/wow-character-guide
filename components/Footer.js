@@ -1,11 +1,18 @@
-import styles from './Footer.module.css'
+import React from "react";
 
-export default function Footer() {
-  return (
-    <>
-      <footer className={styles.footer}>
-        Made with <img src="/netliheart.svg" alt="Netlify Logo" className={styles.logo} /> for you
-      </footer>
-    </>
-  )
-}
+const Footer = () => (
+	<section className="footer-terms">
+		<div className="container">
+			<p>
+				<small>
+					Link Tooltips and Search Results powered by WoWHead.
+					<br /> This site is open source, the source code can be found on the Github page.
+					<br /> I do not claim ownership of any World of Warcraft related assets, this is just a
+					fan site!
+				</small>
+			</p>
+		</div>
+	</section>
+);
+
+export default Footer;
