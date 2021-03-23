@@ -1,31 +1,51 @@
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
-const Navbar = () => {
+import PlayerCard from "./PlayerCard";
+
+export const Navbar = ({ appState }) => {
+	const router = useRouter();
+	const route = router.pathname;
+	const links = [
+		{
+			path: "/",
+			text: "Character",
+		},
+		{
+			path: "/classguides",
+			text: "Class Guides",
+		},
+		{
+			path: "/gear",
+			text: "Suggested Gear",
+		},
+		{
+			path: "/zones",
+			text: "World Zones",
+		},
+	];
 	return (
-		<div className="navbar">
-			<ul>
-				<li>
-					<Link href="/">Home</Link>
-				</li>
-				<li>
-					<Link href="/zones">World Zones</Link>
-				</li>
-				<li>
-					<Link href="/dungeons">Dungeons</Link>
-				</li>
-				<li>
-					<Link href="/battlegrounds">Battlegrounds</Link>
-				</li>
-				<li>
-					<Link href="/gear">Suggested Gear</Link>
-				</li>
-				<li>
-					<Link href="/classguides">Class Guides</Link>
-				</li>
-			</ul>
-		</div>
+		<header>
+			<div className="container">
+				<h1>WoW Character Guide</h1>
+				<PlayerCard appState={appState} />
+			</div>
+			<nav>
+				<ul>
+					<div className="container">
+						{links.map((link, index) => (
+							<li key={index}>
+								<Link href={link.path}>
+									<a style={route === link.path ? { borderBottom: "1px solid red" } : {}}>
+										{link.text}
+									</a>
+								</Link>
+							</li>
+						))}
+					</div>
+				</ul>
+			</nav>
+		</header>
 	);
 };
-
-export { Navbar };

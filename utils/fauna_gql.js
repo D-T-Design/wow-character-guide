@@ -73,7 +73,7 @@ const queryClassGear = (className) =>
   }`;
 
 const queryAllZones = `{
-  getAllZones {
+  getAllZones(_size:500) {
     data {
       name
       id
@@ -94,37 +94,71 @@ const queryAllZones = `{
   }
 }`;
 
-const queryAllDungeons = `{
-  getAllDungeons {
-    data {
-      name
-      level
-      zone {
-        name
-      }
-      id
-    }
-  }
-}`;
-
 const queryAllRaids = `{
   getAllRaids {
-    data {
-      name
-      level
-      zone {
+      data {
+        id
         name
+        zone {
+          name
+          faction
+        }
+        level
+        tier
       }
-      id
-      tier
     }
-  }
-}`;
+  }`;
+
+const queryGetClassGear = (className) =>
+	`{
+    classByName(name: "${className}") {
+      data {
+        gear {
+          data {
+            slot {
+              data {
+                name
+                items(_size:500) {
+                  data {
+                    name
+                    faction {
+                      name
+                    }
+                    quality
+                    wepType
+                    id
+                    iLvl
+                    reqLvl
+                    drop
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }`;
+
+export const queryAllDungeons = () =>
+	`{
+    getAllDungeons(_size:500) {
+      data {
+        id
+        name
+        zone {
+          name
+          faction
+        }
+        level
+      }
+    }
+  }`;
 
 export {
 	queryAllFactions,
 	queryClassGear,
 	queryAllZones,
-	queryAllDungeons,
-	queryAllRaids
+	queryAllRaids,
+	queryGetClassGear,
 };

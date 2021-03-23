@@ -1,13 +1,14 @@
 import React from "react";
 
-const PlayerCard = ({ level, faction, race, classPicked }) => {
+const PlayerCard = ({ appState }) => {
+	const { level, race, playerClass, faction } = appState;
 	return (
 		<div>
 			<ul>
 				<li>
 					<strong>Lvl {level}</strong>
 				</li>
-				<li>{`${race} ${classPicked}`}</li>
+				<li>{`${race} ${playerClass}`}</li>
 				<li>{faction}</li>
 			</ul>
 		</div>

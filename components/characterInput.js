@@ -1,40 +1,52 @@
 import React from "react";
 
-const factionURL = "/static/img/faction/";
-const raceURL = "/static/img/race/";
-const classURL = "/static/img/class/";
-
-const Faction = ({ chosenFaction, changeFaction, data }) => {
-	const availableFactions = data.availableFactions;
-	return availableFactions ? (
+export const Faction = ({ chosenFaction, changeFaction, data, error, pending }) => {
+	const factionURL = "/static/img/faction/";
+	if (error)
+		return (
+			<div className="faction">
+				<p>Error returning faction data. See console. {console.log(error)}</p>
+			</div>
+		);
+	if (pending)
+		return (
+			<div className="faction">
+				<p>Loading character builder...</p>
+			</div>
+		);
+	return (
 		<div className="faction">
-			<h2>Faction</h2>
-			{availableFactions.map((faction, index) => (
+			<h2>Choose Your Faction</h2>
+			{data.availableFactions.map((faction, index) => (
 				<label
 					className={`faction-icon ${
 						chosenFaction !== faction && chosenFaction !== "" ? "inactive" : "active"
 					}`}
 					key={index}
+					onClick={() => changeFaction(faction)}
+					tabIndex="0"
 				>
 					<input type="radio" name="Faction" value={faction} />
-					<img
-						src={`${factionURL}${faction.toLowerCase()}.png`}
-						alt={faction}
-						data-hover={faction}
-						onClick={() => changeFaction(faction)}
-					/>
+					<figure>
+						<img
+							src={`${factionURL}${faction.toLowerCase()}.png`}
+							alt={faction}
+							data-hover={faction}
+						/>
+						<figcaption>{faction}</figcaption>
+					</figure>
 				</label>
 			))}
-			<span className="selection-title chosen">{chosenFaction}</span>
 		</div>
-	) : null;
+	);
 };
 
-const Race = ({ faction, chosenRace, changeRace, data }) => {
-	const availableRaces = faction === "Horde" ? data.hordeRaces : data.allianceRaces;
+export const Race = ({ faction, chosenRace, changeRace, data }) => {
+	const raceURL = "/static/img/race/";
+	const availableRaces = data[`${faction.toLowerCase()}Races`];
 	return faction ? (
 		<div className="race">
-			<h2>Race</h2>
+			<h2>Choose Your Race</h2>
 			{availableRaces.map((race, index) => (
 				<label
 					key={index}
@@ -42,81 +54,54 @@ const Race = ({ faction, chosenRace, changeRace, data }) => {
 						chosenRace !== race && chosenRace !== "" ? "inactive" : "active"
 					}`}
 					tabIndex="0"
+					onClick={() => changeRace(race)}
 				>
 					<input type="radio" name="Race" value={race} />
-					<img
-						src={`${raceURL}${race.toLowerCase().replace(/\s/g, "")}-male.png`}
-						alt={race}
-						onClick={() => changeRace(race)}
-					/>
+					<figure>
+						<img src={`${raceURL}${race.toLowerCase().replace(/\s/g, "")}-male.png`} alt={race} />
+						<figcaption>{race}</figcaption>
+					</figure>
 				</label>
 			))}
-			<span className="selection-title chosen">{chosenRace}</span>
 		</div>
 	) : null;
 };
 
-const PlayerClass = ({ race, chosenClass, changeClass, data }) => {
-	let availableClasses = [];
-	switch (race) {
-		case "Undead":
-			availableClasses = data.undeadClasses;
-			break;
-		case "Troll":
-			availableClasses = data.trollClasses;
-			break;
-		case "Tauren":
-			availableClasses = data.taurenClasses;
-			break;
-		case "Orc":
-			availableClasses = data.orcClasses;
-			break;
-		case "Human":
-			availableClasses = data.humanClasses;
-			break;
-		case "Night Elf":
-			availableClasses = data.nightElfClasses;
-			break;
-		case "Dwarf":
-			availableClasses = data.dwarfClasses;
-			break;
-		case "Gnome":
-			availableClasses = data.gnomeClasses;
-			break;
-		default:
-			availableClasses = [];
-	}
+export const PlayerClass = ({ race, chosenClass, changeClass, data }) => {
+	const classURL = "/static/img/class/";
+	const availableClasses = data[`${race.replace(/\s/g, "").toLowerCase()}Classes`];
 	return (
 		race && (
 			<div className="playerclass">
-				<h2>Class</h2>
+				<h2>Choose Your Class</h2>
 				{availableClasses.map((classType, index) => (
 					<label
 						key={index}
 						className={`class-icon ${
 							chosenClass !== classType && chosenClass !== "" ? "inactive" : "active"
 						}`}
+						onClick={() => {
+							changeClass(classType);
+						}}
+						tabIndex="0"
 					>
 						<input type="radio" name="Class" value={classType} />
-						<img
-							src={`${classURL}${classType.toLowerCase()}.png`}
-							alt={classType}
-							onClick={() => {
-								changeClass(classType);
-							}}
-							className={chosenClass !== classType && chosenClass !== "" ? "inactive" : null}
-						/>
+						<figure>
+							<img src={`${classURL}${classType.toLowerCase()}.png`} alt={classType} />
+							<figcaption>{classType}</figcaption>
+						</figure>
 					</label>
 				))}
-				<span className="selection-title chosen">{chosenClass}</span>
 			</div>
 		)
 	);
 };
 
-const Name = ({ currentName, changeName }) => (
-	<div className="character-name">
-		<label htmlFor="name">Character Name</label>
+export const Name = ({ currentName, changeName }) => (
+	<div className="name">
+		<label htmlFor="name">
+			<h2>Character Name</h2>
+		</label>
 		<input
 			name="name"
 			type="text"
@@ -124,20 +109,22 @@ const Name = ({ currentName, changeName }) => (
 			onChange={(e) =>
 				e.target.value.match(/^[a-zA-Z]+$/) || e.target.value === "" ? changeName(e) : null
 			}
+			tabIndex="0"
 		/>
 	</div>
 );
 
-const Level = ({ currentLevel, changeLevel }) => (
+export const Level = ({ currentLevel, changeLevel }) => (
 	<div className="level">
-		<label htmlFor="level">Your Level</label>
+		<label htmlFor="level">
+			<h2>Your Level</h2>
+		</label>
 		<input
 			name="level"
 			type="text"
 			value={currentLevel}
 			onChange={(e) => !isNaN(e.target.value) && changeLevel(e)}
+			tabIndex="0"
 		/>
 	</div>
 );
-
-export { Faction, Race, PlayerClass, Name, Level };

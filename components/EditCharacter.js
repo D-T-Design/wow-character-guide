@@ -2,6 +2,7 @@ import React from "react";
 import { Faction, Race, PlayerClass, Name, Level } from "./characterInput";
 
 const EditCharacter = ({ updateState, appState, classData }) => {
+	console.log(updateState, classData, appState);
 	return (
 		<section className="edit-character-section">
 			<section className="input-container">

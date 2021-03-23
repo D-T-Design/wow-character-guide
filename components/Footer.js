@@ -1,7 +1,7 @@
 import React from "react";
 
 const Footer = () => (
-	<section className="footer-terms">
+	<footer className="footer-terms">
 		<div className="container">
 			<p>
 				<small>
@@ -12,7 +12,7 @@ const Footer = () => (
 				</small>
 			</p>
 		</div>
-	</section>
+	</footer>
 );
 
 export default Footer;
