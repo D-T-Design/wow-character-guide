@@ -2,41 +2,37 @@ import React from "react";
 
 export const Faction = ({ chosenFaction, changeFaction, data, error, pending }) => {
 	const factionURL = "/static/img/faction/";
-	if (error)
-		return (
-			<div className="faction">
-				<p>Error returning faction data. See console. {console.log(error)}</p>
-			</div>
-		);
-	if (pending)
-		return (
-			<div className="faction">
-				<p>Loading character builder...</p>
-			</div>
-		);
 	return (
 		<div className="faction">
-			<h2>Choose Your Faction</h2>
-			{data.availableFactions.map((faction, index) => (
-				<label
-					className={`faction-icon ${
-						chosenFaction !== faction && chosenFaction !== "" ? "inactive" : "active"
-					}`}
-					key={index}
-					onClick={() => changeFaction(faction)}
-					tabIndex="0"
-				>
-					<input type="radio" name="Faction" value={faction} />
-					<figure>
-						<img
-							src={`${factionURL}${faction.toLowerCase()}.png`}
-							alt={faction}
-							data-hover={faction}
-						/>
-						<figcaption>{faction}</figcaption>
-					</figure>
-				</label>
-			))}
+			{error ? (
+				<p>Error returning faction data. See console. {console.log(error)}</p>
+			) : pending ? (
+				<p>Loading character builder...</p>
+			) : (
+				<>
+					<h2>Choose Your Faction</h2>
+					{data.availableFactions.map((faction, index) => (
+						<label
+							className={`faction-icon ${
+								chosenFaction !== faction && chosenFaction !== "" ? "inactive" : "active"
+							}`}
+							key={index}
+							onClick={() => changeFaction(faction)}
+							tabIndex="0"
+						>
+							<input type="radio" name="Faction" value={faction} />
+							<figure>
+								<img
+									src={`${factionURL}${faction.toLowerCase()}.png`}
+									alt={faction}
+									data-hover={faction}
+								/>
+								<figcaption>{faction}</figcaption>
+							</figure>
+						</label>
+					))}
+				</>
+			)}
 		</div>
 	);
 };

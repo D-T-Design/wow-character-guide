@@ -9,7 +9,7 @@ import "../styles/globals.scss";
 const MyApp = ({ Component, pageProps }) => {
 	const { classData, error, isPending } = useClassData();
 	let classGear = {};
-  
+
 	const [appState, setState] = useState({
 		faction: "",
 		level: 1,
@@ -35,8 +35,18 @@ const MyApp = ({ Component, pageProps }) => {
 	const updateClass = (playerClass) => {
 		setState({ ...appState, playerClass });
 	};
+	const updateGear = (gear) => {
+		setState({ ...appState, gear});
+	};
 
-	const updateState = { updateLevel, updateName, updateFaction, updateRace, updateClass };
+	const updateState = {
+		updateLevel,
+		updateName,
+		updateFaction,
+		updateRace,
+		updateClass,
+		updateGear,
+	};
 
 	pageProps = {
 		...pageProps,

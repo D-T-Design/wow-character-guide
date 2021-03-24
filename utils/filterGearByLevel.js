@@ -2,7 +2,6 @@ export default function filterGearByLevel(data, level) {
 	const minLevel = level - 5;
 	const maxLevel = level;
 	let filteredArray = [];
-	console.log(data);
 	data.gearData &&
 		data.gearData.map((slotType) => {
 			const name = slotType.slot;
