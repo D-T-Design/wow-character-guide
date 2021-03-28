@@ -1,4 +1,5 @@
 import React from "react";
+
 import useZoneData from "../utils/useZoneData";
 import useDungeonData from "../utils/useDungeonData";
 import useRaidData from "../utils/useRaidData";
@@ -7,7 +8,7 @@ import { zonesByCategory } from "../utils/filterZones";
 import { ZoneListing } from "../components/ZoneListing";
 
 const Zones = ({ appState }) => {
-	const { faction, level } = appState;
+	const { faction, level } = appState.character;
 	const { zoneData, error, isPending } = useZoneData();
 	const { dungeonData } = useDungeonData();
 	const { raidData } = useRaidData();
@@ -20,17 +21,14 @@ const Zones = ({ appState }) => {
 					vitae vulputate neque. Nullam maximus, sapien et elementum faucibus, enim sem tempus
 					felis, et aliquam metus libero sed sapien.
 				</p>
-				{error ? (
-					<div className="zones-container">
+
+				<div className="zones-container">
+					{error ? (
 						<p>Error loading zone data. See console. {console.log(error)}</p>
-					</div>
-				) : isPending ? (
-					<div className="zones-container">
+					) : isPending ? (
 						<p>Loading zone data...</p>
-					</div>
-				) : (
-					<div className="zones-container">
-						{Object.keys(zonesByCategory(zoneData, dungeonData, raidData, level, faction)).map(
+					) : (
+						Object.keys(zonesByCategory(zoneData, dungeonData, raidData, level, faction)).map(
 							(categoryName, index) => {
 								const zones = zonesByCategory(zoneData, dungeonData, raidData, level, faction)[
 									categoryName
@@ -47,9 +45,9 @@ const Zones = ({ appState }) => {
 										: "Battlegrounds";
 								return <ZoneListing title={title} zones={zones} level={level} key={index} />;
 							}
-						)}
-					</div>
-				)}
+						)
+					)}
+				</div>
 			</div>
 		</section>
 	);

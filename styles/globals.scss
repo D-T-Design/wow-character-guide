@@ -1,5 +1,6 @@
 $bg-color: #27221f;
 $nav-bg: #1d1814;
+$body-color: #d8d9d7;
 $headline-font: "Ubuntu", sans-serif;
 $body-font: "Open Sans", sans-serif;
 
@@ -78,6 +79,45 @@ section {
 	justify-content: center;
 }
 
+.character {
+	&-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		li {
+			background-color: rgba(0, 0, 0, 0.1);
+			border: 1px solid rgba(255, 255, 255, 0.25);
+			padding: 1em 1.5em;
+			figure {
+				padding: 0;
+				margin: 0;
+			}
+			h3,
+			h4,
+			h5 {
+				margin-top: 0.25em;
+				margin-bottom: 0.25em;
+			}
+			button {
+				background-color: rgba(255, 255, 255, 0.1);
+				border: 0;
+				color: $body-color;
+				cursor: pointer;
+				font-style: italic;
+				padding: 0.5em 1em;
+				margin-right: 1ch;
+				transition: all 0.1s ease-in-out;
+				&:last-of-type {
+					margin-right: 0;
+				}
+				&:hover {
+					background-color: rgba(255, 255, 255, 0.3);
+				}
+			}
+		}
+	}
+}
+
 .left {
 	text-align: left;
 }
@@ -105,6 +145,39 @@ section {
 		width: 0;
 		height: 0;
 	}
+}
+
+$classColors: (
+	"Druid": $druid,
+	"Hunter": $hunter,
+	"Mage": $mage,
+	"Paladin": $paladin,
+	"Priest": $priest,
+	"Rogue": $rogue,
+	"Shaman": $shaman,
+	"Warlock": $warlock,
+	"Warrior": $warrior,
+);
+@mixin active-nav($classColor) {
+	&.active {
+		color: white;
+		background-color: rgba(0, 0, 0, 0.2);
+		border-bottom: 1px solid $classColor;
+		box-shadow: 0 7px 5px -5px rgba($classColor, 0.5);
+	}
+	&:hover {
+		border-color: $classColor;
+	}
+}
+@mixin class-nav-colors {
+	@each $name, $color in $classColors {
+		&#{$name} {
+			@include active-nav($color);
+		}
+	}
+}
+.playerclass- {
+	@include class-nav-colors;
 }
 
 .level,

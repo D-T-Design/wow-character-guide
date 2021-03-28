@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import Link from "next/link";
 
 export const Faction = ({ chosenFaction, changeFaction, data, error, pending }) => {
 	const factionURL = "/static/img/faction/";
@@ -124,3 +125,67 @@ export const Level = ({ currentLevel, changeLevel }) => (
 		/>
 	</div>
 );
+
+export const InputCharacter = ({ props }) => {
+	const { updateState, appState, classData, error, isPending } = props;
+	const { addCharacter } = updateState;
+	const [formState, setState] = useState({
+		faction: "",
+		level: 1,
+		name: "",
+		playerClass: "",
+		race: "",
+	});
+
+	const updateName = (e) => {
+		setState({ ...formState, name: e.target.value });
+	};
+	const updateLevel = (e) => {
+		const newLevel = e.target.value;
+		const level = newLevel === "" ? "" : newLevel < 1 ? 1 : newLevel > 60 ? 60 : newLevel;
+		setState({ ...formState, level });
+	};
+	const updateFaction = (faction) => {
+		setState({ ...formState, faction, race: "", playerClass: "" });
+	};
+	const updateRace = (race) => {
+		setState({ ...formState, race, playerClass: "" });
+	};
+	const updateClass = (playerClass) => {
+		setState({ ...formState, playerClass });
+	};
+
+	const { name, faction, level, playerClass, race } = formState;
+
+	return (
+		<section>
+			<section className="input-namelevel">
+				<Name changeName={updateName} currentName={name} />
+				<Level changeLevel={updateLevel} currentLevel={level} />
+			</section>
+			<section className="input-faction">
+				<Faction
+					changeFaction={updateFaction}
+					chosenFaction={faction}
+					data={classData}
+					pending={isPending}
+					error={error}
+				/>
+			</section>
+			<section className="input-race">
+				<Race changeRace={updateRace} chosenRace={race} faction={faction} data={classData} />
+			</section>
+			<section className="input-class">
+				<PlayerClass
+					changeClass={updateClass}
+					race={race}
+					chosenClass={playerClass}
+					data={classData}
+				/>
+			</section>
+			<section className="input-submit">
+				<button onClick={() => addCharacter(formState)}>Add Character</button>
+			</section>
+		</section>
+	);
+};

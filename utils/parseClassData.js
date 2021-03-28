@@ -1,14 +1,18 @@
 export default function parseClassData(data) {
+	// Create array of just the Faction names for return
 	const availableFactions = data.allFactions.data.map((faction) => faction.name);
 
+	// Assign array for each faction with just the Race names for return
 	const [hordeRaces, allianceRaces] = data.allFactions.data.map((faction) =>
 		faction.races.data.map((race) => race.name)
 	);
 
+	// Assign array of all available classes
 	const extractClasses = data.allFactions.data.map((faction) =>
 		faction.races.data.map((race) => race.classes.data)
 	);
 
+	// Create array of class data for return
 	let classes = [];
 	extractClasses.map((faction) =>
 		faction.map((race) =>
@@ -19,9 +23,11 @@ export default function parseClassData(data) {
 			)
 		)
 	);
-
+	
+	// Expose data for export
 	const hordeData = data.allFactions.data[0].races.data;
 	const allianceData = data.allFactions.data[1].races.data;
+
 	const getAvailableClasses = (data, className) =>
 		data
 			.find((race) => race.name === className)
@@ -32,7 +38,7 @@ export default function parseClassData(data) {
 		taurenClasses,
 		orcClasses,
 		humanClasses,
-		nightElfClasses,
+		nightelfClasses,
 		dwarfClasses,
 		gnomeClasses,
 	] = [
@@ -55,7 +61,7 @@ export default function parseClassData(data) {
 		taurenClasses,
 		orcClasses,
 		humanClasses,
-		nightElfClasses,
+		nightelfClasses,
 		dwarfClasses,
 		gnomeClasses,
 	};

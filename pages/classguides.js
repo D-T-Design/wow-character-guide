@@ -3,7 +3,7 @@ import React from "react";
 const wccgClassImg = "/static/img/class/";
 
 const ClassGuides = ({ appState }) => {
-	const { playerClass, level, race, faction, gear } = appState;
+	const { playerClass, level, race, faction, gear } = appState.character;
 	return (
 		<section className="content">
 			<div className="container">

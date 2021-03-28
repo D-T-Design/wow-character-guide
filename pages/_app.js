@@ -9,7 +9,6 @@ import "../styles/globals.scss";
 const MyApp = ({ Component, pageProps }) => {
 	const { classData, error, isPending } = useClassData();
 	let classGear = {};
-
 	const [appState, setState] = useState({
 		faction: "",
 		level: 1,
@@ -17,7 +16,9 @@ const MyApp = ({ Component, pageProps }) => {
 		playerClass: "",
 		race: "",
 		gear: {},
+		character: {},
 	});
+	const [savedCharacters, setCharacters] = useState([]);
 	const updateLevel = (e) => {
 		const newLevel = e.target.value;
 		const level = newLevel === "" ? "" : newLevel < 1 ? 1 : newLevel > 60 ? 60 : newLevel;
@@ -36,7 +37,24 @@ const MyApp = ({ Component, pageProps }) => {
 		setState({ ...appState, playerClass });
 	};
 	const updateGear = (gear) => {
-		setState({ ...appState, gear});
+		setState({ ...appState, gear });
+	};
+	const addCharacter = (data) => {
+		const character = { ...data, ts: Date.now() };
+		setCharacters([...savedCharacters, character]);
+		setState({ ...appState, character: data });
+	};
+	const updateCharacter = (character, key) => {
+		setCharacters((savedCharacters[key] = character));
+	};
+	const removeCharacter = (key) => {
+		const currentCharacters = [...savedCharacters];
+		setCharacters(
+			currentCharacters.filter((character, i) => {
+				return i !== key;
+			})
+		);
+		setState({ ...appState, character: savedCharacters[0] });
 	};
 
 	const updateState = {
@@ -46,12 +64,16 @@ const MyApp = ({ Component, pageProps }) => {
 		updateRace,
 		updateClass,
 		updateGear,
+		addCharacter,
+		removeCharacter,
+		updateCharacter,
 	};
 
 	pageProps = {
 		...pageProps,
 		updateState,
 		appState,
+		savedCharacters,
 		classData,
 		classGear,
 		error,
