@@ -1,39 +1,32 @@
 import React, { useState } from "react";
 import Link from "next/link";
+import useClassData from "../utils/useClassData";
 
-export const Faction = ({ chosenFaction, changeFaction, data, error, pending }) => {
+export const Faction = ({ chosenFaction, changeFaction, data }) => {
 	const factionURL = "/static/img/faction/";
 	return (
 		<div className="faction">
-			{error ? (
-				<p>Error returning faction data. See console. {console.log(error)}</p>
-			) : pending ? (
-				<p>Loading character builder...</p>
-			) : (
-				<>
-					<h2>Choose Your Faction</h2>
-					{data.availableFactions.map((faction, index) => (
-						<label
-							className={`faction-icon ${
-								chosenFaction !== faction && chosenFaction !== "" ? "inactive" : "active"
-							}`}
-							key={index}
-							onClick={() => changeFaction(faction)}
-							tabIndex="0"
-						>
-							<input type="radio" name="Faction" value={faction} />
-							<figure>
-								<img
-									src={`${factionURL}${faction.toLowerCase()}.png`}
-									alt={faction}
-									data-hover={faction}
-								/>
-								<figcaption>{faction}</figcaption>
-							</figure>
-						</label>
-					))}
-				</>
-			)}
+			<h2>Choose Your Faction</h2>
+			{data.availableFactions.map((faction, index) => (
+				<label
+					className={`faction-icon ${
+						chosenFaction !== faction && chosenFaction !== "" ? "inactive" : "active"
+					}`}
+					key={index}
+					onClick={() => changeFaction(faction)}
+					tabIndex="0"
+				>
+					<input type="radio" name="Faction" value={faction} />
+					<figure>
+						<img
+							src={`${factionURL}${faction.toLowerCase()}.png`}
+							alt={faction}
+							data-hover={faction}
+						/>
+						<figcaption>{faction}</figcaption>
+					</figure>
+				</label>
+			))}
 		</div>
 	);
 };
@@ -126,17 +119,17 @@ export const Level = ({ currentLevel, changeLevel }) => (
 	</div>
 );
 
-export const InputCharacter = ({ props }) => {
-	const { updateState, appState, classData, error, isPending } = props;
-	const { addCharacter } = updateState;
-	const [formState, setState] = useState({
-		faction: "",
-		level: 1,
-		name: "",
-		playerClass: "",
-		race: "",
-	});
-
+export const InputCharacter = ({ classData, action, character }) => {
+	const { formAction, title, callback } = action;
+	const [formState, setState] = character
+		? useState(character)
+		: useState({
+				faction: "",
+				level: 1,
+				name: "",
+				playerClass: "",
+				race: "",
+		  });
 	const updateName = (e) => {
 		setState({ ...formState, name: e.target.value });
 	};
@@ -154,7 +147,6 @@ export const InputCharacter = ({ props }) => {
 	const updateClass = (playerClass) => {
 		setState({ ...formState, playerClass });
 	};
-
 	const { name, faction, level, playerClass, race } = formState;
 
 	return (
@@ -164,13 +156,7 @@ export const InputCharacter = ({ props }) => {
 				<Level changeLevel={updateLevel} currentLevel={level} />
 			</section>
 			<section className="input-faction">
-				<Faction
-					changeFaction={updateFaction}
-					chosenFaction={faction}
-					data={classData}
-					pending={isPending}
-					error={error}
-				/>
+				<Faction changeFaction={updateFaction} chosenFaction={faction} data={classData} />
 			</section>
 			<section className="input-race">
 				<Race changeRace={updateRace} chosenRace={race} faction={faction} data={classData} />
@@ -184,7 +170,14 @@ export const InputCharacter = ({ props }) => {
 				/>
 			</section>
 			<section className="input-submit">
-				<button onClick={() => addCharacter(formState)}>Add Character</button>
+				<button
+					onClick={() => {
+						formAction(formState);
+						return callback();
+					}}
+				>
+					{title}
+				</button>
 			</section>
 		</section>
 	);

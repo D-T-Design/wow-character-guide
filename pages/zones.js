@@ -8,7 +8,10 @@ import { zonesByCategory } from "../utils/filterZones";
 import { ZoneListing } from "../components/ZoneListing";
 
 const Zones = ({ appState }) => {
-	const { faction, level } = appState.character;
+	const selectedCharacter = appState.savedCharacters.find(
+		(character) => character.ts === appState.character
+	);
+	const { faction, level } = selectedCharacter;
 	const { zoneData, error, isPending } = useZoneData();
 	const { dungeonData } = useDungeonData();
 	const { raidData } = useRaidData();

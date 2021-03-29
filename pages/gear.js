@@ -6,13 +6,16 @@ import filterGearByLevel from "../utils/filterGearByLevel";
 import { GearSlot } from "../components/GearSlot";
 
 const Gear = ({ appState, updateState }) => {
-	const { playerClass, level } = appState.character;
+	const selectedCharacter = appState.savedCharacters.find(
+		(character) => character.ts === appState.character
+	);
+	const { playerClass, level } = selectedCharacter;
 	const { classGear, error, isPending } = getClassGear(playerClass);
 	const { gearData } = filterGearByLevel(classGear, level);
 
 	useEffect(() => {
 		updateState.updateGear(gearData);
-	}, []);
+	}, [gearData]);
 
 	return (
 		<section className="content">
@@ -26,7 +29,6 @@ const Gear = ({ appState, updateState }) => {
 					) : (
 						<div className="column">
 							<h2>Weapons</h2>
-
 							{gearData
 								.slice(0)
 								.reverse()

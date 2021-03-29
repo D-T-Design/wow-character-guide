@@ -26,12 +26,15 @@ export const Navbar = ({ appState, savedCharacters }) => {
 			text: "World Zones",
 		},
 	];
-	const noCharacters = savedCharacters.length === 0;
+	const noCharacters = appState.savedCharacters.length === 0;
+	const selectedCharacter = appState.savedCharacters.find(
+		(character) => character.ts === appState.character
+	);
 	return (
 		<header>
 			<div className="container">
 				<h1>WoW Character Guide</h1>
-				{!noCharacters && <PlayerCard appState={appState.character} />}
+				{!noCharacters && <PlayerCard appState={selectedCharacter} />}
 			</div>
 			<nav>
 				<ul>
@@ -41,7 +44,7 @@ export const Navbar = ({ appState, savedCharacters }) => {
 								<li key={index}>
 									<Link href={link.path}>
 										<a
-											className={`playerclass-${appState.character.playerClass}${
+											className={`playerclass-${selectedCharacter.playerClass}${
 												route === link.path ? " active" : ""
 											}`}
 										>

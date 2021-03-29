@@ -3,7 +3,7 @@ import Welcome from "../components/Welcome";
 import Character from "../components/Character";
 
 const Home = (props) => {
-	const noCharacters = props.savedCharacters.length === 0;
+	const noCharacters = props.appState.savedCharacters.length === 0;
 	return (
 		<section className="content">
 			<div className="container">

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import useClassData from "../utils/useClassData";
 
 import { Navbar } from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -7,77 +6,64 @@ import Footer from "../components/Footer";
 import "../styles/globals.scss";
 
 const MyApp = ({ Component, pageProps }) => {
-	const { classData, error, isPending } = useClassData();
-	let classGear = {};
 	const [appState, setState] = useState({
-		faction: "",
-		level: 1,
-		name: "",
-		playerClass: "",
-		race: "",
-		gear: {},
-		character: {},
+		gear: [],
+		character: 0,
+		savedCharacters: [],
 	});
-	const [savedCharacters, setCharacters] = useState([]);
-	const updateLevel = (e) => {
-		const newLevel = e.target.value;
-		const level = newLevel === "" ? "" : newLevel < 1 ? 1 : newLevel > 60 ? 60 : newLevel;
-		setState({ ...appState, level });
-	};
-	const updateName = (e) => {
-		setState({ ...appState, name: e.target.value });
-	};
-	const updateFaction = (faction) => {
-		setState({ ...appState, faction, race: "", playerClass: "" });
-	};
-	const updateRace = (race) => {
-		setState({ ...appState, race, playerClass: "" });
-	};
-	const updateClass = (playerClass) => {
-		setState({ ...appState, playerClass });
-	};
 	const updateGear = (gear) => {
-		setState({ ...appState, gear });
+		const characters = [...appState.savedCharacters];
+		const updatedList = characters.map((savedCharacter) =>
+			savedCharacter.ts === appState.character ? { ...savedCharacter, gear } : savedCharacter
+		);
+		setState({ ...appState, gear, savedCharacters: updatedList });
 	};
 	const addCharacter = (data) => {
 		const character = { ...data, ts: Date.now() };
-		setCharacters([...savedCharacters, character]);
-		setState({ ...appState, character: data });
+		const savedCharacters = [...appState.savedCharacters, character];
+		setState({ ...appState, character: character.ts, savedCharacters });
 	};
-	const updateCharacter = (character, key) => {
-		setCharacters((savedCharacters[key] = character));
-	};
-	const removeCharacter = (key) => {
-		const currentCharacters = [...savedCharacters];
-		setCharacters(
-			currentCharacters.filter((character, i) => {
-				return i !== key;
-			})
+	const updateCharacter = (updatedCharacter) => {
+		const characters = [...appState.savedCharacters];
+		const updatedList = characters.map((savedCharacter) =>
+			savedCharacter.ts === updatedCharacter.ts ? updatedCharacter : savedCharacter
 		);
-		setState({ ...appState, character: savedCharacters[0] });
+		setState({ ...appState, savedCharacters: updatedList });
+	};
+	const removeCharacter = (ts) => {
+		const characters = [...appState.savedCharacters];
+		const newCharacterList = characters.filter((character) => {
+			return character.ts !== ts;
+		});
+		const isListEmpty = newCharacterList.length === 0;
+		const character = isListEmpty ? 0 : newCharacterList[0].ts;
+		setState({
+			...appState,
+			character,
+			savedCharacters: newCharacterList,
+		});
+	};
+
+	const selectCharacter = (ts) => {
+		const savedCharacters = [...appState.savedCharacters];
+		setState({
+			...appState,
+			character: savedCharacters.find((character) => character.ts === ts).ts,
+		});
 	};
 
 	const updateState = {
-		updateLevel,
-		updateName,
-		updateFaction,
-		updateRace,
-		updateClass,
 		updateGear,
 		addCharacter,
 		removeCharacter,
 		updateCharacter,
+		selectCharacter,
 	};
 
 	pageProps = {
 		...pageProps,
 		updateState,
 		appState,
-		savedCharacters,
-		classData,
-		classGear,
-		error,
-		isPending,
 	};
 	return (
 		<div>
