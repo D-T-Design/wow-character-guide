@@ -119,7 +119,8 @@ export const Level = ({ currentLevel, changeLevel }) => (
 	</div>
 );
 
-export const InputCharacter = ({ classData, action, character }) => {
+export const InputCharacter = ({ action, character }) => {
+	const { classData, error, isPending } = useClassData();
 	const { formAction, title, callback } = action;
 	const [formState, setState] = character
 		? useState(character)
@@ -135,7 +136,7 @@ export const InputCharacter = ({ classData, action, character }) => {
 	};
 	const updateLevel = (e) => {
 		const newLevel = e.target.value;
-		const level = newLevel === "" ? "" : newLevel < 1 ? 1 : newLevel > 60 ? 60 : newLevel;
+		const level = newLevel === "" ? "" : newLevel < 1 ? 1 : newLevel > 70 ? 70 : newLevel;
 		setState({ ...formState, level });
 	};
 	const updateFaction = (faction) => {
@@ -151,34 +152,42 @@ export const InputCharacter = ({ classData, action, character }) => {
 
 	return (
 		<section>
-			<section className="input-namelevel">
-				<Name changeName={updateName} currentName={name} />
-				<Level changeLevel={updateLevel} currentLevel={level} />
-			</section>
-			<section className="input-faction">
-				<Faction changeFaction={updateFaction} chosenFaction={faction} data={classData} />
-			</section>
-			<section className="input-race">
-				<Race changeRace={updateRace} chosenRace={race} faction={faction} data={classData} />
-			</section>
-			<section className="input-class">
-				<PlayerClass
-					changeClass={updateClass}
-					race={race}
-					chosenClass={playerClass}
-					data={classData}
-				/>
-			</section>
-			<section className="input-submit">
-				<button
-					onClick={() => {
-						formAction(formState);
-						return callback();
-					}}
-				>
-					{title}
-				</button>
-			</section>
+			{error ? (
+				<p>Error loading class data...</p>
+			) : isPending ? (
+				<p>Loading class data...</p>
+			) : (
+				<>
+					<section className="input-namelevel">
+						<Name changeName={updateName} currentName={name} />
+						<Level changeLevel={updateLevel} currentLevel={level} />
+					</section>
+					<section className="input-faction">
+						<Faction changeFaction={updateFaction} chosenFaction={faction} data={classData} />
+					</section>
+					<section className="input-race">
+						<Race changeRace={updateRace} chosenRace={race} faction={faction} data={classData} />
+					</section>
+					<section className="input-class">
+						<PlayerClass
+							changeClass={updateClass}
+							race={race}
+							chosenClass={playerClass}
+							data={classData}
+						/>
+					</section>
+					<section className="input-submit">
+						<button
+							onClick={() => {
+								formAction(formState);
+								return callback();
+							}}
+						>
+							{title}
+						</button>
+					</section>
+				</>
+			)}
 		</section>
 	);
 };

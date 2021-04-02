@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import Zone from "./Zone";
 const zoneURL = "https://classic.wowhead.com/zone=";
 const factionURL = "/static/img/faction/";
 const zoneURLString = "/static/img/zone/";
@@ -29,50 +30,15 @@ export const ZoneListing = ({ title, zones, level }) => {
 				className={`${open ? "open" : "closed"} zones-list`}
 				style={
 					open && containsZones
-						? { height: `calc(102px * ${numZones} + 20px)` }
+						? { height: `calc(86px * ${numZones} + 20px)` }
 						: open && !containsZones
 						? { height: `56px` }
 						: { height: "0" }
 				}
 			>
-				{zones.map((zone, index) => {
-					const { name, id, type, faction } = zone;
-					const zoneLevel = zone.level || zone.range;
-					return (
-						<div className="quests-zone" key={index}>
-							<a href={`${zoneURL}${id}`} target="_blank" rel="noopener noreferrer">
-								<h3>{name}</h3>
-
-								<div className="quests-range">
-									<small>
-										<em>{`(Lvl: ${zoneLevel[0]}${
-											zoneLevel.length > 1 ? `-${zoneLevel[1]}` : ""
-										})`}</em>
-									</small>
-									{zone.tier && <small>Tier: {zone.tier}</small>}
-								</div>
-
-								<div className="icons">
-									{/* Display zone icons for faction specific, cities, and instances  */}
-									{type !== "Zone" ? (
-										<div className="faction-icon" data-faction={type}>
-											<img src={`${zoneURLString}${type}.png`} alt={type} />
-										</div>
-									) : type === "City" && faction === faction ? (
-										<div className="faction-icon" data-faction={name}>
-											<img src={`${zoneURLString}${name.toLowerCase()}.png`} alt={type} />
-										</div>
-									) : null}
-									{faction !== "Contested" && faction !== "PvP" && (
-										<div className="faction-icon" data-faction={faction}>
-											<img src={`${factionURL}${faction.toLowerCase()}.png`} alt={faction} />
-										</div>
-									)}
-								</div>
-							</a>
-						</div>
-					);
-				})}
+				{zones.map((zone, index) => (
+					<Zone zone={zone} key={index} />
+				))}
 			</div>
 		</div>
 	);

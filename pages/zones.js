@@ -15,6 +15,14 @@ const Zones = ({ appState }) => {
 	const { zoneData, error, isPending } = useZoneData();
 	const { dungeonData } = useDungeonData();
 	const { raidData } = useRaidData();
+	const sortedZones = zonesByCategory(zoneData, dungeonData, raidData, level, faction);
+	const categoryTitles = {
+		Zone: "World Zones",
+		City: "Cities",
+		Dungeon: "Dungeons",
+		Raid: "Raids",
+		Battleground: "Battlegrounds",
+	};
 	return (
 		<section className="content">
 			<div className="container">
@@ -31,24 +39,12 @@ const Zones = ({ appState }) => {
 					) : isPending ? (
 						<p>Loading zone data...</p>
 					) : (
-						Object.keys(zonesByCategory(zoneData, dungeonData, raidData, level, faction)).map(
-							(categoryName, index) => {
-								const zones = zonesByCategory(zoneData, dungeonData, raidData, level, faction)[
-									categoryName
-								];
-								const title =
-									categoryName === "Zone"
-										? "World Zones"
-										: categoryName === "City"
-										? "Cities"
-										: categoryName === "Dungeon"
-										? "Dungeons"
-										: categoryName === "Raid"
-										? "Raids"
-										: "Battlegrounds";
-								return <ZoneListing title={title} zones={zones} level={level} key={index} />;
-							}
-						)
+						Object.keys(sortedZones).map((categoryName, index) => {
+							const zones = sortedZones[categoryName];
+							const title = categoryTitles[categoryName];
+							const zoneProps = { title, zones, level, key: index };
+							return <ZoneListing {...zoneProps} />;
+						})
 					)}
 				</div>
 			</div>

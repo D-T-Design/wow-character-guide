@@ -4,6 +4,7 @@ export default function parseClassGear(data) {
 	rawData.map((itemSlot) => {
 		const slot = itemSlot.name;
 		const items = itemSlot.items.data;
+		items.sort((a, b) => b.iLvl - a.iLvl);
 		gearData.push({ slot, items });
 	});
 

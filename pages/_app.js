@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { SWRConfig } from "swr";
 
 import { Navbar } from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -68,7 +69,13 @@ const MyApp = ({ Component, pageProps }) => {
 	return (
 		<div>
 			<Navbar {...pageProps} />
-			<Component {...pageProps} />
+			<SWRConfig
+				value={{
+					refreshInterval: 3000000,
+				}}
+			>
+				<Component {...pageProps} />
+			</SWRConfig>
 			<Footer />
 		</div>
 	);

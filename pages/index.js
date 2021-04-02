@@ -7,9 +7,9 @@ const Home = (props) => {
 	return (
 		<section className="content">
 			<div className="container">
-				<aside className="blurb">
-					{noCharacters ? (
-						<>
+				{noCharacters ? (
+					<>
+						<aside className="blurb">
 							<h2>Welcome to WoW Classic Character Guide!</h2>
 							<h2>Build Your Character</h2>
 							<p>
@@ -20,15 +20,18 @@ const Home = (props) => {
 								The quick reference guide includes a class guide, gear options, and zones… all
 								tailored to your current level, class, and race!
 							</p>
-						</>
-					) : (
-						<>
+						</aside>
+						<Welcome props={props} />
+					</>
+				) : (
+					<>
+						<aside className="blurb">
 							<h2>Your Saved Characters</h2>
 							<p>Select, edit, and delete characters from here!</p>
-						</>
-					)}
-				</aside>
-				{noCharacters ? <Welcome props={props} /> : <Character props={props} />}
+						</aside>
+						<Character props={props} />
+					</>
+				)}
 			</div>
 		</section>
 	);

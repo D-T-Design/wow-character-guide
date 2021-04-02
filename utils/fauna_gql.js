@@ -118,7 +118,7 @@ const queryGetClassGear = (className) =>
             slot {
               data {
                 name
-                items(_size:500) {
+                items(_size:3000) {
                   data {
                     name
                     faction {

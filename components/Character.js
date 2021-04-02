@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 
 import { InputCharacter } from "../components/characterInput";
-import useClassData from "../utils/useClassData";
 import classColor from "../utils/classColor";
 
 export default function Character({ props }) {
-	const { classData } = useClassData();
 	const { updateState, appState } = props;
 	const { savedCharacters } = appState;
 	const { addCharacter } = updateState;
@@ -22,21 +20,20 @@ export default function Character({ props }) {
 				{savedCharacters.map((character, index) => (
 					<CharacterDisplay
 						character={character}
-						index={index}
+						key={index}
 						updateState={updateState}
 						appState={appState}
-						classData={classData}
 					/>
 				))}
 			</ul>
 			<h2>Add Characters</h2>
 			<button onClick={() => toggleAddForm(!addForm)}>Add Character</button>
-			{addForm && <InputCharacter classData={classData} action={addAction} />}
+			{addForm && <InputCharacter action={addAction} />}
 		</section>
 	);
 }
 
-const CharacterDisplay = ({ character, index, updateState, appState, classData }) => {
+const CharacterDisplay = ({ character, updateState, appState }) => {
 	const { removeCharacter, selectCharacter, updateCharacter } = updateState;
 	const [editCharacter, toggleEdit] = useState(false);
 	const switchEditForm = () => toggleEdit(!editCharacter);
@@ -46,7 +43,8 @@ const CharacterDisplay = ({ character, index, updateState, appState, classData }
 		callback: switchEditForm,
 	};
 	return (
-		<li className={character.ts === appState.character ? "selected" : ""} key={index}>
+		<li className={character.ts === appState.character ? "selected" : ""}>
+			{console.log(appState)}
 			<figure id={character.ts}>
 				<figcaption>
 					<h3>{character.name}</h3>
@@ -62,9 +60,7 @@ const CharacterDisplay = ({ character, index, updateState, appState, classData }
 			<button onClick={() => selectCharacter(character.ts)}>Select Character</button>
 			<button onClick={() => toggleEdit(!editCharacter)}>Edit Character</button>
 			<button onClick={() => removeCharacter(character.ts)}>Delete Character</button>
-			{editCharacter && (
-				<InputCharacter classData={classData} action={editAction} character={character} />
-			)}
+			{editCharacter && <InputCharacter action={editAction} character={character} />}
 		</li>
 	);
 };
