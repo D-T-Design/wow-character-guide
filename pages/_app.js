@@ -13,31 +13,27 @@ const MyApp = ({ Component, pageProps }) => {
 		savedCharacters: [],
 	});
 	const updateGear = (gear) => {
-		const characters = [...appState.savedCharacters];
-		const updatedList = characters.map((savedCharacter) =>
-			savedCharacter.ts === appState.character ? { ...savedCharacter, gear } : savedCharacter
+		const updatedList = appState.savedCharacters.map((savedCharacter) =>
+			savedCharacter.id === appState.character ? { ...savedCharacter, gear } : savedCharacter
 		);
 		setState({ ...appState, gear, savedCharacters: updatedList });
 	};
 	const addCharacter = (data) => {
-		const character = { ...data, ts: Date.now() };
+		const character = { ...data, id: Date.now() };
 		const savedCharacters = [...appState.savedCharacters, character];
-		setState({ ...appState, character: character.ts, savedCharacters });
+		setState({ ...appState, character: character.id, savedCharacters });
 	};
 	const updateCharacter = (updatedCharacter) => {
 		const characters = [...appState.savedCharacters];
 		const updatedList = characters.map((savedCharacter) =>
-			savedCharacter.ts === updatedCharacter.ts ? updatedCharacter : savedCharacter
+			savedCharacter.id === updatedCharacter.id ? updatedCharacter : savedCharacter
 		);
 		setState({ ...appState, savedCharacters: updatedList });
 	};
-	const removeCharacter = (ts) => {
-		const characters = [...appState.savedCharacters];
-		const newCharacterList = characters.filter((character) => {
-			return character.ts !== ts;
-		});
+	const removeCharacter = (id) => {
+		const newCharacterList = appState.savedCharacters.filter((character) => character.id !== id);
 		const isListEmpty = newCharacterList.length === 0;
-		const character = isListEmpty ? 0 : newCharacterList[0].ts;
+		const character = isListEmpty ? 0 : newCharacterList[0].id;
 		setState({
 			...appState,
 			character,
@@ -45,11 +41,11 @@ const MyApp = ({ Component, pageProps }) => {
 		});
 	};
 
-	const selectCharacter = (ts) => {
+	const selectCharacter = (id) => {
 		const savedCharacters = [...appState.savedCharacters];
 		setState({
 			...appState,
-			character: savedCharacters.find((character) => character.ts === ts).ts,
+			character: savedCharacters.find((character) => character.id === id).id,
 		});
 	};
 

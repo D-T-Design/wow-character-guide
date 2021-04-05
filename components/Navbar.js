@@ -28,7 +28,7 @@ export const Navbar = ({ appState, savedCharacters }) => {
 	];
 	const noCharacters = appState.savedCharacters.length === 0;
 	const selectedCharacter = appState.savedCharacters.find(
-		(character) => character.ts === appState.character
+		(character) => character.id === appState.character
 	);
 	return (
 		<header>

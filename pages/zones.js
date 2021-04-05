@@ -9,9 +9,9 @@ import { ZoneListing } from "../components/ZoneListing";
 
 const Zones = ({ appState }) => {
 	const selectedCharacter = appState.savedCharacters.find(
-		(character) => character.ts === appState.character
+		(character) => character.id === appState.character
 	);
-	const { faction, level } = selectedCharacter;
+	const { faction, level } = selectedCharacter ? selectedCharacter : { faction: "Horde", level: 1 };
 	const { zoneData, error, isPending } = useZoneData();
 	const { dungeonData } = useDungeonData();
 	const { raidData } = useRaidData();

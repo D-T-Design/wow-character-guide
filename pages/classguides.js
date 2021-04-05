@@ -3,14 +3,25 @@ import React from "react";
 const wccgClassImg = "/static/img/class/";
 
 const ClassGuides = ({ appState }) => {
-	const selectedCharacter = appState.savedCharacters.find(
-		(character) => character.ts === appState.character
+	let selectedCharacter = appState.savedCharacters.find(
+		(character) => character.id === appState.character
 	);
-	const { playerClass, level, race, faction, gear } = selectedCharacter;
+	const { playerClass } = selectedCharacter ? selectedCharacter : { playerClass: "Default" };
 	return (
 		<section className="content">
 			<div className="container">
-				{playerClass ? (
+				{playerClass === "Default" ? (
+					<div className="guide-default">
+						<h2>
+							Player class guides - a simple summary of class roles, abilities, and strategies for
+							your character's class.
+						</h2>
+						<h3>
+							Links to community class guides, YouTube channels and streamers that are for your
+							class!
+						</h3>
+					</div>
+				) : (
 					<div className="guide-grid">
 						<main>
 							<h1>{playerClass}</h1>
@@ -89,7 +100,7 @@ const ClassGuides = ({ appState }) => {
 							</section>
 						</aside>
 					</div>
-				) : null}
+				)}
 			</div>
 		</section>
 	);

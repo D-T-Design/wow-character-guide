@@ -43,9 +43,9 @@ const CharacterDisplay = ({ character, updateState, appState }) => {
 		callback: switchEditForm,
 	};
 	return (
-		<li className={character.ts === appState.character ? "selected" : ""}>
+		<li className={character.id === appState.character ? "selected" : ""}>
 			{console.log(appState)}
-			<figure id={character.ts}>
+			<figure id={character.id}>
 				<figcaption>
 					<h3>{character.name}</h3>
 					<h4>
@@ -55,11 +55,12 @@ const CharacterDisplay = ({ character, updateState, appState }) => {
 						</span>
 					</h4>
 					<h5>{character.faction}</h5>
+					<small>{character.id}</small>
 				</figcaption>
 			</figure>
-			<button onClick={() => selectCharacter(character.ts)}>Select Character</button>
+			<button onClick={() => selectCharacter(character.id)}>Select Character</button>
 			<button onClick={() => toggleEdit(!editCharacter)}>Edit Character</button>
-			<button onClick={() => removeCharacter(character.ts)}>Delete Character</button>
+			<button onClick={() => removeCharacter(character.id)}>Delete Character</button>
 			{editCharacter && <InputCharacter action={editAction} character={character} />}
 		</li>
 	);
