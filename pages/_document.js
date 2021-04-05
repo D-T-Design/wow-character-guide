@@ -9,7 +9,7 @@ class MyDocument extends Document {
 					<script
 						dangerouslySetInnerHTML={{
 							__html: `
-                var whTooltips = { colorLinks: true, iconizeLinks: true, renameLinks: true };
+                var whTooltips = { colorLinks: true, iconizeLinks: true, renameLinks: true, iconSize: 'medium' };
               `,
 						}}
 					/>

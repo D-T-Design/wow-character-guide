@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-const itemURL = "https://classic.wowhead.com/item=";
 const itemURLTBC = "https://tbc.wowhead.com/item=";
 const armorURL = "/static/img/armor/";
 const factionURL = "/static/img/faction/";
@@ -42,8 +41,8 @@ export const GearSlot = ({ name, items, level, faction }) => {
 						const itemFaction = item.faction;
 						const itemProhibited = itemFaction && itemFaction.name !== faction;
 						return !itemProhibited ? (
-							<li key={index}>
-								<a href={`${itemURLTBC}${id}`}>
+							<li key={index} id={id}>
+								<a data-wowhead={`item=${id}&domain=tbc`} href={`#`}>
 									<h3 className={quality.toLowerCase()}>{name}</h3>
 									<h4>{drop ? drop : "Drop"}</h4>
 									{itemFaction ? (

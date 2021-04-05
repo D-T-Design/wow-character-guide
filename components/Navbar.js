@@ -33,7 +33,11 @@ export const Navbar = ({ appState, savedCharacters }) => {
 	return (
 		<header>
 			<div className="container">
-				<h1>WoW Character Guide</h1>
+				<Link href="/">
+					<a>
+						<h1>WoW Character Guide</h1>
+					</a>
+				</Link>
 				{!noCharacters && <PlayerCard appState={selectedCharacter} />}
 			</div>
 			<nav>
