@@ -41,8 +41,12 @@ export const GearSlot = ({ name, items, level, faction }) => {
 						const itemFaction = item.faction;
 						const itemProhibited = itemFaction && itemFaction.name !== faction;
 						return !itemProhibited ? (
-							<li key={index} id={id}>
-								<a data-wowhead={`item=${id}&domain=tbc`} href={`#`}>
+							<li key={index}>
+								<a
+									href={`${itemURLTBC}${id}`}
+									target="_blank"
+									rel="noreferrer"
+								>
 									<h3 className={quality.toLowerCase()}>{name}</h3>
 									<h4>{drop ? drop : "Drop"}</h4>
 									{itemFaction ? (
