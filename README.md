@@ -1,38 +1,47 @@
-# Next + Netlify Starter
+# WoW Character Guide
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/ed50f56e-4fc2-4c98-8b66-1e5074c6f3d3/deploy-status)](https://app.netlify.com/sites/next-starter/deploys)
+## A helpful tool for anyone who plays World of Warcraft Classic, this is a web application that guides players on how their class plays, gear to look for, zones to go to - all based on the user's character level, class, race, and faction!
 
-This is a [Next.js](https://nextjs.org/) v10.0.8 project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) and set up to be instantly deployed to [Netlify](https://url.netlify.com/Bk4UicocL)!
+When leveling a character in World of Warcraft, it takes a long time to get to max level.  New players and veterans alike, sometimes you need help figuring out where to quest, or what gear to look out for.  I created this app to be a quick reference that simply gives me a quick list of Zones and Gear to go for based on my current level.  I figure that could be of use to anyone who plays the game so I want it publicly available.
 
-This project is a very minimal starter that includes 2 sample components, a global stylesheet, a `netlify.toml` for deployment, and a `jsconfig.json` for setting up absolute imports and aliases.
+I also wanted to include a place for a quick summary of each class playstyle and feature prominent guides, content, and creators related to that class.  I'm simply looking for guides online and adding them to the site, but I look forward to users allowing me to share their content on the site too!
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/cassidoo/next-netlify-starter&utm_source=github&utm_medium=nextstarter-cs&utm_campaign=devex)
+### The Web Application
 
-(If you click this button, it will create a new repo for you that looks exactly like this one, and sets that repo up immediately for deployment on Netlify)
+This application is built with NextJS, all of the content on the site is managed by me via FaunaDB and Netlify, and I'm gathering the raw data via the Blizzard API, and other sites like Wowhead and other WoW databases.  My goal for the application is to gain users who enjoy the app and get use from it.
 
-## Getting Started
+#### Web Features and Logic
 
-First, run the development server:
+- User Input
+ - Character
+  - Name
+  - Faction
+  - Race
+  - Level
+- Display
+ - Character List
+  - Saved Character
+   - Select
+   - Edit
+   - Delete
+  - Add Character
+ - Zones
+  - Level Range
+  - Territory
+  - Sort by Type
+ - Gear
+  - Sort by Slot
+   - Level
+   - Rarity
+   - Name
+   - Link
+   - Tooltip
+ - Guides
 
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-### Installation options
-
-**Option one:** One-click deploy
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/cassidoo/next-netlify-starter&utm_source=github&utm_medium=nextstarter-cs&utm_campaign=devex)
-
-**Option two:** Manual clone
-
-1. Clone this repo: `git clone https://github.com/cassidoo/next-netlify-starter.git`
-2. Navigate to the directory and run `npm run dev`
-3. Make your changes
-4. Connect to [Netlify](https://url.netlify.com/Bk4UicocL) manually (the `netlify.toml` file is the one you'll need to make sure stays intact to make sure the export is done and pointed to the right stuff)
+##### Future Wishlist Features
+- Login/Save
+- Export as PDF
+- Talent Calculator
+- In-game Addon / Character Profile Integration
+- Character Sheets / Stats
+- Gear Stats and Comparison
