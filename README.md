@@ -13,30 +13,30 @@ This application is built with NextJS, all of the content on the site is managed
 #### Web Features and Logic
 
 - User Input
- - Character
-  - Name
-  - Faction
-  - Race
-  - Level
-- Display
- - Character List
-  - Saved Character
-   - Select
-   - Edit
-   - Delete
-  - Add Character
- - Zones
-  - Level Range
-  - Territory
-  - Sort by Type
- - Gear
-  - Sort by Slot
-   - Level
-   - Rarity
-   - Name
-   - Link
-   - Tooltip
- - Guides
+  - Character
+    - Name
+    - Faction
+    - Race
+    - Level
+ - Display
+   - Character List
+     - Saved Character
+       - Select
+       - Edit
+       - Delete
+     - Add Character
+   - Zones
+     - Level Range
+     - Territory
+     - Sort by Type
+   - Gear
+     - Sort by Slot
+       - Level
+       - Rarity
+       - Name
+       - Link
+       - Tooltip
+   - Guides
 
 ##### Future Wishlist Features
 - Login/Save
