@@ -44,8 +44,16 @@ const CharacterDisplay = ({ character, updateState, appState }) => {
 	};
 	return (
 		<li className={character.id === appState.character ? "selected" : ""}>
-			{console.log(appState)}
-			<figure id={character.id}>
+			<figure>
+				<div>
+					<img src={`/static/img/faction/${character.faction.toLowerCase()}.png`} />
+					<img
+						src={`/static/img/race/${character.race.toLowerCase().replace(/\s/g, "")}-${
+							character.gender
+						}.png`}
+					/>
+					<img src={`/static/img/class/${character.playerClass.toLowerCase()}.png`} />
+				</div>
 				<figcaption>
 					<h3>{character.name}</h3>
 					<h4>
@@ -55,13 +63,14 @@ const CharacterDisplay = ({ character, updateState, appState }) => {
 						</span>
 					</h4>
 					<h5>{character.faction}</h5>
-					<small>{character.id}</small>
+					<section>
+						<button onClick={() => selectCharacter(character.id)}>Select Character</button>
+						<button onClick={() => toggleEdit(!editCharacter)}>Edit Character</button>
+						<button onClick={() => removeCharacter(character.id)}>Delete Character</button>
+						{editCharacter && <InputCharacter action={editAction} character={character} />}
+					</section>
 				</figcaption>
 			</figure>
-			<button onClick={() => selectCharacter(character.id)}>Select Character</button>
-			<button onClick={() => toggleEdit(!editCharacter)}>Edit Character</button>
-			<button onClick={() => removeCharacter(character.id)}>Delete Character</button>
-			{editCharacter && <InputCharacter action={editAction} character={character} />}
 		</li>
 	);
 };
