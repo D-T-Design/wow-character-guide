@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { SWRConfig } from "swr";
+import createPersistedState from "use-persisted-state";
 
 import { Navbar } from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -7,7 +8,8 @@ import Footer from "../components/Footer";
 import "../styles/globals.scss";
 
 const MyApp = ({ Component, pageProps }) => {
-	const [appState, setState] = useState({
+	const useAppState = createPersistedState("appState");
+	const [appState, setState] = useAppState({
 		gear: [],
 		character: 0,
 		savedCharacters: [],
