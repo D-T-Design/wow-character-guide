@@ -1,6 +1,7 @@
 $bg-color: #27221f;
 $nav-bg: #1d1814;
 $body-color: #d8d9d7;
+$cta-color: #982529;
 $headline-font: "Ubuntu", sans-serif;
 $body-font: "Open Sans", sans-serif;
 
@@ -33,6 +34,7 @@ html {
 	font-family: $body-font;
 	background-color: $bg-color;
 	color: lightgray;
+	height: 100%;
 }
 
 .clearfix {
@@ -45,6 +47,7 @@ html {
 
 body {
 	margin: 0;
+	height: 100%;
 }
 
 .caps {
@@ -67,7 +70,11 @@ a {
 section {
 	transition: height 0.2s ease-in-out;
 }
-
+#__next {
+	height: 100%;
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+}
 .container {
 	width: 1286px;
 	max-width: 100%;
@@ -88,6 +95,7 @@ section {
 			background-color: rgba(0, 0, 0, 0.1);
 			border: 1px solid rgba(255, 255, 255, 0.25);
 			padding: 1em 1.5em;
+			margin: 0 0 1rem;
 			figure {
 				padding: 0;
 				margin: 0;
@@ -111,8 +119,23 @@ section {
 						border-radius: 100%;
 					}
 				}
+				.class-icon, .race-icon {
+					img {
+						border-radius: 5px;
+					}
+				}
 				section {
 					margin-top: 1rem;
+					.input-submit {
+						transform: translateY(0);
+						display: flex;
+						button {
+							margin-left: auto;
+							background-color: $cta-color;
+							font-weight: bold;
+							font-size: 1rem;
+						}
+					}
 				}
 			}
 			h3,
@@ -123,7 +146,7 @@ section {
 			}
 			button {
 				background-color: rgba(255, 255, 255, 0.1);
-				border: 0;
+				border: 1px solid transparent;
 				color: $body-color;
 				cursor: pointer;
 				font-style: italic;
@@ -136,10 +159,43 @@ section {
 				&:hover {
 					background-color: rgba(255, 255, 255, 0.3);
 				}
+				&.button {
+					&-select {
+						border-left-color: green;
+					}
+					&-edit {
+						&-inactive {
+							border-left-color: orange;
+						}
+						&-active {
+							color: orange;
+							background-color: $nav-bg;
+						}
+					}
+					&-delete {
+						border-left-color: red;
+						&:hover {
+							background-color: red;
+						}
+					}
+				}
 			}
 		}
 		.selected {
 			background-color: rgba(0, 0, 0, 0.5);
+		}
+		.character-input {
+			background-color: $nav-bg;
+			padding: 1rem;
+			figure {
+				padding: 0.5rem;
+				display: flex;
+				align-items: center;
+				img {
+					margin: 0;
+					margin-right: 1ch
+				}
+			}
 		}
 	}
 }
@@ -171,6 +227,14 @@ section {
 		opacity: 0;
 		width: 0;
 		height: 0;
+	}
+}
+
+.footer-terms {
+	background-color: $nav-bg;
+	padding: 2rem;
+	p {
+		opacity: 0.75;
 	}
 }
 
@@ -662,6 +726,9 @@ article {
 }
 
 header {
+	background-image: url("/static/img/bc_bg.jpg");
+	background-position: center -300px;
+	background-size: cover;
 	ul {
 		background-color: $nav-bg;
 		border: 1px solid rgba(255, 255, 255, 0.1);
@@ -688,17 +755,18 @@ header {
 		}
 		.container {
 			justify-content: center;
+			height: auto;
 		}
 	}
 	.container {
 		display: flex;
 		justify-content: space-between;
+		height: 160px;
 	}
 }
 
 .playercard {
-	margin: 0;
-	margin-bottom: 1rem;
+	margin: 1rem 0;
 	padding: 1rem;
 	background-color: $nav-bg;
 	border: 1px solid rgba(255, 255, 255, 0.1);

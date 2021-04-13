@@ -63,7 +63,7 @@ const MyApp = ({ Component, pageProps }) => {
 		appState,
 	};
 	return (
-		<div>
+		<>
 			<Navbar {...pageProps} />
 			<SWRConfig
 				value={{
@@ -73,7 +73,7 @@ const MyApp = ({ Component, pageProps }) => {
 				<Component {...pageProps} />
 			</SWRConfig>
 			<Footer />
-		</div>
+		</>
 	);
 };
 

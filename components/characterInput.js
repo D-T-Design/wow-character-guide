@@ -144,7 +144,7 @@ export const InputCharacter = ({ action, character }) => {
 	const { name, level, gender, faction, playerClass, race } = formState;
 
 	return (
-		<section>
+		<section className="character-input">
 			{error ? (
 				<p>Error loading class data...</p>
 			) : isPending ? (

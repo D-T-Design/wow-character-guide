@@ -27,8 +27,11 @@ export default function Character({ props }) {
 				))}
 			</ul>
 			<h2>Add Characters</h2>
-			<button onClick={() => toggleAddForm(!addForm)}>Add Character</button>
-			{addForm && <InputCharacter action={addAction} />}
+			{addForm ? (
+				<InputCharacter action={addAction} />
+			) : (
+				<button onClick={() => toggleAddForm(!addForm)}>Add Character</button>
+			)}
 		</section>
 	);
 }
@@ -64,9 +67,18 @@ const CharacterDisplay = ({ character, updateState, appState }) => {
 					</h4>
 					<h5>{character.faction}</h5>
 					<section>
-						<button onClick={() => selectCharacter(character.id)}>Select Character</button>
-						<button onClick={() => toggleEdit(!editCharacter)}>Edit Character</button>
-						<button onClick={() => removeCharacter(character.id)}>Delete Character</button>
+						<button onClick={() => selectCharacter(character.id)} className="button-select">
+							Select Character
+						</button>
+						<button
+							onClick={() => toggleEdit(!editCharacter)}
+							className={!editCharacter ? "button-edit-inactive" : "button-edit-active"}
+						>
+							{!editCharacter ? "Edit Character" : "Cancel Edit"}
+						</button>
+						<button onClick={() => removeCharacter(character.id)} className="button-delete">
+							Delete Character
+						</button>
 						{editCharacter && <InputCharacter action={editAction} character={character} />}
 					</section>
 				</figcaption>
