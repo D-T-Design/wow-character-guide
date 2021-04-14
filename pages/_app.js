@@ -1,6 +1,7 @@
 import React from "react";
 import { SWRConfig } from "swr";
 import createPersistedState from "use-persisted-state";
+import Head from "next/head";
 
 import { Navbar } from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -66,6 +67,9 @@ const MyApp = ({ Component, pageProps }) => {
 	};
 	return (
 		<>
+			<Head>
+				<meta name="viewport" content="width=device-width, user-scalable=no" />
+			</Head>
 			<Navbar {...pageProps} />
 			<SWRConfig
 				value={{

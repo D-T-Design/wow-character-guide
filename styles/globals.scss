@@ -23,6 +23,81 @@ $rogue: #fff468;
 	box-shadow: 0 0 0 2px #2c2925, 0 5px 5px rgba(0, 0, 0, 0.5);
 }
 
+$classColors: (
+	"Druid": $druid,
+	"Hunter": $hunter,
+	"Mage": $mage,
+	"Paladin": $paladin,
+	"Priest": $priest,
+	"Rogue": $rogue,
+	"Shaman": $shaman,
+	"Warlock": $warlock,
+	"Warrior": $warrior,
+);
+$breakpoints: (
+	xs: 576px,
+	sm: 768px,
+	md: 992px,
+	lg: 1200px,
+);
+
+@mixin respond-above($breakpoint) {
+	@if map-has-key($breakpoints, $breakpoint) {
+		$breakpoint-value: map-get($breakpoints, $breakpoint);
+		@media (min-width: $breakpoint-value) {
+			@content;
+		}
+	} @else {
+		@warn 'Invalid breakpoint: #{$breakpoint}.';
+	}
+}
+@mixin respond-below($breakpoint) {
+	@if map-has-key($breakpoints, $breakpoint) {
+		$breakpoint-value: map-get($breakpoints, $breakpoint);
+		@media (max-width: ($breakpoint-value - 1)) {
+			@content;
+		}
+	} @else {
+		@warn 'Invalid breakpoint: #{$breakpoint}.';
+	}
+}
+
+@mixin respond-between($lower, $upper) {
+	@if map-has-key($breakpoints, $lower) and map-has-key($breakpoints, $upper) {
+		$lower-breakpoint: map-get($breakpoints, $lower);
+		$upper-breakpoint: map-get($breakpoints, $upper);
+		@media (min-width: $lower-breakpoint) and (max-width: ($upper-breakpoint - 1)) {
+			@content;
+		}
+	} @else {
+		@if (map-has-key($breakpoints, $lower) == false) {
+			@warn 'Your lower breakpoint was invalid: #{$lower}.';
+		}
+		@if (map-has-key($breakpoints, $upper) == false) {
+			@warn 'Your upper breakpoint was invalid: #{$upper}.';
+		}
+	}
+}
+
+@mixin active-nav($classColor) {
+	&.active {
+		color: white;
+		background-color: rgba(0, 0, 0, 0.2);
+		border-bottom: 1px solid $classColor;
+		box-shadow: 0 7px 5px -5px rgba($classColor, 0.5);
+	}
+	&:hover {
+		border-color: $classColor;
+	}
+}
+@mixin class-nav-colors {
+	@each $name, $color in $classColors {
+		&#{$name} {
+			@include active-nav($color);
+		}
+	}
+}
+
 *,
 *:after,
 *:before {
@@ -63,27 +138,247 @@ h6 {
 	font-family: "Ubuntu", sans-serif;
 }
 
+h3 {
+	&.legendary {
+		color: #ff8000 !important;
+	}
+	&.epic {
+		color: #a335ee !important;
+	}
+	&.rare {
+		color: #0070dd !important;
+	}
+	&.uncommon {
+		color: #1eff00 !important;
+	}
+}
+
 a {
 	transition: border-color 0.1s, color 0.1s;
+}
+article {
+	background-color: #2e2a25;
+	border: 1px solid #707070;
+	margin-bottom: 10px;
+	padding: 20px 30px;
+	width: 100%;
+	@include borderDesign;
+	figure {
+		display: flex;
+		margin: 0;
+		figcaption {
+			padding-left: 2ch;
+			width: 100%;
+		}
+		img {
+			height: 36px;
+			width: 36px;
+			@include borderDesign;
+		}
+	}
+	h3 {
+		display: flex;
+		justify-content: space-between;
+		margin: 0;
+		margin-bottom: 10px;
+		span {
+			margin-left: auto;
+		}
+	}
+	small {
+		display: block;
+		opacity: 0.75;
+	}
+	ul {
+		height: 0;
+		list-style: none;
+		margin: 0;
+		overflow: hidden;
+		padding: 0;
+		transition: all 0.2s ease-in-out;
+		&.open {
+			padding-top: 20px;
+		}
+		li {
+			margin-bottom: 10px;
+			a {
+				background-color: #231f1c;
+				color: $body-color;
+				display: block;
+				padding: 10px 20px;
+				text-decoration: none;
+				h3,
+				h4 {
+					margin: 0;
+					line-height: 1.5;
+				}
+				h3 {
+					font-size: 16px;
+				}
+				h4 {
+					font-size: 14px;
+					font-family: $body-font;
+					font-weight: lighter;
+				}
+			}
+		}
+	}
+}
+
+header {
+	background-image: url("/static/img/bc_bg.jpg");
+	background-position: center -300px;
+	background-size: cover;
+	ul {
+		background-color: $nav-bg;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: center;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		a {
+			border-bottom: 1px solid transparent;
+			color: #adadad;
+			display: block;
+			font-family: $headline-font;
+			font-size: 18px;
+			font-weight: bold;
+			padding: 20px 30px;
+			text-decoration: none;
+			text-transform: uppercase;
+			&:hover {
+				color: #fdfffc;
+				border-color: #fff468;
+			}
+		}
+		.container {
+			justify-content: center;
+			height: auto;
+		}
+	}
+	.container {
+		align-items: flex-start;
+		justify-content: space-between;
+		height: auto;
+		@include respond-above(lg) {
+			display: flex;
+			height: 160px;
+			width: 1286px;
+			max-width: 100%;
+		}
+	}
+	.playercard {
+		cursor: pointer;
+		margin: 1rem 0;
+		padding: 1rem;
+		background-color: $nav-bg;
+		border: 2px solid rgba(255, 255, 255, 0.1);
+		display: flex;
+		transition: filter 0.1s ease-in-out;
+		width: 100%;
+		@include respond-above(sm) {
+			width: auto;
+		}
+		&:hover {
+			filter: brightness(1.2);
+		}
+		img {
+			width: 32px;
+			height: 32px;
+			margin: 0 0.5ch 0 0;
+			border-radius: 5px;
+			border: 1px solid #373533;
+			box-shadow: 0 0 0 1px #2c2925, 0 2px 2px rgba(0, 0, 0, 0.5);
+			overflow: hidden;
+			&:first-child {
+				border-radius: 100%;
+			}
+		}
+		h3 {
+			margin: 0;
+			text-transform: uppercase;
+		}
+		figcaption {
+			display: flex;
+		}
+		small {
+			letter-spacing: 0.2ch;
+			opacity: 0.6;
+			text-transform: uppercase;
+		}
+		strong {
+			font-size: 1.25em;
+		}
+		.lvl {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-right: 2ch;
+		}
+		&.rogue {
+			border-bottom-color: $rogue;
+		}
+		&.priest {
+			border-bottom-color: $priest;
+		}
+		&.mage {
+			border-bottom-color: $mage;
+		}
+		&.hunter {
+			border-bottom-color: $hunter;
+		}
+		&.warrior {
+			border-bottom-color: $warrior;
+		}
+		&.druid {
+			border-bottom-color: $druid;
+		}
+		&.paladin {
+			border-bottom-color: $paladin;
+		}
+		&.shaman {
+			border-bottom-color: $shaman;
+		}
+		&.warlock {
+			border-bottom-color: $warlock;
+		}
+	}
 }
 
 section {
 	transition: height 0.2s ease-in-out;
 }
+
 #__next {
 	height: 100%;
 	display: grid;
 	grid-template-rows: auto 1fr auto;
 }
 .container {
-	width: 1286px;
-	max-width: 100%;
-	padding: 0 40px;
+	width: 100%;
+	height: 100%;
+	padding: 0 3ch;
 	margin: auto;
 	align-self: center;
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: center;
+	@include respond-above(lg) {
+		width: 1286px;
+		max-width: 100%;
+	}
+}
+.content {
+	padding: 3rem 0;
+}
+
+.left {
+	text-align: left;
+}
+.blurb {
+	width: 32%;
 }
 
 .character {
@@ -119,7 +414,8 @@ section {
 						border-radius: 100%;
 					}
 				}
-				.class-icon, .race-icon {
+				.class-icon,
+				.race-icon {
 					img {
 						border-radius: 5px;
 					}
@@ -193,19 +489,25 @@ section {
 				align-items: center;
 				img {
 					margin: 0;
-					margin-right: 1ch
+					margin-right: 1ch;
 				}
 			}
 		}
 	}
 }
 
-.left {
-	text-align: left;
+.playerclass- {
+	@include class-nav-colors;
 }
-.blurb {
-	width: 32%;
+
+.inactive {
+	opacity: 20%;
+	background-color: #2e2a25;
+	&:hover {
+		opacity: 1;
+	}
 }
+
 .faction,
 .race,
 .playerclass,
@@ -236,39 +538,6 @@ section {
 	p {
 		opacity: 0.75;
 	}
-}
-
-$classColors: (
-	"Druid": $druid,
-	"Hunter": $hunter,
-	"Mage": $mage,
-	"Paladin": $paladin,
-	"Priest": $priest,
-	"Rogue": $rogue,
-	"Shaman": $shaman,
-	"Warlock": $warlock,
-	"Warrior": $warrior,
-);
-@mixin active-nav($classColor) {
-	&.active {
-		color: white;
-		background-color: rgba(0, 0, 0, 0.2);
-		border-bottom: 1px solid $classColor;
-		box-shadow: 0 7px 5px -5px rgba($classColor, 0.5);
-	}
-	&:hover {
-		border-color: $classColor;
-	}
-}
-@mixin class-nav-colors {
-	@each $name, $color in $classColors {
-		&#{$name} {
-			@include active-nav($color);
-		}
-	}
-}
-.playerclass- {
-	@include class-nav-colors;
 }
 
 .level,
@@ -330,92 +599,6 @@ $classColors: (
 		font-family: $body-font;
 	}
 }
-.content {
-	padding-top: 40px;
-	padding-bottom: 60px;
-	h1 {
-		width: 100%;
-	}
-}
-
-article {
-	background-color: #2e2a25;
-	border: 1px solid #707070;
-	margin-bottom: 10px;
-	padding: 20px 30px;
-	width: 100%;
-	figure {
-		margin: 0;
-		display: flex;
-		figcaption {
-			width: 100%;
-			padding-left: 2ch;
-		}
-		img {
-			width: 36px;
-			height: 36px;
-			border-radius: 3px;
-			border: 1px solid #373533;
-			border-top: 1px solid #514f4c;
-			box-shadow: 0 0 0 1px #2c2925, 0 2px 2px rgba(0, 0, 0, 0.5);
-		}
-	}
-	h3 {
-		margin: 0;
-		margin-bottom: 10px;
-		display: flex;
-		justify-content: space-between;
-		span {
-			margin-left: auto;
-		}
-	}
-	small {
-		display: block;
-		opacity: 0.75;
-	}
-	ul {
-		height: 0;
-		margin: 0;
-		padding: 0;
-		list-style: none;
-		transition: all 0.2s ease-in-out;
-		overflow: hidden;
-		&.open {
-			padding-top: 20px;
-		}
-		li {
-			margin-bottom: 10px;
-			a {
-				display: block;
-				background-color: #231f1c;
-				padding: 10px 20px;
-				text-decoration: none;
-				color: #d8d9d7;
-				h3,
-				h4 {
-					margin: 0;
-					line-height: 1.5;
-				}
-				h3 {
-					font-size: 16px;
-				}
-				h4 {
-					font-size: 14px;
-					font-family: $body-font;
-					font-weight: lighter;
-				}
-			}
-		}
-	}
-}
-
-.inactive {
-	opacity: 20%;
-	background-color: #2e2a25;
-	&:hover {
-		opacity: 1;
-	}
-}
 
 .faction-icon,
 .class-icon,
@@ -451,6 +634,7 @@ article {
 		}
 	}
 }
+
 .race-icon {
 	min-width: 23%;
 }
@@ -511,130 +695,6 @@ article {
 	}
 }
 
-.selection-title {
-	width: 100%;
-	display: block;
-	text-transform: uppercase;
-	margin-top: 0.5rem;
-	font-size: 0.8rem;
-	letter-spacing: 0.2ch;
-	font-weight: bold;
-	position: relative;
-	height: 0;
-	overflow: hidden;
-	opacity: 0;
-	transition: all 0.1s ease-in-out;
-	&.chosen {
-		height: 1rem;
-		overflow: visible;
-		opacity: 1;
-	}
-}
-.results-container {
-	display: flex;
-	flex-flow: row wrap;
-	padding: 0 50px 10px;
-}
-
-.suggestions-section {
-	width: 100%;
-	display: flex;
-	flex-flow: row wrap;
-	justify-content: center;
-	margin-top: 20px;
-	& > div {
-		width: 45%;
-		margin: 0 1.75% 1.75%;
-		@include borderDesign;
-		&:first-child,
-		&:nth-child(3) {
-			margin-right: 0;
-		}
-	}
-	h3 {
-		background-color: #191919;
-		padding: 10px 15px;
-	}
-}
-.dungeons-display {
-	padding: 0 20px;
-	h3 {
-		width: 100%;
-	}
-	.dungeons,
-	.raids {
-		margin: 0 5px 10px;
-		padding: 10px 15px;
-		width: 31%;
-		background: rgb(16, 16, 16);
-		background: linear-gradient(0deg, rgba(30, 30, 30, 1) 5%, rgba(48, 48, 45, 1) 95%);
-		h4 {
-			margin-top: 0;
-			display: flex;
-			justify-content: space-between;
-			a {
-				color: white;
-			}
-		}
-		a {
-			text-decoration: none;
-			color: #ebb54c;
-			display: inline-block;
-		}
-	}
-	.dungeons {
-		@include borderDesign();
-		text-align: left;
-		border-top: 2px solid #0029f8;
-	}
-	.raids {
-		@include borderDesign();
-		text-align: left;
-		border-top: 2px solid #8600f8;
-	}
-	.dungeon,
-	.raid {
-		&-block {
-			display: flex;
-			flex-flow: row wrap;
-			justify-content: flex-start;
-			margin-bottom: 20px;
-		}
-	}
-}
-
-.info {
-	&-header {
-		display: block;
-		font-size: 0.7rem;
-		text-transform: uppercase;
-		letter-spacing: 0.2ch;
-		margin-bottom: 5px;
-	}
-}
-
-.tier {
-	font-size: 0.7rem;
-	text-transform: uppercase;
-	letter-spacing: 0.2ch;
-	text-align: right;
-	margin-left: 10px;
-	&-num {
-		display: block;
-		font-size: 1rem;
-		font-weight: bold;
-	}
-}
-.stat-list {
-	list-style: none;
-	margin: 0;
-	padding: 0 10px;
-	text-align: left;
-	.stat {
-		float: right;
-	}
-}
-
 .gear {
 	main {
 		width: 100%;
@@ -671,245 +731,32 @@ article {
 		right: 0.75em;
 		margin: 0;
 	}
-	&-title {
-		text-transform: capitalize;
-	}
-	&-link {
-		display: grid;
-		text-decoration: none;
-		align-items: center;
-		width: 30%;
-		grid-template-columns: 48px 1fr;
-		grid-template-rows: 48px;
-		grid-gap: 0.5rem;
-	}
-	&-list {
-		display: flex;
-		flex-flow: column wrap;
-		height: 240px;
-	}
-	&-icon {
-		width: 32px;
-		height: 32px;
-		border: 1px solid #403f3b;
-		border-top: 1px solid #6f6f6f;
-		overflow: hidden;
-		border-radius: 5px;
-		background: rgb(16, 16, 16);
-		box-shadow: 0 0 0 2px #1f1f1a, 0px 5px 10px rgba(0, 0, 0, 0.5);
-		margin: 0 auto 6px;
-		display: flex;
-		&.ammo {
-			width: 40px;
-			height: 40px;
-			margin: auto;
-		}
-		&:last-child {
-			margin: 0 auto;
-		}
-		img {
-			width: 32px;
-			max-width: 100%;
-			margin: auto;
-			opacity: 0.5;
-		}
-	}
-	&-name {
-		display: block;
-		text-align: left;
-		color: white;
-		text-transform: uppercase;
-		font-size: 0.8rem;
-		letter-spacing: 0.1ch;
-		text-decoration: none;
-	}
-}
-
-header {
-	background-image: url("/static/img/bc_bg.jpg");
-	background-position: center -300px;
-	background-size: cover;
-	ul {
-		background-color: $nav-bg;
-		border: 1px solid rgba(255, 255, 255, 0.1);
-		display: flex;
-		flex-flow: row wrap;
-		justify-content: center;
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		a {
-			border-bottom: 1px solid transparent;
-			color: #adadad;
-			display: block;
-			font-family: $headline-font;
-			font-size: 18px;
-			font-weight: bold;
-			padding: 20px 30px;
-			text-decoration: none;
-			text-transform: uppercase;
-			&:hover {
-				color: #fdfffc;
-				border-color: #fff468;
-			}
-		}
-		.container {
-			justify-content: center;
-			height: auto;
-		}
-	}
-	.container {
-		display: flex;
-		justify-content: space-between;
-		height: 160px;
-	}
-}
-
-.playercard {
-	margin: 1rem 0;
-	padding: 1rem;
-	background-color: $nav-bg;
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	img {
-		width: 32px;
-		margin: 0 0.5ch 0 0;
-		border-radius: 5px;
-		border: 1px solid #373533;
-		box-shadow: 0 0 0 1px #2c2925, 0 2px 2px rgba(0, 0, 0, 0.5);
-		overflow: hidden;
-		&:first-child {
-			border-radius: 100%;
-		}
-	}
-	ul {
-		background-color: transparent;
-		border: none;
-	}
-	h3 {
-		margin-top: 0.5rem;
-		margin-bottom: 0.5rem;
-	}
-	&.rogue {
-		border-bottom-color: $rogue;
-	}
-	&.priest {
-		border-bottom-color: $priest;
-	}
-	&.mage {
-		border-bottom-color: $mage;
-	}
-	&.hunter {
-		border-bottom-color: $hunter;
-	}
-	&.warrior {
-		border-bottom-color: $warrior;
-	}
-	&.druid {
-		border-bottom-color: $druid;
-	}
-	&.paladin {
-		border-bottom-color: $paladin;
-	}
-	&.shaman {
-		border-bottom-color: $shaman;
-	}
-	&.warlock {
-		border-bottom-color: $warlock;
-	}
-}
-
-.resist-icons {
-	float: right;
-	& > div {
-		border: 1px solid lightgray;
-		width: 36px;
-		height: 36px;
-	}
 }
 
 .quests {
-	padding: 0 30px;
-	&-level,
-	&-class {
-		text-transform: capitalize;
-	}
-	&-boxes {
-		display: flex;
-		flex-flow: row wrap;
-		justify-content: space-evenly;
-		justify-items: stretch;
-		height: 50px;
-		margin-bottom: 1rem;
-		p {
-			margin: 0;
-			align-self: center;
-			width: 50%;
-			height: 100%;
-			display: flex;
-			justify-content: stretch;
-			padding: 5px 10px;
-			align-items: center;
-			a {
-				display: flex;
-				width: 100%;
-				height: 100%;
-				justify-content: center;
-				align-items: center;
-				color: white;
-				text-decoration: none;
-				transition: all 0.1s ease-in-out;
-				background-color: rgba(0, 0, 0, 0.3);
-				box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.5);
-				border-radius: 3px;
-				&:hover {
-					color: #bc9902;
-					background-color: rgba(0, 0, 0, 0.5);
-				}
-			}
-		}
-	}
-	&-zones {
-		display: grid;
-		grid-template-columns: 1fr;
-		grid-template-rows: auto;
-		padding: 0 10px 30px;
-		grid-gap: 0px;
-		justify-content: space-evenly;
-		justify-items: stretch;
-		h2 {
-			font-size: 1.2rem;
-		}
-		h4 {
-			margin-bottom: 0;
-			text-align: left;
-			color: #e0b700;
-			padding: 0 10px;
-		}
-	}
 	&-zone {
 		font-size: 1rem;
 		position: relative;
 		margin-bottom: 10px;
 		background-color: #2e2a25;
 		a {
-			display: flex;
-			flex-flow: row wrap;
 			align-items: flex-start;
+			align-self: center;
+			background-color: #231f1c;
+			border: 1px solid transparent;
+			color: white;
+			cursor: pointer;
+			display: flex;
+			font-size: 0.9rem;
+			font-weight: bold;
+			flex-flow: row wrap;
 			justify-content: space-between;
 			padding: 15px 20px;
 			position: relative;
-			background-color: #231f1c;
-			color: white;
-			font-weight: bold;
 			text-decoration: none;
-			display: block;
-			cursor: pointer;
 			text-align: left;
-			font-size: 0.9rem;
-			align-self: center;
-			width: 100%;
-			border: 1px solid transparent;
 			transition: all 0.1s ease-in-out;
+			width: 100%;
 			&:hover {
 				border-bottom-color: #982529;
 				filter: contrast(1.15) brightness(1.15);
@@ -922,6 +769,9 @@ header {
 				width: 100%;
 				margin-right: auto;
 				flex-grow: 1;
+				font-size: 0.7rem;
+				text-transform: uppercase;
+				letter-spacing: 0.2ch;
 			}
 			small {
 				display: inline-block;
@@ -986,9 +836,6 @@ header {
 			}
 		}
 	}
-	&-link {
-		display: block;
-	}
 }
 
 .zones {
@@ -1004,6 +851,7 @@ header {
 		& > div {
 			padding: 20px 30px;
 			background-color: #2e2a25;
+			@include borderDesign;
 			h3 {
 				margin: 0;
 				margin-bottom: 0.25rem;
@@ -1025,20 +873,5 @@ header {
 			opacity: 1;
 			padding-top: 20px;
 		}
-	}
-}
-
-h3 {
-	&.legendary {
-		color: #ff8000 !important;
-	}
-	&.epic {
-		color: #a335ee !important;
-	}
-	&.rare {
-		color: #0070dd !important;
-	}
-	&.uncommon {
-		color: #1eff00 !important;
 	}
 }
