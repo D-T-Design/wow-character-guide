@@ -55,6 +55,20 @@ export default function parseClassData(data) {
 		getAvailableClasses(allianceData, "Gnome"),
 		getAvailableClasses(allianceData, "Draenei"),
 	];
+
+	classes.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+	const [
+		druidRef,
+		hunterRef,
+		mageRef,
+		paladinRef,
+		priestRef,
+		rogueRef,
+		shamanRef,
+		warlockRef,
+		warriorRef,
+	] = classes.map((className) => className.reference);
+
 	return {
 		availableFactions,
 		hordeRaces,
@@ -70,5 +84,14 @@ export default function parseClassData(data) {
 		gnomeClasses,
 		bloodelfClasses,
 		draeneiClasses,
+		druidRef,
+		hunterRef,
+		mageRef,
+		paladinRef,
+		priestRef,
+		rogueRef,
+		shamanRef,
+		warlockRef,
+		warriorRef,
 	};
 }

@@ -19,22 +19,32 @@ const queryAllFactions = `{
                 data {
                   id
                   name
-                  armorTypes {
-                    data {
+                  reference {
+                    summary
+                    teamroles
+                    resource
+                    primarystats
+                    secondarystats
+                    specs
+                    weaponTypes {
                       name
-                      id
                     }
-                  }
-                  weaponTypes {
-                    data {
+                    armorTypes {
                       name
-                      id
                     }
-                  }
-                  statTypes {
-                    data {
-                      name
-                      id
+                    classGuides {
+                      data {
+                        title
+                        link
+                        thumb
+                      }
+                    }
+                    creators {
+                      data {
+                        title
+                        link
+                        icon
+                      }
                     }
                   }
                 }

@@ -154,19 +154,19 @@ export const InputCharacter = ({ action, character }) => {
 					<section className="input-namelevel">
 						<InputDataSection
 							title="Name"
-							caption="Character Name"
+							caption="Name"
 							currentState={name}
 							changeState={updateName}
 						/>
 						<InputDataSection
 							title="Level"
-							caption="Your Level"
+							caption="Level"
 							currentState={level}
 							changeState={updateLevel}
 						/>
 						<InputRadioSection
 							title="Gender"
-							caption="Character Gender"
+							caption="Gender"
 							changeState={updateGender}
 							currentState={gender}
 						/>

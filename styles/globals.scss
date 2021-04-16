@@ -1,5 +1,7 @@
 $bg-color: #27221f;
+$bg-bright: #2e2a25;
 $nav-bg: #1d1814;
+$bg-highlight: #393530;
 $body-color: #d8d9d7;
 $cta-color: #982529;
 $headline-font: "Ubuntu", sans-serif;
@@ -108,6 +110,7 @@ html {
 	font-size: 16px;
 	font-family: $body-font;
 	background-color: $bg-color;
+	letter-spacing: 0.05ch;
 	color: lightgray;
 	height: 100%;
 }
@@ -157,7 +160,7 @@ a {
 	transition: border-color 0.1s, color 0.1s;
 }
 article {
-	background-color: #2e2a25;
+	background-color: $bg-bright;
 	border: 1px solid #707070;
 	margin-bottom: 10px;
 	padding: 20px 30px;
@@ -265,83 +268,94 @@ header {
 		@include respond-above(lg) {
 			display: flex;
 			height: 160px;
-			width: 1286px;
-			max-width: 100%;
+			width: 100%;
+			max-width: 1286px;
 		}
 	}
 	.playercard {
-		cursor: pointer;
+		text-decoration: none;
 		margin: 1rem 0;
-		padding: 1rem;
-		background-color: $nav-bg;
-		border: 2px solid rgba(255, 255, 255, 0.1);
-		display: flex;
-		transition: filter 0.1s ease-in-out;
-		width: 100%;
-		@include respond-above(sm) {
-			width: auto;
-		}
-		&:hover {
-			filter: brightness(1.2);
-		}
-		img {
-			width: 32px;
-			height: 32px;
-			margin: 0 0.5ch 0 0;
-			border-radius: 5px;
-			border: 1px solid #373533;
-			box-shadow: 0 0 0 1px #2c2925, 0 2px 2px rgba(0, 0, 0, 0.5);
-			overflow: hidden;
-			&:first-child {
-				border-radius: 100%;
+		figure {
+			cursor: pointer;
+			margin: 0;
+			padding: 1rem;
+			background-color: $nav-bg;
+			border: 2px solid rgba(255, 255, 255, 0.1);
+			display: flex;
+			transition: filter 0.1s ease-in-out;
+			width: 100%;
+			@include respond-above(sm) {
+				width: auto;
+			}
+			&:hover {
+				filter: brightness(1.2);
+			}
+			img {
+				width: 32px;
+				height: 32px;
+				margin: 0 0.5ch 0 0;
+				border-radius: 5px;
+				border: 1px solid #373533;
+				box-shadow: 0 0 0 1px #2c2925, 0 2px 2px rgba(0, 0, 0, 0.5);
+				overflow: hidden;
+				&:first-child {
+					border-radius: 100%;
+				}
+			}
+			h3 {
+				margin: 0;
+				text-transform: uppercase;
+				color: white;
+				text-decoration: none !important;
+			}
+			figcaption {
+				display: flex;
+			}
+			small {
+				letter-spacing: 0.2ch;
+				opacity: 0.6;
+				text-transform: uppercase;
+				text-decoration: none !important;
+				color: $body-color;
+			}
+			strong {
+				font-size: 1.25em;
+				color: white;
+				text-decoration: none !important;
+			}
+			.lvl {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				margin-right: 2ch;
 			}
 		}
-		h3 {
-			margin: 0;
-			text-transform: uppercase;
-		}
-		figcaption {
-			display: flex;
-		}
-		small {
-			letter-spacing: 0.2ch;
-			opacity: 0.6;
-			text-transform: uppercase;
-		}
-		strong {
-			font-size: 1.25em;
-		}
-		.lvl {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			margin-right: 2ch;
-		}
-		&.rogue {
+
+		.rogue {
 			border-bottom-color: $rogue;
 		}
-		&.priest {
+		.priest {
 			border-bottom-color: $priest;
 		}
-		&.mage {
+		.mage {
 			border-bottom-color: $mage;
 		}
-		&.hunter {
+		.hunter {
 			border-bottom-color: $hunter;
 		}
-		&.warrior {
+		.warrior {
 			border-bottom-color: $warrior;
 		}
-		&.druid {
+		.druid {
 			border-bottom-color: $druid;
 		}
-		&.paladin {
+		.paladin {
 			border-bottom-color: $paladin;
 		}
-		&.shaman {
+		.shaman {
 			border-bottom-color: $shaman;
 		}
-		&.warlock {
+		.warlock {
 			border-bottom-color: $warlock;
 		}
 	}
@@ -366,8 +380,8 @@ section {
 	flex-flow: row wrap;
 	justify-content: center;
 	@include respond-above(lg) {
-		width: 1286px;
-		max-width: 100%;
+		width: 100%;
+		max-width: 1286px;
 	}
 }
 .content {
@@ -376,9 +390,6 @@ section {
 
 .left {
 	text-align: left;
-}
-.blurb {
-	width: 32%;
 }
 
 .character {
@@ -494,6 +505,163 @@ section {
 			}
 		}
 	}
+	&-input {
+		background-color: $bg-bright;
+		padding: 1rem;
+		@include borderDesign();
+		margin-bottom: 3rem;
+		figure {
+			padding: 0.5rem;
+			display: flex;
+			align-items: center;
+			img {
+				margin: 0;
+				margin-right: 1ch;
+			}
+		}
+		.input {
+			&-namelevel {
+				display: grid;
+				justify-content: space-between;
+				grid-template-columns: 1fr 60px;
+				grid-template-rows: auto auto;
+				grid-template-areas: "name level" "gender gender";
+				gap: 1rem 2ch;
+				margin-bottom: 1rem;
+				@include respond-above(sm) {
+					grid-template-columns: 1.5fr 60px 1fr;
+					grid-template-rows: auto;
+					grid-template-areas: "name level gender";
+				}
+				@include respond-above(md) {
+					max-width: 903px;
+					grid-template-columns: 1.5fr 60px 1fr auto;
+				}
+				& > div {
+					margin-right: 0;
+				}
+				h2 {
+					font-family: $body-font;
+					font-weight: lighter;
+					letter-spacing: 0.25ch;
+				}
+				div.name {
+					grid-area: name;
+					input {
+						width: 100%;
+					}
+				}
+				div.level {
+					grid-area: level;
+					input {
+						width: 100%;
+					}
+				}
+				div.gender {
+					display: flex;
+					flex-flow: row wrap;
+					justify-content: space-between;
+					grid-area: gender;
+					h2 {
+						width: 100%;
+					}
+					label {
+						margin: 0;
+						width: 48%;
+						background-color: $bg-highlight;
+						padding: 0.75em 2ch;
+						h3 {
+							font-family: $body-font;
+							font-weight: normal;
+						}
+						&:hover {
+							filter: brightness(1.25);
+							opacity: 1;
+						}
+					}
+				}
+			}
+			&-faction,
+			&-race,
+			&-class {
+				h2 {
+					font-family: $body-font;
+					font-weight: lighter;
+					letter-spacing: 0.25ch;
+				}
+				& > div {
+					width: 100%;
+					display: grid;
+					justify-content: space-between;
+					grid-template-columns: 1fr 1fr;
+					grid-template-rows: auto auto;
+					grid-template-areas: "headline headline" "option1 option2";
+					gap: 0.7rem 2ch;
+					margin-bottom: 1rem;
+				}
+				div.faction,
+				div.race,
+				div.playerclass {
+					h2 {
+						width: 100%;
+						margin: 0;
+						grid-area: headline;
+					}
+					label {
+						margin: 0;
+						width: 100%;
+						background-color: $bg-highlight;
+						padding: 0.75em 2ch;
+						&:hover {
+							filter: brightness(1.25);
+							opacity: 1;
+						}
+						figure {
+							padding: 0;
+							img {
+								margin-right: 1.5ch;
+							}
+							&:hover {
+								filter: none;
+								opacity: 1;
+							}
+						}
+						&:nth-child(1) {
+							grid-area: option1;
+						}
+						&:nth-child(2) {
+							grid-area: option1;
+						}
+					}
+				}
+			}
+			&-submit {
+				margin-top: 2rem;
+				position: static;
+				transform: none;
+				button {
+					cursor: pointer;
+					border: 0;
+					background-color: $cta-color;
+					color: white;
+					font-family: $body-font;
+					font-weight: bold;
+					text-transform: uppercase;
+					letter-spacing: 0.25ch;
+					padding: 1em 2ch;
+					width: 100%;
+					transition: all 0.1s ease-in-out;
+					&:hover {
+						filter: brightness(1.25);
+						box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+					}
+					&:active {
+						filter: brightness(1.5);
+					}
+				}
+			}
+		}
+	}
 }
 
 .playerclass- {
@@ -502,7 +670,7 @@ section {
 
 .inactive {
 	opacity: 20%;
-	background-color: #2e2a25;
+	background-color: $bg-bright;
 	&:hover {
 		opacity: 1;
 	}
@@ -613,7 +781,7 @@ section {
 	figure {
 		margin: 0;
 		padding: 10px 20px;
-		background-color: #393530;
+		background-color: $bg-highlight;
 		border-radius: 3px;
 		display: flex;
 		flex-flow: row wrap;
@@ -654,7 +822,7 @@ section {
 
 .input {
 	&-character {
-		background-color: #2e2a25;
+		background-color: $bg-bright;
 		border: 1px solid #707070;
 		display: grid;
 		grid-template-rows: repeat(auto, 4);
@@ -695,6 +863,80 @@ section {
 	}
 }
 
+.home {
+	padding: 1rem 0;
+	@include respond-above(lg) {
+		padding: 3rem 0;
+	}
+	.container {
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-template-rows: auto auto;
+		gap: 1rem 2ch;
+		@include respond-above(lg) {
+			gap: 2rem 4ch;
+			grid-template-columns: 1fr 2fr;
+			grid-template-rows: auto;
+			padding: 0 2rem;
+		}
+	}
+	.blurb {
+		width: 100%;
+		margin-bottom: 2rem;
+		position: relative;
+		display: grid;
+		grid-template-rows: repeat(3, auto);
+		grid-template-columns: 1fr;
+		grid-template-areas: "headline" "subheading" "caption";
+		justify-content: stretch;
+		@include respond-above(sm) {
+			grid-template-rows: repeat(2, auto);
+			grid-template-columns: 1fr 2fr;
+			grid-template-areas: "headline headline" "subheading caption";
+		}
+		@include respond-above(lg) {
+			grid-template-rows: 1fr;
+			grid-template-columns: repeat(3, auto);
+			grid-template-areas: "headline" "subheading" "caption";
+		}
+		h2 {
+			font-size: 1.7rem;
+			text-align: center;
+			grid-area: headline;
+			width: 100%;
+			filter: brightness(1.25);
+			padding: 0.5em 1ch;
+			text-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+			@include respond-above(lg) {
+				text-align: left;
+				padding: 0;
+			}
+			small {
+				display: block;
+				font-weight: lighter;
+			}
+		}
+		h3 {
+			grid-area: subheading;
+			font-size: 1.5rem;
+			color: white;
+			margin-bottom: 1rem;
+			width: 100%;
+		}
+		caption {
+			grid-area: caption;
+			text-align: left;
+		}
+		p {
+			color: $body-color;
+			font-style: italic;
+			max-width: 65ch;
+		}
+		strong {
+			color: white;
+		}
+	}
+}
 .gear {
 	main {
 		width: 100%;
@@ -733,12 +975,153 @@ section {
 	}
 }
 
+.guide {
+	&-grid {
+		display: block;
+		@include respond-above(lg) {
+			display: grid;
+			grid-template-columns: 1fr 2fr;
+			gap: 2rem;
+		}
+		.class {
+			&-feature {
+				background-color: $bg-bright;
+				padding: 1rem;
+				position: relative;
+				border-top: 10px solid transparent;
+				@include respond-above(lg) {
+					padding: 1rem 2rem;
+				}
+				h1 {
+					font-size: 2rem;
+					margin-top: 0;
+					margin-bottom: 0.25em;
+				}
+				h2 {
+					font-size: 1.25rem;
+					margin-top: 0.25em;
+				}
+				img {
+					position: absolute;
+					top: 1rem;
+					right: 1rem;
+					width: 48px;
+					height: 48px;
+					@include borderDesign();
+					@include respond-above(lg) {
+						right: 2rem;
+					}
+				}
+				&.Shaman {
+					border-top-color: $shaman;
+				}
+				&.Druid {
+					border-top-color: $druid;
+				}
+				&.Hunter {
+					border-top-color: $hunter;
+				}
+				&.Mage {
+					border-top-color: $mage;
+				}
+				&.Paladin {
+					border-top-color: $paladin;
+				}
+				&.Priest {
+					border-top-color: $priest;
+				}
+				&.Rogue {
+					border-top-color: $rogue;
+				}
+				&.Warlock {
+					border-top-color: $warlock;
+				}
+				&.Warrior {
+					border-top-color: $warrior;
+				}
+			}
+			&-reference {
+				padding: 1rem;
+				section {
+					display: flex;
+					flex-flow: row wrap;
+					ul {
+						width: 50%;
+						margin: 0;
+						padding: 0.25rem;
+						list-style: none;
+						li {
+							font-size: 0.8rem;
+							text-transform: uppercase;
+							opacity: 0.6;
+							letter-spacing: 0.35ch;
+							line-height: 2.5;
+							border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+						}
+					}
+				}
+			}
+			&-guides,
+			&-creators {
+				background-color: rgba(0, 0, 0, 0.1);
+				padding: 2rem 4ch 3rem;
+			}
+			&-guides {
+				margin-bottom: 2rem;
+				h3 {
+					margin-top: 0;
+				}
+				p {
+					margin-bottom: 2em;
+					font-style: italic;
+					opacity: 0.75;
+				}
+				ul {
+					display: flex;
+					flex-flow: row wrap;
+					margin: 0;
+					padding: 0;
+					list-style: none;
+					justify-content: space-between;
+					li {
+						width: 32%;
+						a {
+							display: block;
+							background-color: rgba(7, 3, 3, 0.2);
+							text-decoration: none;
+							padding: 1ch;
+							transition: filter 0.15s ease-in-out;
+							&:hover {
+								filter: brightness(1.25);
+							}
+						}
+					}
+				}
+				figure {
+					margin: 0;
+				}
+				figcaption {
+					color: $body-color;
+					font-size: 1rem;
+				}
+				img {
+					max-width: 100%;
+					width: 300px;
+				}
+			}
+		}
+	}
+	&-default {
+		background-color: $bg-bright;
+	}
+}
+
 .quests {
 	&-zone {
 		font-size: 1rem;
 		position: relative;
 		margin-bottom: 10px;
-		background-color: #2e2a25;
+		background-color: $bg-bright;
 		a {
 			align-items: flex-start;
 			align-self: center;
@@ -850,7 +1233,7 @@ section {
 		grid-gap: 20px;
 		& > div {
 			padding: 20px 30px;
-			background-color: #2e2a25;
+			background-color: $bg-bright;
 			@include borderDesign;
 			h3 {
 				margin: 0;
