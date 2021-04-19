@@ -11,7 +11,7 @@ export const ZoneListing = ({ title, zones, level }) => {
 	};
 	let raids = [];
 	if (containsZones) {
-		console.log(zones)
+		title === "Raids" && console.log(zones);
 		raids = zones.sort((a, b) => a.phase - b.phase);
 	}
 	if (title === "Raids" && level < 60) return null;
@@ -23,21 +23,12 @@ export const ZoneListing = ({ title, zones, level }) => {
 			</div>
 		);
 	return (
-		<div>
+		<div className={title.toLowerCase().replace(/\s/g, "")}>
 			<h3 onClick={toggleOpen} style={{ cursor: "pointer" }}>
 				{title}
 				<span>{open ? "X" : "+"}</span>
 			</h3>
-			<div
-				className={`${open ? "open" : "closed"} zones-list`}
-				style={
-					open && containsZones
-						? { height: `calc(114px * ${numZones} + 20px)` }
-						: open && !containsZones
-						? { height: `74px` }
-						: { height: "0" }
-				}
-			>
+			<div className={`${open ? "open" : "closed"} zones-list`}>
 				{title === "Raids"
 					? raids.map((raid, index) => <Zone zone={raid} key={index} />)
 					: zones.map((zone, index) => <Zone zone={zone} key={index} />)}

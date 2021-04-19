@@ -435,13 +435,14 @@ section {
 .container {
 	width: 100%;
 	height: 100%;
-	padding: 0 3ch;
+	padding: 0 2ch;
 	margin: auto;
 	align-self: center;
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: center;
 	@include respond-above(lg) {
+		padding: 0 3ch;
 		width: 100%;
 		max-width: 1286px;
 	}
@@ -1406,15 +1407,22 @@ section {
 .zones {
 	&-container {
 		width: 100%;
-		display: flex;
-		flex-flow: row wrap;
-		justify-content: space-between;
 		display: grid;
 		align-items: flex-start;
-		grid-template-columns: 1fr 1fr 1fr;
+		grid-template-columns: 1fr;
 		grid-gap: 20px;
+		@include respond-above(sm) {
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: repeat(3, auto);
+			grid-template-areas: "zones dungeons" "zones raids" "bgs cities";
+		}
+		@include respond-above(lg) {
+			grid-template-columns: 1fr 1fr 1fr;
+			grid-template-rows: repeat(2, auto);
+			grid-template-areas: "zones dungeons bgs" "zones raids cities";
+		}
 		& > div {
-			padding: 20px 30px;
+			padding: 0.5rem 1ch;
 			background-color: $bg-bright;
 			@include borderDesign;
 			h3 {
@@ -1424,13 +1432,34 @@ section {
 				justify-content: space-between;
 				z-index: 1;
 				&.zone-name {
-					margin-top: 2rem;
+					margin-top: 1rem;
+					@include respond-above(lg) {
+						margin-top: 2rem;
+					}
 				}
 			}
 			small {
 				color: $body-color;
 				font-style: italic;
 			}
+			@include respond-above(lg) {
+				padding: 1rem 2ch;
+			}
+		}
+		.worldzones {
+			grid-area: zones;
+		}
+		.dungeons {
+			grid-area: dungeons;
+		}
+		.raids {
+			grid-area: raids;
+		}
+		.cities {
+			grid-area: cities;
+		}
+		.battlegrounds {
+			grid-area: bgs;
 		}
 	}
 	&-list {
@@ -1440,6 +1469,7 @@ section {
 		transition: all 0.2s ease-in-out;
 		&.open {
 			opacity: 1;
+			height: auto;
 			padding-top: 20px;
 		}
 	}

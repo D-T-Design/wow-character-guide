@@ -5,7 +5,7 @@ export default function Zone({ zone }) {
 	const factionURL = "/static/img/faction/";
 	const zoneURLString = "/static/img/zone/";
 	const imgBase = "https://res.cloudinary.com/david-torres-design/image/upload/";
-	const imgTransform = "w_672,h_210,c_fill";
+	const imgTransform = "w_672,h_310,c_fill";
 	const imgGradient = "/e_gradient_fade,y_-0.7,b_rgb:000000A0/";
 	const imgFolder = "/v1618808611/wow-character-guide/";
 	return (
