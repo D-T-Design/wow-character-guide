@@ -90,6 +90,7 @@ const queryAllZones = `{
       range
       faction
       tier
+      img
       dungeons {
         data {
           name
@@ -115,6 +116,8 @@ const queryAllRaids = `{
         }
         level
         tier
+        img
+        phase
       }
     }
   }`;
@@ -161,6 +164,7 @@ export const queryAllDungeons = () =>
           faction
         }
         level
+        img
       }
     }
   }`;

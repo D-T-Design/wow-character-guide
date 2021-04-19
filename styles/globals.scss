@@ -36,6 +36,33 @@ $classColors: (
 	"Warlock": $warlock,
 	"Warrior": $warrior,
 );
+.Druid {
+	color: $druid;
+}
+.Hunter {
+	color: $hunter;
+}
+.Mage {
+	color: $mage;
+}
+.Paladin {
+	color: $paladin;
+}
+.Priest {
+	color: $priest;
+}
+.Rogue {
+	color: $rogue;
+}
+.Shaman {
+	color: $shaman;
+}
+.Warlock {
+	color: $warlock;
+}
+.Warrior {
+	color: $warrior;
+}
 $breakpoints: (
 	xs: 576px,
 	sm: 768px,
@@ -229,9 +256,6 @@ article {
 }
 
 header {
-	background-image: url("/static/img/bc_bg.jpg");
-	background-position: center -300px;
-	background-size: cover;
 	ul {
 		background-color: $nav-bg;
 		border: 1px solid rgba(255, 255, 255, 0.1);
@@ -261,16 +285,54 @@ header {
 			height: auto;
 		}
 	}
+	nav {
+		z-index: 1;
+		background-color: $nav-bg;
+	}
 	.container {
 		align-items: flex-start;
 		justify-content: space-between;
 		height: auto;
 		@include respond-above(lg) {
 			display: flex;
-			height: 160px;
 			width: 100%;
 			max-width: 1286px;
 		}
+		a {
+			z-index: 1;
+			transition: all 0.1s ease-in-out;
+			&:hover {
+				transform: scale(1.02);
+				h1 {
+					img {
+						filter: drop-shadow(0px 2px 2px rgba(255, 255, 255, 0.5));
+					}
+				}
+			}
+		}
+		h1 {
+			img {
+				height: 60px;
+				opacity: 1;
+				width: auto;
+				filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 1));
+			}
+		}
+	}
+	.header-bg {
+		position: absolute;
+		opacity: 0.3;
+		left: 0;
+		top: 50%;
+		transform: translateY(-35%);
+		width: 100%;
+		height: auto;
+	}
+	.header-img {
+		z-index: 0;
+		position: relative;
+		overflow: hidden;
+		background-color: $nav-bg;
 	}
 	.playercard {
 		text-decoration: none;
@@ -398,8 +460,6 @@ section {
 		padding: 0;
 		margin: 0;
 		li {
-			background-color: rgba(0, 0, 0, 0.1);
-			border: 1px solid rgba(255, 255, 255, 0.25);
 			padding: 1em 1.5em;
 			margin: 0 0 1rem;
 			figure {
@@ -519,6 +579,20 @@ section {
 				margin-right: 1ch;
 			}
 		}
+		.error-output {
+			article {
+				border: 0;
+				box-shadow: none;
+				background-color: rgba(255, 0, 0, 0.1);
+				padding: 1rem 2ch;
+				p {
+					margin: 0 0 1rem;
+					&:last-child {
+						margin: 0;
+					}
+				}
+			}
+		}
 		.input {
 			&-namelevel {
 				display: grid;
@@ -598,6 +672,14 @@ section {
 					grid-template-areas: "headline headline" "option1 option2";
 					gap: 0.7rem 2ch;
 					margin-bottom: 1rem;
+					@include respond-above(md) {
+						grid-template-columns: 1fr 1fr 1fr;
+						grid-template-areas: "headline headline headline" "option1 option2 option3";
+					}
+					@include respond-above(lg) {
+						grid-template-columns: 1fr 1fr 1fr 1fr;
+						grid-template-areas: "headline headline headline headline" "option1 option2 option3 option4";
+					}
 				}
 				div.faction,
 				div.race,
@@ -721,7 +803,8 @@ section {
 		background-color: #27221f;
 		color: lightgray;
 		font-size: 1.25rem;
-		padding: 10px 20px;
+		padding: 0.5rem 1ch;
+		line-height: 1;
 		border: 0;
 		border: 1px solid #373533;
 		border-top: 1px solid #514f4c;
@@ -869,15 +952,93 @@ section {
 		padding: 3rem 0;
 	}
 	.container {
-		display: grid;
-		grid-template-columns: 1fr;
-		grid-template-rows: auto auto;
-		gap: 1rem 2ch;
-		@include respond-above(lg) {
-			gap: 2rem 4ch;
-			grid-template-columns: 1fr 2fr;
-			grid-template-rows: auto;
-			padding: 0 2rem;
+		.new,
+		.character {
+			width: 100%;
+			display: grid;
+			grid-template-columns: 1fr;
+			grid-template-rows: auto auto;
+			gap: 1rem 2ch;
+			@include respond-above(lg) {
+				gap: 2rem 4ch;
+				grid-template-columns: 1fr 2fr;
+				grid-template-rows: auto auto;
+				grid-template-areas: "blurb blurb" "selected list";
+				padding: 0 2rem;
+			}
+		}
+		.new {
+			grid-template-areas: "blurb list" "selected list";
+		}
+		.character {
+			grid-template-columns: 1fr 1fr;
+		}
+		.character {
+			&-new {
+				grid-area: list;
+			}
+			&-selected {
+				grid-area: selected;
+			}
+			&-list {
+				grid-area: list;
+			}
+		}
+	}
+	.selected {
+		display: flex;
+		flex-flow: row wrap;
+		h2 {
+			width: 100%;
+		}
+		figure {
+			background-color: $nav-bg;
+			@include borderDesign();
+			display: flex;
+			flex-flow: row wrap;
+			padding: 1rem 2ch;
+			align-items: center;
+			align-content: stretch;
+			margin: 0;
+			width: 100%;
+			img {
+				width: 42px;
+				height: 42px;
+				@include borderDesign();
+				margin-right: 1ch;
+			}
+			aside {
+				margin-right: 1.5ch;
+				font-size: 0.75rem;
+				strong {
+					color: white;
+					font-size: 1.1rem;
+				}
+			}
+			div {
+				margin-left: auto;
+			}
+			figcaption {
+				display: flex;
+				flex-flow: row wrap;
+				align-items: center;
+				max-width: 300px;
+				h3 {
+					text-transform: uppercase;
+					color: white;
+					margin: 0;
+					margin-right: 1.5ch;
+				}
+				h4 {
+					font-family: $body-font;
+					text-transform: uppercase;
+					font-weight: 100;
+					font-size: 0.9rem;
+					letter-spacing: 0.3ch;
+					margin: 0;
+					margin-right: 1.5ch;
+				}
+			}
 		}
 	}
 	.blurb {
@@ -885,6 +1046,7 @@ section {
 		margin-bottom: 2rem;
 		position: relative;
 		display: grid;
+		grid-area: blurb;
 		grid-template-rows: repeat(3, auto);
 		grid-template-columns: 1fr;
 		grid-template-areas: "headline" "subheading" "caption";
@@ -930,6 +1092,7 @@ section {
 		p {
 			color: $body-color;
 			font-style: italic;
+			grid-area: caption;
 			max-width: 65ch;
 		}
 		strong {
@@ -1011,6 +1174,9 @@ section {
 					@include respond-above(lg) {
 						right: 2rem;
 					}
+				}
+				p {
+					color: $body-color;
 				}
 				&.Shaman {
 					border-top-color: $shaman;
@@ -1125,8 +1291,8 @@ section {
 		a {
 			align-items: flex-start;
 			align-self: center;
-			background-color: #231f1c;
-			border: 1px solid transparent;
+			background: #231f1c;
+			border: 1px solid $bg-bright;
 			color: white;
 			cursor: pointer;
 			display: flex;
@@ -1140,14 +1306,29 @@ section {
 			text-align: left;
 			transition: all 0.1s ease-in-out;
 			width: 100%;
+			overflow: hidden;
 			&:hover {
 				border-bottom-color: #982529;
-				filter: contrast(1.15) brightness(1.15);
+				filter: brightness(1.15);
+			}
+		}
+		.zone-bg {
+			position: absolute;
+			top: 50%;
+			left: 0;
+			width: 100%;
+			transform: translateY(-50%);
+			height: auto;
+			z-index: 0;
+			img {
+				width: 100%;
+				height: auto;
 			}
 		}
 		div {
 			text-align: left;
 			align-self: center;
+			z-index: 1;
 			&.quests-range {
 				width: 100%;
 				margin-right: auto;
@@ -1172,6 +1353,7 @@ section {
 			right: 20px;
 			transform: translateY(-50%);
 			display: flex;
+			z-index: 1;
 		}
 		.faction,
 		.zone {
@@ -1240,6 +1422,10 @@ section {
 				margin-bottom: 0.25rem;
 				display: flex;
 				justify-content: space-between;
+				z-index: 1;
+				&.zone-name {
+					margin-top: 2rem;
+				}
 			}
 			small {
 				color: $body-color;

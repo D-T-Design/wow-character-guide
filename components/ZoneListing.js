@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 
 import Zone from "./Zone";
-const zoneURL = "https://classic.wowhead.com/zone=";
-const factionURL = "/static/img/faction/";
-const zoneURLString = "/static/img/zone/";
 
 export const ZoneListing = ({ title, zones, level }) => {
 	const [open, setOpen] = useState(false);
@@ -12,6 +9,11 @@ export const ZoneListing = ({ title, zones, level }) => {
 	const toggleOpen = () => {
 		setOpen(!open);
 	};
+	let raids = [];
+	if (containsZones) {
+		console.log(zones)
+		raids = zones.sort((a, b) => a.phase - b.phase);
+	}
 	if (title === "Raids" && level < 60) return null;
 	if (zones.length === 0)
 		return (
@@ -30,15 +32,15 @@ export const ZoneListing = ({ title, zones, level }) => {
 				className={`${open ? "open" : "closed"} zones-list`}
 				style={
 					open && containsZones
-						? { height: `calc(86px * ${numZones} + 20px)` }
+						? { height: `calc(114px * ${numZones} + 20px)` }
 						: open && !containsZones
-						? { height: `56px` }
+						? { height: `74px` }
 						: { height: "0" }
 				}
 			>
-				{zones.map((zone, index) => (
-					<Zone zone={zone} key={index} />
-				))}
+				{title === "Raids"
+					? raids.map((raid, index) => <Zone zone={raid} key={index} />)
+					: zones.map((zone, index) => <Zone zone={zone} key={index} />)}
 			</div>
 		</div>
 	);

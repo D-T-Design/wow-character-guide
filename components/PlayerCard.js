@@ -18,7 +18,11 @@ const PlayerCard = ({ appState }) => {
 						</div>
 					</figcaption>
 					<img src={`/static/img/faction/${faction.toLowerCase()}.png`} />
-					<img src={`/static/img/race/${race.toLowerCase().replace(/\s/g, "")}-${gender}.png`} />
+					<img
+						src={`/static/img/race/${race.toLowerCase().replace(/\s/g, "")}-${
+							gender ? gender : "male"
+						}.png`}
+					/>
 					<img src={`/static/img/class/${playerClass.toLowerCase()}.png`} />
 				</figure>
 			</a>

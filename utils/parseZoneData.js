@@ -4,7 +4,7 @@ export default function parseZoneData(data) {
 		const parsedData = [];
 
 		rawData.map((zone) => {
-			const { faction, id, name, range, tier } = zone;
+			const { faction, id, name, range, tier, img } = zone;
 			const dungeons = zone.dungeons.data;
 			const raids = zone.raids.data;
 			const type =
@@ -25,6 +25,7 @@ export default function parseZoneData(data) {
 				raids,
 				range,
 				type,
+				img
 			});
 		});
 

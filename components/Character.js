@@ -45,17 +45,24 @@ const CharacterDisplay = ({ character, updateState, appState }) => {
 		formAction: updateCharacter,
 		callback: switchEditForm,
 	};
-	return (
+	return character.id === appState.character ? null : (
 		<li className={character.id === appState.character ? "selected" : ""}>
 			<figure>
 				<div>
-					<img src={`/static/img/faction/${character.faction.toLowerCase()}.png`} />
+					<img
+						src={`/static/img/faction/${character.faction.toLowerCase()}.png`}
+						title={character.faction}
+					/>
 					<img
 						src={`/static/img/race/${character.race.toLowerCase().replace(/\s/g, "")}-${
-							character.gender
+							character.gender ? character.gender : "male"
 						}.png`}
+						title={character.race}
 					/>
-					<img src={`/static/img/class/${character.playerClass.toLowerCase()}.png`} />
+					<img
+						src={`/static/img/class/${character.playerClass.toLowerCase()}.png`}
+						title={character.playerClass}
+					/>
 				</div>
 				<figcaption>
 					<h3>{character.name}</h3>

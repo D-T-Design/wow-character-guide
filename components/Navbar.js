@@ -3,9 +3,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import PlayerCard from "./PlayerCard";
-import classColor from "../utils/classColor";
 
-export const Navbar = ({ appState, savedCharacters }) => {
+export const Navbar = ({ appState }) => {
 	const router = useRouter();
 	const route = router.pathname;
 	const links = [
@@ -32,13 +31,18 @@ export const Navbar = ({ appState, savedCharacters }) => {
 	);
 	return (
 		<header>
-			<div className="container">
-				<Link href="/">
-					<a>
-						<h1>WoW Character Guide</h1>
-					</a>
-				</Link>
-				{!noCharacters && <PlayerCard appState={selectedCharacter} />}
+			<div className="header-img">
+				<img className="header-bg" src="/static/img/bc_bg.jpg" />
+				<div className="container">
+					<Link href="/">
+						<a>
+							<h1>
+								<img src="/static/img/wccg.svg" alt="WoW Classic Character Guide" />
+							</h1>
+						</a>
+					</Link>
+					{!noCharacters && <PlayerCard appState={selectedCharacter} />}
+				</div>
 			</div>
 			<nav>
 				<ul>

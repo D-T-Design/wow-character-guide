@@ -5,7 +5,7 @@ export default function parseRaidData(data) {
 
 		rawData.map((raid) => {
 			const type = "Raid";
-			const { id, name, level, tier } = raid;
+			const { id, name, level, tier, img, phase } = raid;
 			const { faction } = raid.zone;
 			const zoneName = raid.zone.name;
 			parsedData.push({
@@ -16,6 +16,8 @@ export default function parseRaidData(data) {
 				zoneName,
 				type,
 				tier,
+				img,
+				phase,
 			});
 		});
 

@@ -5,7 +5,7 @@ export default function parseDungeonData(data) {
 
 		rawData.map((zone) => {
 			const type = "Dungeon";
-			const { id, name, level } = zone;
+			const { id, name, level, img } = zone;
 			const { faction } = zone.zone;
 			const zoneName = zone.zone.name;
 			parsedData.push({
@@ -15,6 +15,7 @@ export default function parseDungeonData(data) {
 				faction,
 				zoneName,
 				type,
+				img
 			});
 		});
 

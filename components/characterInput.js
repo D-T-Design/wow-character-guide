@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Link from "next/link";
 import useClassData from "../utils/useClassData";
 
 const InputButtonSection = ({ title, currentState, changeState, itemList, gender }) => {
@@ -62,6 +61,8 @@ const InputDataSection = ({ title, caption, currentState, changeState }) => {
 				value={currentState}
 				onChange={(e) => changeState(e)}
 				tabIndex="0"
+				minlength="2"
+				maxlength="12"
 			/>
 		</div>
 	);
@@ -142,7 +143,6 @@ export const InputCharacter = ({ action, character }) => {
 		setState({ ...formState, playerClass });
 	};
 	const { name, level, gender, faction, playerClass, race } = formState;
-
 	return (
 		<section className="character-input">
 			{error ? (
@@ -151,26 +151,6 @@ export const InputCharacter = ({ action, character }) => {
 				<p>Loading class data...</p>
 			) : (
 				<>
-					<section className="input-namelevel">
-						<InputDataSection
-							title="Name"
-							caption="Name"
-							currentState={name}
-							changeState={updateName}
-						/>
-						<InputDataSection
-							title="Level"
-							caption="Level"
-							currentState={level}
-							changeState={updateLevel}
-						/>
-						<InputRadioSection
-							title="Gender"
-							caption="Gender"
-							changeState={updateGender}
-							currentState={gender}
-						/>
-					</section>
 					<section className="input-faction">
 						<InputButtonSection
 							title="Faction"
@@ -196,16 +176,40 @@ export const InputCharacter = ({ action, character }) => {
 							itemList={classData[`${race.replace(/\s/g, "").toLowerCase()}Classes`]}
 						/>
 					</section>
-					<section className="input-submit">
-						<button
-							onClick={() => {
-								formAction(formState);
-								return callback();
-							}}
-						>
-							{title}
-						</button>
-					</section>
+					{faction && playerClass && race ? (
+						<section className="input-namelevel">
+							<InputDataSection
+								title="Name"
+								caption="Name"
+								currentState={name}
+								changeState={updateName}
+							/>
+							<InputDataSection
+								title="Level"
+								caption="Level"
+								currentState={level}
+								changeState={updateLevel}
+							/>
+							<InputRadioSection
+								title="Gender"
+								caption="Gender"
+								changeState={updateGender}
+								currentState={gender}
+							/>
+						</section>
+					) : null}
+					{name && level && gender && faction && playerClass && race ? (
+						<section className="input-submit">
+							<button
+								onClick={() => {
+									formAction(formState);
+									return callback();
+								}}
+							>
+								{title}
+							</button>
+						</section>
+					) : null}
 				</>
 			)}
 		</section>

@@ -1,14 +1,20 @@
 import React from "react";
+import Link from "next/link";
 import Welcome from "../components/Welcome";
 import Character from "../components/Character";
+import { SelectedCharacter } from "../components/SelectedCharacter";
 
 const Home = (props) => {
 	const noCharacters = props.appState.savedCharacters.length === 0;
+	let character = {};
+	if (!noCharacters) {
+		character = props.appState.savedCharacters.find((char) => char.id === props.appState.character);
+	}
 	return (
 		<section className="content home">
 			<div className="container">
 				{noCharacters ? (
-					<>
+					<section className="new">
 						<aside className="blurb">
 							<h2>
 								<small>Welcome to</small> WoW Classic Character Guide!
@@ -25,16 +31,40 @@ const Home = (props) => {
 								</p>
 							</caption>
 						</aside>
-						<Welcome props={props} />
-					</>
+						<main className="character-new">
+							<Welcome props={props} />
+						</main>
+					</section>
 				) : (
-					<>
+					<section className="character">
 						<aside className="blurb">
-							<h2>Your Saved Characters</h2>
-							<p>Select, edit, and delete characters from here!</p>
+							<h2>Choose Your Character</h2>
+							<p>Edit your character, or add new characters to get another personalized guide!</p>
 						</aside>
-						<Character props={props} />
-					</>
+						<main className="character-selected">
+							<SelectedCharacter appState={props.appState} updateState={props.updateState} />
+							<section className="links">
+								<Link href="/classguides">
+									<a title="Go to class guides page">
+										<button>{`View ${character.playerClass} Guides`}</button>
+									</a>
+								</Link>
+								<Link href="/gear">
+									<a title="Go to gear page">
+										<button>{`View ${character.playerClass} Gear`}</button>
+									</a>
+								</Link>
+								<Link href="/zones">
+									<a title="Go to zones page">
+										<button>View Zones</button>
+									</a>
+								</Link>
+							</section>
+						</main>
+						<main className="character-list">
+							<Character props={props} />
+						</main>
+					</section>
 				)}
 			</div>
 		</section>
