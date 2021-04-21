@@ -1,73 +1,51 @@
-import React, { useState } from "react";
-import { InputCharacter } from "./characterInput";
-export const SelectedCharacter = ({ appState, updateState }) => {
-	const characterID = appState.character;
-	const character = appState.savedCharacters.find((char) => char.id === characterID);
-	const { removeCharacter, updateCharacter } = updateState;
-	const [editCharacter, toggleEdit] = useState(false);
-	const [removalApproved, approveRemoval] = useState(false);
-	const switchEditForm = () => toggleEdit(!editCharacter);
-	const editAction = {
-		title: "Submit Changes",
-		formAction: updateCharacter,
-		callback: switchEditForm,
-	};
+import React from "react";
+import Link from "next/link";
+
+export const SelectedCharacter = ({ appState }) => {
+	const currentCharacterID = appState.character;
+	const characterData = appState.savedCharacters.find(
+		(savedCharacter) => savedCharacter.id === currentCharacterID
+	);
+	const { level, name, race, playerClass, gender } = characterData;
+	const raceImgURL = `/static/img/race/${race.toLowerCase().replace(/\s/g, "")}-${
+		gender ? gender : "male"
+	}.png`;
+	const classImgURL = `/static/img/class/${playerClass.toLowerCase()}.png`;
 	return (
 		<div className="selected">
 			<h2>Current Character</h2>
-
 			<figure>
 				<figcaption>
 					<aside>
-						LVL <strong>{character.level}</strong>
+						LVL <strong>{level}</strong>
 					</aside>
-
-					<h3>{character.name}</h3>
-
+					<h3>{name}</h3>
 					<h4>
-						{character.race} <span className={character.playerClass}>{character.playerClass}</span>
+						{race} <span className={playerClass}>{playerClass}</span>
 					</h4>
 				</figcaption>
 
 				<div>
-					<img
-						src={`/static/img/race/${character.race.toLowerCase().replace(/\s/g, "")}-${
-							character.gender ? character.gender : "male"
-						}.png`}
-						title={character.race}
-					/>
-
-					<img
-						src={`/static/img/class/${character.playerClass.toLowerCase()}.png`}
-						title={character.playerClass}
-					/>
+					<img src={raceImgURL} title={race} />
+					<img src={classImgURL} title={playerClass} />
 				</div>
 
-				<section>
-					<button
-						onClick={() => toggleEdit(!editCharacter)}
-						className={!editCharacter ? "button-edit-inactive" : "button-edit-active"}
-					>
-						{!editCharacter ? "Edit" : "Cancel Edit"}
-					</button>
-
-					{removalApproved ? (
-						<button
-							onClick={() => {
-								approveRemoval(false);
-								return removeCharacter(character.id);
-							}}
-							className="button-delete"
-						>
-							Are you sure?
-						</button>
-					) : (
-						<button onClick={() => approveRemoval(true)} className="button-delete">
-							Delete
-						</button>
-					)}
-
-					{editCharacter && <InputCharacter action={editAction} character={character} />}
+				<section className="links">
+					<Link href="/classguides">
+						<a title="Go to class guides page">
+							<button>{`View ${playerClass} Guides`}</button>
+						</a>
+					</Link>
+					<Link href="/gear">
+						<a title="Go to gear page">
+							<button>{`View ${playerClass} Gear`}</button>
+						</a>
+					</Link>
+					<Link href="/zones">
+						<a title="Go to zones page">
+							<button>View Zones</button>
+						</a>
+					</Link>
 				</section>
 			</figure>
 		</div>

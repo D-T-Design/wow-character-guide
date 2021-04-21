@@ -43,23 +43,6 @@ const Home = (props) => {
 						</aside>
 						<main className="character-selected">
 							<SelectedCharacter appState={props.appState} updateState={props.updateState} />
-							<section className="links">
-								<Link href="/classguides">
-									<a title="Go to class guides page">
-										<button>{`View ${character.playerClass} Guides`}</button>
-									</a>
-								</Link>
-								<Link href="/gear">
-									<a title="Go to gear page">
-										<button>{`View ${character.playerClass} Gear`}</button>
-									</a>
-								</Link>
-								<Link href="/zones">
-									<a title="Go to zones page">
-										<button>View Zones</button>
-									</a>
-								</Link>
-							</section>
 						</main>
 						<main className="character-list">
 							<Character props={props} />

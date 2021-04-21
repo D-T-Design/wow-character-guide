@@ -16,6 +16,7 @@ export default function Character({ props }) {
 	};
 	return (
 		<section className="edit-characters">
+			<h2>Your Saved Characters</h2>
 			<ul className="character-list">
 				{savedCharacters.map((character, index) => (
 					<CharacterDisplay
@@ -28,7 +29,10 @@ export default function Character({ props }) {
 			</ul>
 			<h2>Add Characters</h2>
 			{addForm ? (
-				<InputCharacter action={addAction} />
+				<>
+					<button onClick={() => toggleAddForm(!addForm)}>Cancel Add Character</button>
+					<InputCharacter action={addAction} />
+				</>
 			) : (
 				<button onClick={() => toggleAddForm(!addForm)}>Add Character</button>
 			)}
@@ -37,7 +41,9 @@ export default function Character({ props }) {
 }
 
 const CharacterDisplay = ({ character, updateState, appState }) => {
+	const { name, level, faction, race, playerClass, gender, id } = character;
 	const { removeCharacter, selectCharacter, updateCharacter } = updateState;
+	const isSelectedCharacter = id === appState.character;
 	const [editCharacter, toggleEdit] = useState(false);
 	const switchEditForm = () => toggleEdit(!editCharacter);
 	const editAction = {
@@ -45,48 +51,86 @@ const CharacterDisplay = ({ character, updateState, appState }) => {
 		formAction: updateCharacter,
 		callback: switchEditForm,
 	};
-	return character.id === appState.character ? null : (
-		<li className={character.id === appState.character ? "selected" : ""}>
+	const [removalApproved, approveRemoval] = useState(false);
+	const factionImgURL = `/static/img/faction/${faction.toLowerCase()}.png`;
+	const raceImgURL = `/static/img/race/${race.toLowerCase().replace(/\s/g, "")}-${
+		gender ? gender : "male"
+	}.png`;
+	const classImgURL = `/static/img/class/${playerClass.toLowerCase()}.png`;
+	const iconURL = `/static/img/`;
+	return (
+		<li className={`saved-character ${playerClass}${isSelectedCharacter ? " class-selected" : ""}`}>
 			<figure>
 				<div>
-					<img
-						src={`/static/img/faction/${character.faction.toLowerCase()}.png`}
-						title={character.faction}
-					/>
-					<img
-						src={`/static/img/race/${character.race.toLowerCase().replace(/\s/g, "")}-${
-							character.gender ? character.gender : "male"
-						}.png`}
-						title={character.race}
-					/>
-					<img
-						src={`/static/img/class/${character.playerClass.toLowerCase()}.png`}
-						title={character.playerClass}
-					/>
+					<img src={factionImgURL} title={faction} className="faction" />
+					<img src={raceImgURL} title={race} className="race" />
+					<img src={classImgURL} title={playerClass} className="playerclass" />
 				</div>
 				<figcaption>
-					<h3>{character.name}</h3>
+					<h3>{name}</h3>
 					<h4>
-						{character.level} {character.race}{" "}
-						<span style={{ color: classColor(character.playerClass) }}>
-							{character.playerClass}
-						</span>
+						{`${level} ${race} `}
+						<span className={playerClass}>{playerClass}</span>
 					</h4>
-					<h5>{character.faction}</h5>
 					<section>
-						<button onClick={() => selectCharacter(character.id)} className="button-select">
-							Select Character
-						</button>
-						<button
-							onClick={() => toggleEdit(!editCharacter)}
-							className={!editCharacter ? "button-edit-inactive" : "button-edit-active"}
-						>
-							{!editCharacter ? "Edit Character" : "Cancel Edit"}
-						</button>
-						<button onClick={() => removeCharacter(character.id)} className="button-delete">
-							Delete Character
-						</button>
-						{editCharacter && <InputCharacter action={editAction} character={character} />}
+						<ul>
+							{!isSelectedCharacter && !editCharacter && (
+								<li>
+									<button
+										onClick={() => {
+											approveRemoval(false);
+											return selectCharacter(id);
+										}}
+										className="button-select"
+									>
+										<img src={`${iconURL}swap.svg`} />
+										Swap
+									</button>
+								</li>
+							)}
+							<li>
+								<button
+									onClick={() => toggleEdit(!editCharacter)}
+									className={!editCharacter ? "button-edit-inactive" : "button-edit-active"}
+								>
+									{!editCharacter ? (
+										<>
+											<img src={`${iconURL}edit.svg`} />
+											Edit
+										</>
+									) : (
+										<>
+											<img src={`${iconURL}exit.svg`} />
+											Cancel Edit
+										</>
+									)}
+								</button>
+								{editCharacter && <InputCharacter action={editAction} character={character} />}
+							</li>
+							{!editCharacter && (
+								<li>
+									{removalApproved ? (
+										<>
+											<button
+												onClick={() => {
+													approveRemoval(false);
+													return removeCharacter(id);
+												}}
+												className="button-delete"
+											>
+												<img src={`${iconURL}trash.svg`} />
+												Are you sure?
+											</button>
+										</>
+									) : (
+										<button onClick={() => approveRemoval(true)} className="button-delete">
+											<img src={`${iconURL}trash.svg`} />
+											Delete
+										</button>
+									)}
+								</li>
+							)}
+						</ul>
 					</section>
 				</figcaption>
 			</figure>
