@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -11,24 +11,29 @@ export const Navbar = ({ appState }) => {
 		{
 			path: "/",
 			text: "Character",
+			icon: "/static/img/character.svg",
 		},
 		{
 			path: "/classguides",
 			text: "Class Guides",
+			icon: "/static/img/guide.svg",
 		},
 		{
 			path: "/gear",
 			text: "Suggested Gear",
+			icon: "/static/img/loot.svg",
 		},
 		{
 			path: "/zones",
 			text: "World Zones",
+			icon: "/static/img/zone.svg",
 		},
 	];
 	const noCharacters = appState.savedCharacters.length === 0;
 	const selectedCharacter = appState.savedCharacters.find(
 		(character) => character.id === appState.character
 	);
+	const [navOpen, toggleNav] = useState(false);
 	return (
 		<header>
 			<div className="header-img">
@@ -42,9 +47,23 @@ export const Navbar = ({ appState }) => {
 						</a>
 					</Link>
 					{!noCharacters && <PlayerCard appState={selectedCharacter} />}
+					{!noCharacters &&
+						(!navOpen ? (
+							<div className="nav-toggle">
+								<button onClick={() => toggleNav(true)}>
+									<img src="/static/img/menu.svg" alt="Open Nav Menu" />
+								</button>
+							</div>
+						) : (
+							<div className="nav-toggle">
+								<button onClick={() => toggleNav(false)}>
+									<img src="/static/img/exit.svg" alt="Close Nav Menu" />
+								</button>
+							</div>
+						))}
 				</div>
 			</div>
-			<nav>
+			<nav className={!noCharacters && (navOpen ? "nav open" : "nav")}>
 				<ul>
 					<div className="container">
 						{!noCharacters &&
@@ -56,6 +75,7 @@ export const Navbar = ({ appState }) => {
 												route === link.path ? " active" : ""
 											}`}
 										>
+											<img src={link.icon} />
 											{link.text}
 										</a>
 									</Link>

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import { InputCharacter } from "../components/characterInput";
-import classColor from "../utils/classColor";
 
 export default function Character({ props }) {
 	const { updateState, appState } = props;
@@ -82,6 +81,7 @@ const CharacterDisplay = ({ character, updateState, appState }) => {
 											return selectCharacter(id);
 										}}
 										className="button-select"
+										title="Click to select this character"
 									>
 										<img src={`${iconURL}swap.svg`} />
 										Swap
@@ -90,8 +90,12 @@ const CharacterDisplay = ({ character, updateState, appState }) => {
 							)}
 							<li>
 								<button
-									onClick={() => toggleEdit(!editCharacter)}
+									onClick={() => {
+										approveRemoval(false);
+										return toggleEdit(!editCharacter);
+									}}
 									className={!editCharacter ? "button-edit-inactive" : "button-edit-active"}
+									title="Click to edit this character"
 								>
 									{!editCharacter ? (
 										<>
@@ -117,13 +121,18 @@ const CharacterDisplay = ({ character, updateState, appState }) => {
 													return removeCharacter(id);
 												}}
 												className="button-delete"
+												title="Click to permanently delete character"
 											>
 												<img src={`${iconURL}trash.svg`} />
 												Are you sure?
 											</button>
 										</>
 									) : (
-										<button onClick={() => approveRemoval(true)} className="button-delete">
+										<button
+											onClick={() => approveRemoval(true)}
+											className="button-delete"
+											title="Click to permanently delete character"
+										>
 											<img src={`${iconURL}trash.svg`} />
 											Delete
 										</button>

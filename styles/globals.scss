@@ -4,7 +4,7 @@ $nav-bg: #1d1814;
 $bg-highlight: #393530;
 $body-color: #d8d9d7;
 $cta-color: #982529;
-$headline-font: "Ubuntu", sans-serif;
+$headline-font: "Ropa Sans", sans-serif;
 $body-font: "Open Sans", sans-serif;
 
 $druid: #ff7c0a;
@@ -193,7 +193,7 @@ h3,
 h4,
 h5,
 h6 {
-	font-family: "Ubuntu", sans-serif;
+	font-family: $headline-font;
 }
 
 h3 {
@@ -298,9 +298,9 @@ header {
 			color: #adadad;
 			display: block;
 			font-family: $headline-font;
-			font-size: 18px;
+			font-size: 1rem;
 			font-weight: bold;
-			padding: 20px 30px;
+			padding: 1rem 2ch;
 			text-decoration: none;
 			text-transform: uppercase;
 			&:hover {
@@ -309,13 +309,53 @@ header {
 			}
 		}
 		.container {
-			justify-content: center;
-			height: auto;
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: auto;
+			align-items: stretch;
+			gap: 0;
+			height: 100%;
+			padding: 0;
+			li {
+				a {
+					padding: 0.25rem 1ch;
+					height: 100%;
+					display: flex;
+					justify-content: flex-start;
+					align-items: center;
+					img {
+						margin-right: 1ch;
+					}
+				}
+			}
 		}
 	}
 	nav {
 		z-index: 1;
 		background-color: $nav-bg;
+		height: 15px;
+		overflow: auto;
+		transition: all 0.1s ease-in-out;
+		@include respond-above(md) {
+			height: auto;
+		}
+		&.open {
+			height: 90px;
+			ul {
+				height: 100%;
+			}
+		}
+		ul {
+			height: 0;
+			overflow: hidden;
+			@include respond-above(md) {
+				height: auto;
+			}
+		}
+		img {
+			width: 0.9rem;
+			height: 0.9rem;
+		}
 	}
 	.container {
 		align-items: flex-start;
@@ -355,12 +395,38 @@ header {
 		transform: translateY(-35%);
 		width: 100%;
 		height: auto;
+		z-index: 0;
 	}
 	.header-img {
 		z-index: 0;
 		position: relative;
 		overflow: hidden;
 		background-color: $nav-bg;
+		.nav-toggle {
+			align-self: center;
+			z-index: 1;
+			button {
+				cursor: pointer;
+				background: rgb(39, 34, 31);
+				background: linear-gradient(20deg, rgba(39, 34, 31, 1) 0%, rgba(57, 53, 48, 1) 100%);
+				box-shadow: 0 2px 7px rgba(0, 0, 0, 0.7);
+				border: 0;
+				text-align: center;
+				transition: all 0.2s ease-in-out;
+				width: 50px;
+				height: 50px;
+				img {
+					width: 18px;
+				}
+				&:hover {
+					filter: brightness(1.1);
+					box-shadow: 0 5px 15px rgba(0, 0, 0, 0.9);
+				}
+			}
+			@include respond-above(md) {
+				display: none;
+			}
+		}
 	}
 	.playercard {
 		text-decoration: none;
@@ -576,7 +642,7 @@ section {
 				img {
 					border: 0;
 					box-shadow: none;
-					height: 1.5rem;
+					height: 18px;
 					margin-right: 1ch;
 					width: auto;
 					&:first-child {
@@ -598,10 +664,6 @@ section {
 					}
 					&-edit {
 						&-active {
-							img {
-								height: 18px;
-								width: auto;
-							}
 							color: orange;
 							background-color: $nav-bg;
 						}
@@ -1052,7 +1114,7 @@ section {
 			width: 100%;
 			display: grid;
 			grid-template-columns: 1fr;
-			grid-template-rows: auto auto;
+			grid-template-rows: auto;
 			grid-template-areas: "blurb" "selected" "list";
 			gap: 1rem 2ch;
 			@include respond-above(lg) {
@@ -1063,15 +1125,18 @@ section {
 				padding: 0 2rem;
 			}
 		}
+		figure {
+			padding: 1rem 2ch;
+		}
 		.new {
-			grid-template-areas: "blurb" "list";
+			grid-template-areas: "blurb" "selected" "list";
 			@include respond-above(sm) {
 				grid-template-areas: "blurb list" "selected list";
 			}
 		}
 		.character {
 			&-new {
-				grid-area: list;
+				grid-area: selected;
 				.character-input {
 					background-color: $bg-bright;
 					padding: 1rem;
@@ -1114,15 +1179,28 @@ section {
 				}
 				button {
 					width: 100%;
-					padding: 0.5rem 1ch;
 					font-family: $headline-font;
+					background-color: transparent;
 					font-size: 1.1rem;
-					background-color: $cta-color;
 					border: 0;
 					border-radius: 3px;
-					color: white;
 					margin-bottom: 0.25rem;
 					cursor: pointer;
+					color: $body-color;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+					transition: all 0.15s ease-in-out;
+					padding: 0.5rem 1ch;
+					img {
+						height: 1rem;
+					}
+					&:hover {
+						color: white;
+						background-color: rgba(0, 0, 0, 0.4);
+						box-shadow: rgba(0, 0, 0, 0.5);
+					}
 				}
 			}
 		}
@@ -1132,6 +1210,7 @@ section {
 		flex-flow: row wrap;
 		h2 {
 			width: 100%;
+			font-size: 1.25rem;
 		}
 		figure {
 			background-color: $nav-bg;
@@ -1175,6 +1254,7 @@ section {
 				align-items: center;
 				justify-content: center;
 				max-width: 300px;
+				width: 100%;
 				h3 {
 					color: white;
 					margin: 0;
@@ -1218,7 +1298,7 @@ section {
 			grid-template-areas: "headline" "subheading" "caption";
 		}
 		h2 {
-			font-size: 1.7rem;
+			font-size: 1.3rem;
 			text-align: left;
 			grid-area: headline;
 			width: 100%;
@@ -1226,6 +1306,7 @@ section {
 			padding: 0;
 			text-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
 			@include respond-above(lg) {
+				font-size: 1.7rem;
 				padding: 0;
 			}
 			small {
@@ -1250,6 +1331,7 @@ section {
 			grid-area: caption;
 			max-width: 65ch;
 			margin: 0;
+			font-size: 0.9rem;
 		}
 		strong {
 			color: white;

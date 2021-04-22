@@ -33,17 +33,26 @@ export const SelectedCharacter = ({ appState }) => {
 				<section className="links">
 					<Link href="/classguides">
 						<a title="Go to class guides page">
-							<button>{`View ${playerClass} Guides`}</button>
+							<button>
+								{`View ${playerClass} Guides`}
+								<img src="/static/img/guide.svg" />
+							</button>
 						</a>
 					</Link>
 					<Link href="/gear">
 						<a title="Go to gear page">
-							<button>{`View ${playerClass} Gear`}</button>
+							<button>
+								{`View ${playerClass} Gear`}
+								<img src="/static/img/loot.svg" />
+							</button>
 						</a>
 					</Link>
 					<Link href="/zones">
 						<a title="Go to zones page">
-							<button>View Zones</button>
+							<button>
+								View Zones
+								<img src="/static/img/zone.svg" />
+							</button>
 						</a>
 					</Link>
 				</section>

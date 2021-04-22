@@ -25,6 +25,7 @@ const MyApp = ({ Component, pageProps }) => {
 		const character = { ...data, id: Date.now() };
 		const savedCharacters = [...appState.savedCharacters, character];
 		setState({ ...appState, character: character.id, savedCharacters });
+		window.scrollTo(0, 0);
 	};
 	const updateCharacter = (updatedCharacter) => {
 		const characters = [...appState.savedCharacters];
@@ -42,6 +43,7 @@ const MyApp = ({ Component, pageProps }) => {
 			character,
 			savedCharacters: newCharacterList,
 		});
+		window.scrollTo(0, 0);
 	};
 
 	const selectCharacter = (id) => {
