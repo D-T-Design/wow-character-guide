@@ -24,9 +24,9 @@ const Zones = ({ appState }) => {
 		Battleground: "Battlegrounds",
 	};
 	return (
-		<section className="content">
+		<section className="content zones">
 			<div className="container">
-				<h1>Suggested zones based on your level, faction, race, and class!</h1>
+				<h2>Suggested zones based on your level, faction, race, and class!</h2>
 				<p>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eget rutrum elit,
 					vitae vulputate neque. Nullam maximus, sapien et elementum faucibus, enim sem tempus

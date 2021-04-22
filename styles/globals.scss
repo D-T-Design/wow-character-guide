@@ -218,7 +218,7 @@ article {
 	background-color: $bg-bright;
 	border: 1px solid #707070;
 	margin-bottom: 10px;
-	padding: 20px 30px;
+	padding: 0.75rem 1.25ch;
 	width: 100%;
 	@include borderDesign;
 	figure {
@@ -263,7 +263,7 @@ article {
 				background-color: #231f1c;
 				color: $body-color;
 				display: block;
-				padding: 10px 20px;
+				padding: 0.5rem 1.5ch;
 				text-decoration: none;
 				h3,
 				h4 {
@@ -1308,8 +1308,9 @@ section {
 			grid-area: headline;
 			width: 100%;
 			filter: brightness(1.25);
-			padding: 0;
+			padding-bottom: 1rem;
 			text-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 			@include respond-above(lg) {
 				font-size: 1.7rem;
 				padding: 0;
@@ -1344,6 +1345,10 @@ section {
 	}
 }
 .gear {
+	padding: 1rem 0;
+	@include respond-above(lg) {
+		padding: 3rem 0;
+	}
 	main {
 		width: 100%;
 		display: flex;
@@ -1352,6 +1357,12 @@ section {
 	}
 	li {
 		position: relative;
+	}
+	h2 {
+		font-size: 1.3rem;
+		padding-bottom: 1rem;
+		width: 100%;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 	}
 	h4 {
 		font-size: 0.8em;
@@ -1378,6 +1389,26 @@ section {
 		top: 0.75em;
 		right: 0.75em;
 		margin: 0;
+	}
+}
+.zones {
+	padding: 1rem 0;
+	@include respond-above(lg) {
+		padding: 3rem 0;
+	}
+	h2 {
+		font-size: 1.3rem;
+		padding-bottom: 1rem;
+		width: 100%;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	}
+	p {
+		color: $body-color;
+		font-style: italic;
+		grid-area: caption;
+		max-width: 65ch;
+		margin: 0;
+		font-size: 0.9rem;
 	}
 }
 
@@ -1584,7 +1615,7 @@ section {
 				display: inline-block;
 				font-size: 0.7rem;
 				font-weight: lighter;
-				color: #d8d9d7;
+				color: $body-color;
 				text-transform: uppercase;
 				letter-spacing: 0.2ch;
 				margin-right: 5px;
@@ -1649,6 +1680,8 @@ section {
 .zones {
 	&-container {
 		width: 100%;
+		margin-top: 2rem;
+		margin-bottom: 2rem;
 		display: grid;
 		align-items: flex-start;
 		grid-template-columns: 1fr;

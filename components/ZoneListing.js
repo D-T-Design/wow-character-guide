@@ -11,11 +11,9 @@ export const ZoneListing = ({ title, zones, level }) => {
 	};
 	let raids = [];
 	if (containsZones) {
-		title === "Raids" && console.log(zones);
 		raids = zones.sort((a, b) => a.phase - b.phase);
 	}
-	if (title === "Raids" && level < 60) return null;
-	if (zones.length === 0)
+	if (zones.length === 0 || (title === "Raids" && level < 60))
 		return (
 			<div>
 				<h3>{title}</h3>

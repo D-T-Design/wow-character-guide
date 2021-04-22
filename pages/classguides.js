@@ -6,6 +6,23 @@ const wccgClassImg = "/static/img/class/";
 const imgHost =
 	"https://res.cloudinary.com/david-torres-design/image/upload/v1618490413/wow-character-guide/";
 
+const DefaultPage = ({ children }) => (
+	<section className="content guides">
+		<div className="container">
+			<div className="guide-default">
+				<h2>
+					Player class guides - a simple summary of class roles, abilities, and strategies for your
+					character's class.
+				</h2>
+				<h3>
+					Links to community class guides, YouTube channels and streamers that are for your class!
+				</h3>
+				{children}
+			</div>
+		</div>
+	</section>
+);
+
 const ClassGuides = ({ appState }) => {
 	const { classData, error, isPending } = useClassData();
 	let selectedCharacter = appState.savedCharacters.find(
@@ -15,39 +32,15 @@ const ClassGuides = ({ appState }) => {
 
 	if (error) {
 		return (
-			<section className="content">
-				<div className="container">
-					<div className="guide-default">
-						<h2>
-							Player class guides - a simple summary of class roles, abilities, and strategies for
-							your character's class.
-						</h2>
-						<h3>
-							Links to community class guides, YouTube channels and streamers that are for your
-							class!
-						</h3>
-						<p>Error loading class data...</p>
-					</div>
-				</div>
-			</section>
+			<DefaultPage>
+				<p>Error loading class data...</p>
+			</DefaultPage>
 		);
 	} else if (isPending) {
 		return (
-			<section className="content">
-				<div className="container">
-					<div className="guide-default">
-						<h2>
-							Player class guides - a simple summary of class roles, abilities, and strategies for
-							your character's class.
-						</h2>
-						<h3>
-							Links to community class guides, YouTube channels and streamers that are for your
-							class!
-						</h3>
-						<p>Loading class data...</p>
-					</div>
-				</div>
-			</section>
+			<DefaultPage>
+				<p>Loading class data...</p>
+			</DefaultPage>
 		);
 	} else {
 		const ref = classData[`${playerClass.toLowerCase()}Ref`];
@@ -64,13 +57,17 @@ const ClassGuides = ({ appState }) => {
 			classCreators,
 		} = ref ? ref : null;
 		return (
-			<section className="content">
+			<section className="content guides">
 				<div className="container">
 					<div className="guide-grid">
 						<section>
 							<main className={`class-feature ${playerClass}`}>
 								<h1>{playerClass}</h1>
-								<img src={`${wccgClassImg}${playerClass.toLowerCase()}.png`} />
+								<img
+									src={`${wccgClassImg}${playerClass.toLowerCase()}.png`}
+									title={playerClass}
+									alt={playerClass}
+								/>
 								<h2>Class Guide</h2>
 								<p>{summary}</p>
 							</main>
@@ -132,9 +129,12 @@ const ClassGuides = ({ appState }) => {
 										{classGuides.data ? (
 											classGuides.data.map((guide, index) => (
 												<li key={index}>
-													<a href={guide.link} target="_blank">
+													<a href={guide.link} target="_blank" title={`Link to ${guide.title}`}>
 														<figure>
-															<img src={`${imgHost}${guide.thumb}`} />
+															<img
+																src={`${imgHost}${guide.thumb}`}
+																alt={`Link to ${guide.title}`}
+															/>
 															<figcaption>{guide.title}</figcaption>
 														</figure>
 													</a>

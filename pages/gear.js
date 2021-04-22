@@ -20,7 +20,7 @@ const Gear = ({ appState }) => {
 	return (
 		<section className="content gear">
 			<div className="container">
-				<h1>Leveling Gear</h1>
+				<h2>Leveling Gear</h2>
 				<main>
 					{error ? (
 						<p>Error loading class gear. Let me know in a message!</p>

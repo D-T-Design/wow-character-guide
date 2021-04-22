@@ -74,6 +74,7 @@ export const Navbar = ({ appState }) => {
 											className={`playerclass-${selectedCharacter.playerClass}${
 												route === link.path ? " active" : ""
 											}`}
+											onClick={() => toggleNav(false)}
 										>
 											<img src={link.icon} />
 											{link.text}
