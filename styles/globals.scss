@@ -908,6 +908,28 @@ section {
 	}
 }
 
+.character-add {
+	cursor: pointer;
+	background-color: rgba(0, 0, 0, 0.4);
+	color: $body-color;
+	border: 0;
+	display: flex;
+	align-items: center;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	padding: 0.5rem 1ch;
+	transition: all 0.15s ease-in-out;
+	margin-bottom: 1rem;
+	&:hover {
+		background-color: rgba(0, 0, 0, 0.1);
+		box-shadow: 0 5px 8px rgba(0, 0, 0, 0.5);
+		color: white;
+	}
+	img {
+		height: 1rem;
+		margin-right: 1ch;
+	}
+}
+
 .playerclass- {
 	@include class-nav-colors;
 }
@@ -1486,10 +1508,16 @@ section {
 					display: flex;
 					flex-flow: row wrap;
 					ul {
+						list-style: none;
 						width: 50%;
 						margin: 0;
 						padding: 0.25rem;
-						list-style: none;
+						@include respond-above(sm) {
+							width: 25%;
+						}
+						@include respond-above(lg) {
+							width: 50%;
+						}
 						li {
 							font-size: 0.8rem;
 							text-transform: uppercase;
@@ -1504,7 +1532,10 @@ section {
 			&-guides,
 			&-creators {
 				background-color: rgba(0, 0, 0, 0.1);
-				padding: 2rem 4ch 3rem;
+				padding: 1rem 2ch;
+				@include respond-above(md) {
+					padding: 2rem 4ch 3rem;
+				}
 			}
 			&-guides {
 				margin-bottom: 2rem;
@@ -1524,7 +1555,11 @@ section {
 					list-style: none;
 					justify-content: space-between;
 					li {
-						width: 32%;
+						width: 100%;
+						margin-bottom: 1rem;
+						@include respond-above(xs) {
+							width: 50%;
+						}
 						a {
 							display: block;
 							background-color: rgba(7, 3, 3, 0.2);
@@ -1546,7 +1581,7 @@ section {
 				}
 				img {
 					max-width: 100%;
-					width: 300px;
+					width: 500px;
 				}
 			}
 		}

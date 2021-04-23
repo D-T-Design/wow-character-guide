@@ -150,20 +150,21 @@ const ClassGuides = ({ appState }) => {
 								<h3>{playerClass} Streamers &amp; YouTubers</h3>
 								<section>
 									<ul>
-										{classCreators && classCreators.data ? (
-											classCreators.data.map((guide, index) => (
-												<li key={index}>
-													<a href={guide.link} target="_blank">
-														<figure>
-															<img src={`${imgHost}${guide.thumb}`} />
-															<figcaption>{guide.title}</figcaption>
-														</figure>
-													</a>
-												</li>
-											))
-										) : (
-											<h4>No creators found for your class.</h4>
-										)}
+										{classCreators &&
+											(classCreators.data ? (
+												classCreators.data.map((guide, index) => (
+													<li key={index}>
+														<a href={guide.link} target="_blank">
+															<figure>
+																<img src={`${imgHost}${guide.thumb}`} />
+																<figcaption>{guide.title}</figcaption>
+															</figure>
+														</a>
+													</li>
+												))
+											) : (
+												<h4>No creators found for your class.</h4>
+											))}
 									</ul>
 								</section>
 							</aside>

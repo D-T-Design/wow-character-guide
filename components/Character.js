@@ -29,11 +29,17 @@ export default function Character({ props }) {
 			<h2>Add Characters</h2>
 			{addForm ? (
 				<>
-					<button onClick={() => toggleAddForm(!addForm)}>Cancel Add Character</button>
+					<button onClick={() => toggleAddForm(!addForm)} className="character-add">
+						<img src="/static/img/exit.svg" />
+						Cancel Add Character
+					</button>
 					<InputCharacter action={addAction} />
 				</>
 			) : (
-				<button onClick={() => toggleAddForm(!addForm)}>Add Character</button>
+				<button onClick={() => toggleAddForm(!addForm)} className="character-add">
+					<img src="/static/img/plus.svg" />
+					Add Character
+				</button>
 			)}
 		</section>
 	);

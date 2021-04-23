@@ -11,11 +11,14 @@ export default function Zone({ zone }) {
 	return (
 		<div className="quests-zone">
 			<a href={`${zoneURL}${id}`} target="_blank" rel="noopener noreferrer">
-				{img ? (
+				{img && (
 					<div className="zone-bg">
-						<img src={`${imgBase}${imgTransform}${imgGradient}${imgFolder}${img.toLowerCase()}`} title={name} />
+						<img
+							src={`${imgBase}${imgTransform}${imgGradient}${imgFolder}${img.toLowerCase()}`}
+							title={name}
+						/>
 					</div>
-				) : null}
+				)}
 				<h3 className="zone-name">{name}</h3>
 
 				<div className="quests-range">
@@ -29,12 +32,16 @@ export default function Zone({ zone }) {
 					{/* Display zone icons for faction specific, cities, and instances  */}
 					{type !== "Zone" && (
 						<div className="zone-icon" data-faction={type}>
-							<img src={`${zoneURLString}${type}.png`} alt={type} />
+							<img src={`${zoneURLString}${type}.png`} alt={type} title={type} />
 						</div>
 					)}
 					{faction !== "Contested" && faction !== "PvP" && faction !== "Sanctuary" && (
 						<div className="faction-icon" data-faction={faction}>
-							<img src={`${factionURL}${faction.toLowerCase()}.png`} alt={faction} />
+							<img
+								src={`${factionURL}${faction.toLowerCase()}.png`}
+								alt={faction}
+								title={faction}
+							/>
 						</div>
 					)}
 				</div>
