@@ -46,6 +46,7 @@ const Home = (props) => {
 						</main>
 						<main className="character-list">
 							<Character props={props} />
+							{console.log(props)}
 						</main>
 					</section>
 				)}

@@ -61,8 +61,8 @@ const InputDataSection = ({ title, caption, currentState, changeState }) => {
 				value={currentState}
 				onChange={(e) => changeState(e)}
 				tabIndex="0"
-				minlength="2"
-				maxlength="12"
+				minLength="2"
+				maxLength="12"
 			/>
 		</div>
 	);
@@ -105,7 +105,7 @@ const InputRadioSection = ({ title, caption, currentState, changeState }) => {
 	);
 };
 
-export const InputCharacter = ({ action, character }) => {
+export const InputCharacter = ({ action, character, updateGameData }) => {
 	const { classData, error, isPending } = useClassData();
 	const { formAction, title, callback } = action;
 	const [formState, setState] = character
@@ -202,6 +202,7 @@ export const InputCharacter = ({ action, character }) => {
 						<section className="input-submit">
 							<button
 								onClick={() => {
+									updateGameData(classData);
 									formAction(formState);
 									return callback();
 								}}

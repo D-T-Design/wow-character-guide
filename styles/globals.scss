@@ -4,6 +4,7 @@ $nav-bg: #1d1814;
 $bg-highlight: #393530;
 $body-color: #d8d9d7;
 $cta-color: #982529;
+$iLvl: #ffd100;
 $headline-font: "Ropa Sans", sans-serif;
 $body-font: "Open Sans", sans-serif;
 
@@ -155,6 +156,21 @@ $breakpoints: (
 	}
 }
 
+@mixin guides-colors($classColor) {
+	color: $classColor;
+}
+@mixin guides-hover {
+	@each $name, $color in $classColors {
+		&.#{$name} {
+			&:hover {
+				figcaption {
+					@include guides-colors($color);
+				}
+			}
+		}
+	}
+}
+
 *,
 *:after,
 *:before {
@@ -234,6 +250,9 @@ article {
 			@include borderDesign;
 		}
 	}
+	img {
+		filter: grayscale(1);
+	}
 	h3 {
 		display: flex;
 		justify-content: space-between;
@@ -241,6 +260,15 @@ article {
 		margin-bottom: 10px;
 		span {
 			margin-left: auto;
+		}
+		&.gear-type {
+			text-transform: capitalize;
+			img {
+				border: 0;
+				box-shadow: none;
+				width: 0.8rem;
+				height: auto;
+			}
 		}
 	}
 	small {
@@ -316,6 +344,9 @@ header {
 			gap: 0;
 			height: 100%;
 			padding: 0;
+			@include respond-above(sm) {
+				grid-template-columns: 1fr repeat(3, auto);
+			}
 			li {
 				a {
 					padding: 0.25rem 1ch;
@@ -323,6 +354,12 @@ header {
 					display: flex;
 					justify-content: flex-start;
 					align-items: center;
+					@include respond-above(sm) {
+						padding: 0.5rem 2ch;
+					}
+					@include respond-above(md) {
+						padding: 1rem 3ch;
+					}
 					img {
 						margin-right: 1ch;
 					}
@@ -340,7 +377,7 @@ header {
 			height: auto;
 		}
 		&.open {
-			height: 90px;
+			height: 60px;
 			ul {
 				height: 100%;
 			}
@@ -533,6 +570,7 @@ section {
 	height: 100%;
 	display: grid;
 	grid-template-rows: auto 1fr auto;
+	align-items: flex-start;
 }
 .container {
 	width: 100%;
@@ -542,7 +580,8 @@ section {
 	align-self: center;
 	display: flex;
 	flex-flow: row wrap;
-	justify-content: center;
+	justify-content: flex-start;
+	align-items: flex-start;
 	@include respond-above(lg) {
 		padding: 0 3ch;
 		width: 100%;
@@ -555,6 +594,9 @@ section {
 
 .left {
 	text-align: left;
+}
+.iLvl {
+	color: $iLvl;
 }
 
 .character {
@@ -1144,6 +1186,7 @@ section {
 			grid-template-rows: auto;
 			grid-template-areas: "blurb" "selected" "list";
 			gap: 1rem 2ch;
+			align-items: flex-start;
 			@include respond-above(lg) {
 				gap: 2rem 4ch;
 				grid-template-columns: 1fr 2fr;
@@ -1157,7 +1200,16 @@ section {
 		}
 		.new {
 			grid-template-areas: "blurb" "selected" "list";
-			@include respond-above(sm) {
+			@include respond-above(md) {
+				gap: 2rem 4ch;
+				grid-template-columns: 1fr 1fr;
+				grid-template-rows: auto auto;
+				grid-template-areas: "blurb list" "selected list";
+			}
+			@include respond-above(lg) {
+				gap: 2rem 4ch;
+				grid-template-columns: 1fr 2fr;
+				grid-template-rows: auto auto;
 				grid-template-areas: "blurb list" "selected list";
 			}
 		}
@@ -1185,6 +1237,15 @@ section {
 			}
 			&-list {
 				grid-area: list;
+				display: flex;
+				flex-flow: row wrap;
+				justify-content: flex-start;
+				.saved-character {
+					width: 100%;
+					@include respond-above(sm) {
+						width: 50%;
+					}
+				}
 				.character-input {
 					label {
 						figure {
@@ -1247,6 +1308,7 @@ section {
 					a {
 						display: block;
 						width: 100%;
+						text-decoration: none;
 					}
 					button {
 						width: 100%;
@@ -1303,6 +1365,10 @@ section {
 	.edit-characters {
 		border-top: 1px solid rgba(255, 255, 255, 0.1);
 		margin-top: 2rem;
+		@include respond-above(lg) {
+			border: none;
+			margin: 0;
+		}
 	}
 	.blurb {
 		width: 100%;
@@ -1566,6 +1632,7 @@ section {
 							text-decoration: none;
 							padding: 1ch;
 							transition: filter 0.15s ease-in-out;
+							@include guides-hover();
 							&:hover {
 								filter: brightness(1.25);
 							}
@@ -1582,6 +1649,47 @@ section {
 				img {
 					max-width: 100%;
 					width: 500px;
+				}
+			}
+			&-creators {
+				margin-bottom: 2rem;
+				h3 {
+					margin-top: 0;
+				}
+				figure {
+					padding: 0;
+					margin: 0;
+				}
+				figcaption {
+					text-align: center;
+					color: white;
+				}
+				img {
+					width: 100px;
+					height: 100px;
+					border-radius: 100%;
+				}
+				ul {
+					display: flex;
+					flex-flow: row wrap;
+					margin: 0;
+					padding: 0;
+					list-style: none;
+					justify-content: flex-start;
+					li {
+						width: auto;
+						margin-right: 2ch;
+						a {
+							display: block;
+							text-decoration: none;
+							padding: 1ch;
+							transition: filter 0.15s ease-in-out;
+							@include guides-hover();
+							&:hover {
+								filter: brightness(1.25);
+							}
+						}
+					}
 				}
 			}
 		}
@@ -1746,6 +1854,11 @@ section {
 					margin-top: 1rem;
 					@include respond-above(lg) {
 						margin-top: 2rem;
+					}
+				}
+				span {
+					img {
+						height: 0.8rem;
 					}
 				}
 			}

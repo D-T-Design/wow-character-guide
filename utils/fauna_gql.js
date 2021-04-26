@@ -44,6 +44,7 @@ const queryAllFactions = `{
                         title
                         link
                         icon
+                        platform
                       }
                     }
                   }
@@ -126,29 +127,7 @@ const queryGetClassGear = (className) =>
 	`{
     classByName(name: "${className}") {
       data {
-        gear {
-          data {
-            slot {
-              data {
-                name
-                items(_size:3000) {
-                  data {
-                    name
-                    faction {
-                      name
-                    }
-                    quality
-                    wepType
-                    id
-                    iLvl
-                    reqLvl
-                    drop
-                  }
-                }
-              }
-            }
-          }
-        }
+        gear
       }
     }
   }`;
@@ -169,10 +148,31 @@ export const queryAllDungeons = () =>
     }
   }`;
 
+const queryAllItems = () =>
+	`{
+    getItems(_size: 3000) {
+      data {
+        armorType
+        drop
+        faction {
+          name
+        }
+        id
+        iLvl
+        name
+        quality
+        reqLvl
+        wepType
+        slot
+      }
+    }
+  }`;
+
 export {
 	queryAllFactions,
 	queryClassGear,
 	queryAllZones,
 	queryAllRaids,
 	queryGetClassGear,
+  queryAllItems
 };

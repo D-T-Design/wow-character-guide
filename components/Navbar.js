@@ -10,7 +10,7 @@ export const Navbar = ({ appState }) => {
 	const links = [
 		{
 			path: "/",
-			text: "Character",
+			text: "My Characters",
 			icon: "/static/img/character.svg",
 		},
 		{

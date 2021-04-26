@@ -14,7 +14,11 @@ const MyApp = ({ Component, pageProps }) => {
 		gear: [],
 		character: 0,
 		savedCharacters: [],
+		gameData: { a: "a" },
 	});
+	const updateGameData = (data) => {
+		!appState.gameData ? setState({ ...appState, gameData: data }) : setState({ ...appState });
+	};
 	const updateGear = (gear) => {
 		const updatedList = appState.savedCharacters.map((savedCharacter) =>
 			savedCharacter.id === appState.character ? { ...savedCharacter, gear } : savedCharacter
@@ -55,6 +59,7 @@ const MyApp = ({ Component, pageProps }) => {
 	};
 
 	const updateState = {
+		updateGameData,
 		updateGear,
 		addCharacter,
 		removeCharacter,

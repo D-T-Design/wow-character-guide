@@ -1,24 +1,33 @@
 import React, { useState } from "react";
 
 const itemURLTBC = "https://tbc.wowhead.com/item=";
-const armorURL = "/static/img/armor/";
+const gearURL = "/static/img/gear/";
 const factionURL = "/static/img/faction/";
+import { weaponToFullName } from "../utils/weaponToFullName";
 
-export const GearSlot = ({ name, items, level, faction }) => {
+export const GearSlot = ({ name, items, faction, phase, type }) => {
 	const [open, setOpen] = useState(false);
 	const containsItems = items.length > 0;
 	const toggleOpen = () => {
 		setOpen(!open);
 	};
-	const numItems = items.length;
+	const phaseiLvl = { 1: 125, 2: 141, 3: 156, 4: 156, 5: 164 };
+	const maxiLvl = phaseiLvl[phase];
+	const itemList = containsItems && items.filter((item) => item.iLvl <= maxiLvl);
+	const numItems = itemList.length;
 	return (
 		<article>
 			<figure onClick={toggleOpen} style={{ cursor: "pointer" }}>
-				<img src={`${armorURL}${name.toLowerCase().replace(/\s/g, "").replace(/-/, "")}.png`} />
+				<img
+					src={`${gearURL}${name.toLowerCase().replace(/\s/g, "").replace(/-/, "")}.png`}
+					className="gear-icon"
+				/>
 				<figcaption>
-					<h3>
-						{name}
-						<span>{open ? "X" : "+"}</span>
+					<h3 className="gear-type">
+						{type === "Weapons" ? weaponToFullName(name) : name}
+						<span>
+							{open ? <img src="/static/img/exit.svg" /> : <img src="/static/img/plus.svg" />}
+						</span>
 					</h3>
 					<small>
 						<em>{containsItems ? `${numItems} items found.` : `0 items found.`}</em>
@@ -36,23 +45,26 @@ export const GearSlot = ({ name, items, level, faction }) => {
 				}
 			>
 				{containsItems ? (
-					items.map((item, index) => {
-						const { id, quality, name, drop } = item;
+					itemList.map((item, index) => {
+						const { id, quality, name, drop, iLvl, slot } = item;
 						const itemFaction = item.faction;
 						const itemProhibited = itemFaction && itemFaction.name !== faction;
-						return !itemProhibited ? (
+						const phaseRestricted = iLvl > maxiLvl;
+						return !itemProhibited && !phaseRestricted ? (
 							<li key={index}>
-								<a
-									href={`${itemURLTBC}${id}`}
-									target="_blank"
-									rel="noreferrer"
-								>
+								<a href={`${itemURLTBC}${id}`} target="_blank" rel="noreferrer">
 									<h3 className={quality.toLowerCase()}>{name}</h3>
-									<h4>{drop ? drop : "Drop"}</h4>
+									<small className="iLvl">
+										<em>iLvl {iLvl}</em>
+									</small>
+									<small>{slot}</small>
+									{drop ? <h4>Source: {drop}</h4> : null}
 									{itemFaction ? (
 										<img
 											className="faction-icon"
 											src={`${factionURL}${faction.toLowerCase()}.png`}
+											alt={faction}
+											title={faction}
 										/>
 									) : null}
 								</a>

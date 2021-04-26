@@ -3,8 +3,10 @@ import useClassData from "../utils/useClassData";
 import { statToFullName } from "../utils/statToFullName";
 
 const wccgClassImg = "/static/img/class/";
-const imgHost =
-	"https://res.cloudinary.com/david-torres-design/image/upload/v1618490413/wow-character-guide/";
+const imgBase = "https://res.cloudinary.com/david-torres-design/image/upload/";
+const imgGuideTransform = "w_690,h_430,c_fill";
+const imgCreatorTransform = "w_200,h_200,c_fill";
+const imgFolder = "/v1618808611/wow-character-guide/";
 
 const DefaultPage = ({ children }) => (
 	<section className="content guides">
@@ -54,8 +56,9 @@ const ClassGuides = ({ appState }) => {
 			weaponTypes,
 			armorTypes,
 			classGuides,
-			classCreators,
+			creators,
 		} = ref ? ref : null;
+		console.log(ref);
 		return (
 			<section className="content guides">
 				<div className="container">
@@ -129,10 +132,15 @@ const ClassGuides = ({ appState }) => {
 										{classGuides.data ? (
 											classGuides.data.map((guide, index) => (
 												<li key={index}>
-													<a href={guide.link} target="_blank" title={`Link to ${guide.title}`}>
+													<a
+														href={guide.link}
+														target="_blank"
+														title={`Link to ${guide.title}`}
+														className={playerClass}
+													>
 														<figure>
 															<img
-																src={`${imgHost}${guide.thumb}`}
+																src={`${imgBase}${imgGuideTransform}${imgFolder}${guide.thumb}`}
 																alt={`Link to ${guide.title}`}
 															/>
 															<figcaption>{guide.title}</figcaption>
@@ -150,14 +158,21 @@ const ClassGuides = ({ appState }) => {
 								<h3>{playerClass} Streamers &amp; YouTubers</h3>
 								<section>
 									<ul>
-										{classCreators &&
-											(classCreators.data ? (
-												classCreators.data.map((guide, index) => (
+										{creators &&
+											(creators.data ? (
+												creators.data.map((creator, index) => (
 													<li key={index}>
-														<a href={guide.link} target="_blank">
+														<a
+															href={creator.link}
+															target="_blank"
+															className={playerClass}
+															title={`Find ${creator.title} online`}
+														>
 															<figure>
-																<img src={`${imgHost}${guide.thumb}`} />
-																<figcaption>{guide.title}</figcaption>
+																<img
+																	src={`${imgBase}${imgCreatorTransform}${imgFolder}${creator.icon}`}
+																/>
+																<figcaption>{creator.title}</figcaption>
 															</figure>
 														</a>
 													</li>

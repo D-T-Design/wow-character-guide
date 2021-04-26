@@ -5,7 +5,6 @@ import Zone from "./Zone";
 export const ZoneListing = ({ title, zones, level }) => {
 	const [open, setOpen] = useState(false);
 	const containsZones = zones.length > 0;
-	const numZones = zones.length;
 	const toggleOpen = () => {
 		setOpen(!open);
 	};
@@ -24,7 +23,9 @@ export const ZoneListing = ({ title, zones, level }) => {
 		<div className={title.toLowerCase().replace(/\s/g, "")}>
 			<h3 onClick={toggleOpen} style={{ cursor: "pointer" }}>
 				{title}
-				<span>{open ? "X" : "+"}</span>
+				<span>
+					{open ? <img src="/static/img/exit.svg" /> : <img src="/static/img/plus.svg" />}
+				</span>
 			</h3>
 			<div className={`${open ? "open" : "closed"} zones-list`}>
 				{title === "Raids"

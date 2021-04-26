@@ -5,7 +5,7 @@ import { InputCharacter } from "../components/characterInput";
 export default function Character({ props }) {
 	const { updateState, appState } = props;
 	const { savedCharacters } = appState;
-	const { addCharacter } = updateState;
+	const { addCharacter, updateGameData } = updateState;
 	const [addForm, toggleAddForm] = useState(false);
 	const switchAddForm = () => toggleAddForm(!addForm);
 	const addAction = {
@@ -23,6 +23,7 @@ export default function Character({ props }) {
 						key={index}
 						updateState={updateState}
 						appState={appState}
+						updateGameData={updateGameData}
 					/>
 				))}
 			</ul>
@@ -33,7 +34,7 @@ export default function Character({ props }) {
 						<img src="/static/img/exit.svg" />
 						Cancel Add Character
 					</button>
-					<InputCharacter action={addAction} />
+					<InputCharacter action={addAction} updateGameData={updateGameData} />
 				</>
 			) : (
 				<button onClick={() => toggleAddForm(!addForm)} className="character-add">
@@ -45,7 +46,7 @@ export default function Character({ props }) {
 	);
 }
 
-const CharacterDisplay = ({ character, updateState, appState }) => {
+const CharacterDisplay = ({ character, updateState, appState, updateGameData }) => {
 	const { name, level, faction, race, playerClass, gender, id } = character;
 	const { removeCharacter, selectCharacter, updateCharacter } = updateState;
 	const isSelectedCharacter = id === appState.character;
@@ -115,7 +116,13 @@ const CharacterDisplay = ({ character, updateState, appState }) => {
 										</>
 									)}
 								</button>
-								{editCharacter && <InputCharacter action={editAction} character={character} />}
+								{editCharacter && (
+									<InputCharacter
+										action={editAction}
+										character={character}
+										updateGameData={updateGameData}
+									/>
+								)}
 							</li>
 							{!editCharacter && (
 								<li>

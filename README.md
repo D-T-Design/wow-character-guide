@@ -8,39 +8,49 @@ I also wanted to include a place for a quick summary of each class playstyle and
 
 ### The Web Application
 
-This application is built with NextJS, all of the content on the site is managed by me via FaunaDB and Netlify, and I'm gathering the raw data via the Blizzard API, and websites like Wowhead and other WoW databases. I am not using web scraping software. My goal for the application is to gain users who enjoy the app and get use from it.
+This application is built with NextJS, all of the content on the site is managed by me via FaunaDB and Netlify, and I'm gathering the raw data via the Blizzard API, and websites like Wowhead and other WoW databases. I am not using web scraping software. My goal for the application is to gain users who enjoy the app and get use from it, while I learn more about programming web apps, working with APIs, and building useful tools.
 
 #### Web Features and Logic
 
 - User Input
-  - Character
+  - --Character--
     - Name
     - Faction
     - Race
     - Level
 - Display
-  - Character List
-    - Saved Character
-      - Select
-      - Edit
-      - Delete
-    - Add Character
-  - Zones
-    - Level Range
-    - Territory
-    - Sort by Type
-  - Gear
-    - Sort by Slot
-      - Level
-      - Rarity
-      - Name
-      - Link
-      - Tooltip
-  - Guides
+  - --Character List--
+    - --Saved Character--
+      - --Select--
+      - --Edit--
+      - --Delete--
+    - --Add Character--
+  - --Zones--
+    - --Level Range--
+    - --Territory--
+    - --Sort by Type--
+  - Gear (need to gather all class gear)
+    - --Sort by Slot--
+      - --Level--
+      - --Rarity--
+      - --Name--
+      - --Link--
+      - --Tooltip--
+  - Guides (need to gather all class guides)
+    - Summary
+    - Resource
+    - Team Roles
+    - Primary Stats
+    - Secondary Stats
+    - Specs
+    - Weapon Types
+    - Armor Types
+    - Class Guide Links
+    - Creator Links
 
 ##### Future Wishlist Features
 
-- Login/Save
+- Login/Save (partially done, app is using localstorage/useState integration)
 - Export as PDF
 - Talent Calculator
 - In-game Addon / Character Profile Integration
