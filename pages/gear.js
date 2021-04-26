@@ -10,10 +10,14 @@ import { weaponToFullName } from "../utils/weaponToFullName";
 import { GearSlot } from "../components/GearSlot";
 
 const Gear = ({ appState }) => {
-	const selectedCharacter = appState.savedCharacters.find(
-		(character) => character.id === appState.character
-	);
-	const { playerClass, level, faction } = selectedCharacter
+	const { savedCharacters } = appState;
+	let selectedCharacter = {};
+	if (savedCharacters.length > 0) {
+		selectedCharacter = appState.savedCharacters.find(
+			(character) => character.id === appState.character
+		);
+	}
+	const { playerClass, level, faction } = selectedCharacter.playerClass
 		? selectedCharacter
 		: { playerClass: "Rogue", level: 1, faction: "Horde" };
 	const classData = !appState.gameData ? useClassData().classData : appState.gameData;

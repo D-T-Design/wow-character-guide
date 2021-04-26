@@ -1,5 +1,7 @@
 # WoW Character Guide
 
+[![WoW Character Guide](https://res.cloudinary.com/david-torres-design/image/upload/w_838,h_518,c_fill/v1619421531/wow-character-guide/gitrepo_niopos.jpg)](https://wow-character-guide.netlify.app/)
+
 ## A helpful tool for anyone who plays World of Warcraft Classic, this is a web application that guides players on how their class plays, gear to look for, zones to go to - all based on the user's character level, class, race, and faction!
 
 When leveling a character in World of Warcraft, it takes a long time to get to max level. New players and veterans alike, sometimes you need help figuring out where to quest, or what gear to look out for. I created this app to be a quick reference that simply gives me a quick list of Zones and Gear to go for based on my current level. I figure that could be of use to anyone who plays the game so I want it publicly available.
