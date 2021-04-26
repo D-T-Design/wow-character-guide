@@ -20,7 +20,7 @@ const Gear = ({ appState }) => {
 	const { playerClass, level, faction } = selectedCharacter.playerClass
 		? selectedCharacter
 		: { playerClass: "Rogue", level: 1, faction: "Horde" };
-	const classData = !appState.gameData ? useClassData().classData : appState.gameData;
+	const classData = appState.gameData;
 
 	const { gear, error, isPending } = getClassGear(playerClass);
 	const { items, itemsError, itemsPending } = getAllItems();

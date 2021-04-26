@@ -29,7 +29,7 @@ const ClassGuides = ({ appState }) => {
 	let selectedCharacter = appState.savedCharacters.find(
 		(character) => character.id === appState.character
 	);
-	const { playerClass } = selectedCharacter ? selectedCharacter : { playerClass: "Default" };
+	const { playerClass } = selectedCharacter ? selectedCharacter : { playerClass: "Rogue" };
 
 	const ref = classData[`${playerClass.toLowerCase()}Ref`];
 	const {

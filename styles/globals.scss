@@ -1365,6 +1365,7 @@ section {
 	.edit-characters {
 		border-top: 1px solid rgba(255, 255, 255, 0.1);
 		margin-top: 2rem;
+		width: 100%;
 		@include respond-above(lg) {
 			border: none;
 			margin: 0;
