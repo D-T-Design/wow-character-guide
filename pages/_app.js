@@ -14,10 +14,9 @@ const MyApp = ({ Component, pageProps }) => {
 		gear: [],
 		character: 0,
 		savedCharacters: [],
-		gameData: { a: "a" },
 	});
 	const updateGameData = (data) => {
-		!appState.gameData ? setState({ ...appState, gameData: data }) : setState({ ...appState });
+		setState({ ...appState, gameData: data });
 	};
 	const updateGear = (gear) => {
 		const updatedList = appState.savedCharacters.map((savedCharacter) =>

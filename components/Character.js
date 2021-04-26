@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { InputCharacter } from "../components/characterInput";
 
 export default function Character({ props }) {
-	const { updateState, appState } = props;
+	const { updateState, appState, gameData } = props;
 	const { savedCharacters } = appState;
 	const { addCharacter, updateGameData } = updateState;
 	const [addForm, toggleAddForm] = useState(false);
@@ -23,6 +23,7 @@ export default function Character({ props }) {
 						key={index}
 						updateState={updateState}
 						appState={appState}
+						gameData={gameData}
 						updateGameData={updateGameData}
 					/>
 				))}
@@ -34,7 +35,7 @@ export default function Character({ props }) {
 						<img src="/static/img/exit.svg" />
 						Cancel Add Character
 					</button>
-					<InputCharacter action={addAction} updateGameData={updateGameData} />
+					<InputCharacter action={addAction} gameData={gameData} updateGameData={updateGameData} />
 				</>
 			) : (
 				<button onClick={() => toggleAddForm(!addForm)} className="character-add">
@@ -46,7 +47,7 @@ export default function Character({ props }) {
 	);
 }
 
-const CharacterDisplay = ({ character, updateState, appState, updateGameData }) => {
+const CharacterDisplay = ({ character, updateState, appState, gameData, updateGameData }) => {
 	const { name, level, faction, race, playerClass, gender, id } = character;
 	const { removeCharacter, selectCharacter, updateCharacter } = updateState;
 	const isSelectedCharacter = id === appState.character;
@@ -120,6 +121,7 @@ const CharacterDisplay = ({ character, updateState, appState, updateGameData }) 
 									<InputCharacter
 										action={editAction}
 										character={character}
+										gameData={gameData}
 										updateGameData={updateGameData}
 									/>
 								)}

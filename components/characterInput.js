@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import useClassData from "../utils/useClassData";
 
 const InputButtonSection = ({ title, currentState, changeState, itemList, gender }) => {
 	const srcURL = `/static/img/${title.toLowerCase()}/`;
@@ -105,8 +104,7 @@ const InputRadioSection = ({ title, caption, currentState, changeState }) => {
 	);
 };
 
-export const InputCharacter = ({ action, character, updateGameData }) => {
-	const { classData, error, isPending } = useClassData();
+export const InputCharacter = ({ action, character, updateGameData, gameData }) => {
 	const { formAction, title, callback } = action;
 	const [formState, setState] = character
 		? useState(character)
@@ -145,74 +143,66 @@ export const InputCharacter = ({ action, character, updateGameData }) => {
 	const { name, level, gender, faction, playerClass, race } = formState;
 	return (
 		<section className="character-input">
-			{error ? (
-				<p>Error loading class data...</p>
-			) : isPending ? (
-				<p>Loading class data...</p>
-			) : (
-				<>
-					<section className="input-faction">
-						<InputButtonSection
-							title="Faction"
-							currentState={faction}
-							changeState={updateFaction}
-							itemList={classData.availableFactions}
-						/>
-					</section>
-					<section className="input-race">
-						<InputButtonSection
-							title="Race"
-							currentState={race}
-							changeState={updateRace}
-							itemList={classData[`${faction.toLowerCase()}Races`]}
-							gender={gender}
-						/>
-					</section>
-					<section className="input-class">
-						<InputButtonSection
-							title="Class"
-							currentState={playerClass}
-							changeState={updateClass}
-							itemList={classData[`${race.replace(/\s/g, "").toLowerCase()}Classes`]}
-						/>
-					</section>
-					{faction && playerClass && race ? (
-						<section className="input-namelevel">
-							<InputDataSection
-								title="Name"
-								caption="Name"
-								currentState={name}
-								changeState={updateName}
-							/>
-							<InputDataSection
-								title="Level"
-								caption="Level"
-								currentState={level}
-								changeState={updateLevel}
-							/>
-							<InputRadioSection
-								title="Gender"
-								caption="Gender"
-								changeState={updateGender}
-								currentState={gender}
-							/>
-						</section>
-					) : null}
-					{name && level && gender && faction && playerClass && race ? (
-						<section className="input-submit">
-							<button
-								onClick={() => {
-									updateGameData(classData);
-									formAction(formState);
-									return callback();
-								}}
-							>
-								{title}
-							</button>
-						</section>
-					) : null}
-				</>
-			)}
+			<section className="input-faction">
+				<InputButtonSection
+					title="Faction"
+					currentState={faction}
+					changeState={updateFaction}
+					itemList={gameData.availableFactions}
+				/>
+			</section>
+			<section className="input-race">
+				<InputButtonSection
+					title="Race"
+					currentState={race}
+					changeState={updateRace}
+					itemList={gameData[`${faction.toLowerCase()}Races`]}
+					gender={gender}
+				/>
+			</section>
+			<section className="input-class">
+				<InputButtonSection
+					title="Class"
+					currentState={playerClass}
+					changeState={updateClass}
+					itemList={gameData[`${race.replace(/\s/g, "").toLowerCase()}Classes`]}
+				/>
+			</section>
+			{faction && playerClass && race ? (
+				<section className="input-namelevel">
+					<InputDataSection
+						title="Name"
+						caption="Name"
+						currentState={name}
+						changeState={updateName}
+					/>
+					<InputDataSection
+						title="Level"
+						caption="Level"
+						currentState={level}
+						changeState={updateLevel}
+					/>
+					<InputRadioSection
+						title="Gender"
+						caption="Gender"
+						changeState={updateGender}
+						currentState={gender}
+					/>
+				</section>
+			) : null}
+			{name && level && gender && faction && playerClass && race ? (
+				<section className="input-submit">
+					<button
+						onClick={() => {
+							updateGameData(gameData);
+							formAction(formState);
+							return callback();
+						}}
+					>
+						{title}
+					</button>
+				</section>
+			) : null}
 		</section>
 	);
 };
