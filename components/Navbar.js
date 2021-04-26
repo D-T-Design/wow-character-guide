@@ -63,7 +63,7 @@ export const Navbar = ({ appState }) => {
 						))}
 				</div>
 			</div>
-			<nav className={!noCharacters && (navOpen ? "nav open" : "nav")}>
+			<nav className={!noCharacters ? (navOpen ? "nav open" : "nav") : undefined}>
 				<ul>
 					<div className="container">
 						{!noCharacters &&
