@@ -37,11 +37,11 @@ const DefaultPage = ({ children }) => (
 	</section>
 );
 
-const ClassGuides = ({ appState }) => {
+const ClassGuides = (props) => {
 	const { data } = useSWR(queryAllFactions, fetcher, { initialData: props.classData });
 	const classData = data ? parseClassData(data) : data;
-	let selectedCharacter = appState.savedCharacters.find(
-		(character) => character.id === appState.character
+	let selectedCharacter = props.appState.savedCharacters.find(
+		(character) => character.id === props.appState.character
 	);
 	const { playerClass } = selectedCharacter ? selectedCharacter : { playerClass: "Rogue" };
 
@@ -58,7 +58,6 @@ const ClassGuides = ({ appState }) => {
 		classGuides,
 		creators,
 	} = ref ? ref : null;
-	console.log(ref);
 	return (
 		<section className="content guides">
 			<div className="container">

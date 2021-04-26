@@ -22,12 +22,12 @@ export async function getStaticProps() {
 	};
 }
 
-const Gear = ({ appState }) => {
-	const { savedCharacters } = appState;
+const Gear = (props) => {
+	const { savedCharacters } = props.appState;
 	let selectedCharacter = {};
 	if (savedCharacters.length > 0) {
-		selectedCharacter = appState.savedCharacters.find(
-			(character) => character.id === appState.character
+		selectedCharacter = props.appState.savedCharacters.find(
+			(character) => character.id === props.appState.character
 		);
 	}
 	const { playerClass, level, faction } = selectedCharacter.playerClass
