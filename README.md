@@ -1,6 +1,6 @@
 # WoW Character Guide
 
-[![WoW Character Guide](https://res.cloudinary.com/david-torres-design/image/upload/w_838,h_518,c_fill/v1619421531/wow-character-guide/gitrepo_niopos.jpg)](https://wow-character-guide.netlify.app/)
+[![WoW Character Guide](https://res.cloudinary.com/david-torres-design/image/upload/w_1676,h_1036,c_fill/v1619421531/wow-character-guide/gitrepo_niopos.jpg)](https://wow-character-guide.netlify.app/)
 
 ## A helpful tool for anyone who plays World of Warcraft Classic, this is a web application that guides players on how their class plays, gear to look for, zones to go to - all based on the user's character level, class, race, and faction!
 
