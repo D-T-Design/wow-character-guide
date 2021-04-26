@@ -9,6 +9,19 @@ import { weaponToFullName } from "../utils/weaponToFullName";
 
 import { GearSlot } from "../components/GearSlot";
 
+import useSWR from "swr";
+import { graphQLClient, queryAllFactions } from "../utils/fauna_gql";
+import parseClassData from "../utils/parseClassData";
+
+const fetcher = (query) => graphQLClient.request(query);
+
+export async function getStaticProps() {
+	const classData = await fetcher(queryAllFactions);
+	return {
+		props: { classData },
+	};
+}
+
 const Gear = ({ appState }) => {
 	const { savedCharacters } = appState;
 	let selectedCharacter = {};
@@ -20,7 +33,8 @@ const Gear = ({ appState }) => {
 	const { playerClass, level, faction } = selectedCharacter.playerClass
 		? selectedCharacter
 		: { playerClass: "Rogue", level: 1, faction: "Horde" };
-	const classData = appState.gameData;
+	const { data } = useSWR(queryAllFactions, fetcher, { initialData: props.classData });
+	const classData = data ? parseClassData(data) : data;
 
 	const { gear, error, isPending } = getClassGear(playerClass);
 	const { items, itemsError, itemsPending } = getAllItems();

@@ -7,6 +7,19 @@ const imgGuideTransform = "w_690,h_430,c_fill";
 const imgCreatorTransform = "w_200,h_200,c_fill";
 const imgFolder = "/v1618808611/wow-character-guide/";
 
+import useSWR from "swr";
+import { graphQLClient, queryAllFactions } from "../utils/fauna_gql";
+import parseClassData from "../utils/parseClassData";
+
+const fetcher = (query) => graphQLClient.request(query);
+
+export async function getStaticProps() {
+	const classData = await fetcher(queryAllFactions);
+	return {
+		props: { classData },
+	};
+}
+
 const DefaultPage = ({ children }) => (
 	<section className="content guides">
 		<div className="container">
@@ -25,7 +38,8 @@ const DefaultPage = ({ children }) => (
 );
 
 const ClassGuides = ({ appState }) => {
-	const classData = appState.gameData;
+	const { data } = useSWR(queryAllFactions, fetcher, { initialData: props.classData });
+	const classData = data ? parseClassData(data) : data;
 	let selectedCharacter = appState.savedCharacters.find(
 		(character) => character.id === appState.character
 	);
