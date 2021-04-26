@@ -8,6 +8,13 @@ import useClassData from "../utils/useClassData";
 import { weaponToFullName } from "../utils/weaponToFullName";
 
 import { GearSlot } from "../components/GearSlot";
+import { async } from "regenerator-runtime";
+
+export async function getStaticProps() {
+	return {
+		props: {},
+	};
+}
 
 const Gear = ({ appState }) => {
 	const { savedCharacters } = appState;
