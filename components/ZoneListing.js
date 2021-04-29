@@ -1,34 +1,27 @@
 import React, { useState } from "react";
 
 import Zone from "./Zone";
+import zoneImgPath from "../utils/zoneImgPath";
 
 export const ZoneListing = ({ title, zones, level }) => {
-	const [open, setOpen] = useState(false);
-	const containsZones = zones.length > 0;
-	const toggleOpen = () => {
-		setOpen(!open);
-	};
+	const containsZones = zones ? zones.length > 0 : false;
 	let raids = [];
-	if (containsZones) {
+	if (containsZones && title === "Raids") {
 		raids = zones.sort((a, b) => a.phase - b.phase);
 	}
-	if (zones.length === 0 || (title === "Raids" && level < 60))
+	console.log(title, zones, level);
+	if (containsZones && (zones.length === 0 || (title === "Raids" && level < 60)))
 		return (
-			<div>
+			<div className={`${title.toLowerCase().replace(/\s/g, "")}`}>
 				<h3>{title}</h3>
 				<small>No {title} found for your level.</small>
 			</div>
 		);
 	return (
-		<div className={title.toLowerCase().replace(/\s/g, "")}>
-			<h3 onClick={toggleOpen} style={{ cursor: "pointer" }}>
-				{title}
-				<span>
-					{open ? <img src="/static/img/exit.svg" /> : <img src="/static/img/plus.svg" />}
-				</span>
-			</h3>
-			<div className={`${open ? "open" : "closed"} zones-list`}>
-				{title === "Raids"
+		<div className={`${title.toLowerCase().replace(/\s/g, "")}`}>
+			<div className="zones-list">
+				<h3>{title}</h3>
+				{title === "Raids" && containsZones
 					? raids.map((raid, index) => <Zone zone={raid} key={index} />)
 					: zones.map((zone, index) => <Zone zone={zone} key={index} />)}
 			</div>
