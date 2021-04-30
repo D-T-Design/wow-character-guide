@@ -30,12 +30,11 @@ const Zones = ({ appState }) => {
 		City: "Cities",
 	};
 	const header = () => (
-		<div>
-			<h2>Suggested zones based on your level, faction, race, and class!</h2>
+		<div className="header">
+			<h2>Suggested Zones</h2>
 			<p>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eget rutrum elit,
-				vitae vulputate neque. Nullam maximus, sapien et elementum faucibus, enim sem tempus felis,
-				et aliquam metus libero sed sapien.
+				Here are the zones in the game that match your character, choose which type of zones you
+				want to see! Clicking on a zone will take you to Wowhead for more info.
 			</p>
 		</div>
 	);

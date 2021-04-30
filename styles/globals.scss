@@ -1782,7 +1782,7 @@ section {
 		background-color: $bg-bright;
 		width: 49%;
 		overflow: hidden;
-			width: 100%;
+		width: 100%;
 		@include respond-above(md) {
 			width: 49%;
 		}
@@ -1927,6 +1927,26 @@ section {
 	.container > div {
 		width: 100%;
 		margin-bottom: 2rem;
+		display: flex;
+		flex-flow: row wrap;
+		align-items: flex-start;
+		h2 {
+			width: 100%;
+			margin-bottom: 1em;
+			@include respond-above(md) {
+				width: auto;
+				margin: 0;
+				margin-right: 3ch;
+			}
+		}
+		p {
+			width: 100%;
+			@include respond-above(md) {
+				width: 100%;
+				max-width: 80ch;
+			}
+			opacity: 0.8;
+		}
 	}
 	&-container {
 		width: 100%;
@@ -2016,6 +2036,24 @@ section {
 			margin-top: 0;
 			font-size: 1.5rem;
 			text-transform: uppercase;
+			display: flex;
+			small {
+				margin-left: auto;
+				font-size: 1rem;
+				font-weight: 100;
+				display: block;
+				padding: 0.5rem 1ch;
+				background-color: rgba(0, 0, 0, 0.1);
+				em {
+					margin-right: 2ch;
+					opacity: 0.8;
+					text-transform: none;
+				}
+				strong {
+					font-weight: bold;
+					color: $iLvl;
+				}
+			}
 		}
 	}
 }

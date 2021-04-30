@@ -20,7 +20,14 @@ export const ZoneListing = ({ title, zones, level }) => {
 	return (
 		<div className={`${title.toLowerCase().replace(/\s/g, "")}`}>
 			<div className="zones-list">
-				<h3>{title}</h3>
+				<h3>
+					{title}
+					<small>
+						<em>{`Found ${containsZones ? `${zones.length} zones` : "0 zones"}`}</em>
+						{`Level `}
+						<strong>{level}</strong>
+					</small>
+				</h3>
 				{title === "Raids" && containsZones
 					? raids.map((raid, index) => <Zone zone={raid} key={index} />)
 					: zones.map((zone, index) => <Zone zone={zone} key={index} />)}
