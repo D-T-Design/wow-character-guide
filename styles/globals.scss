@@ -652,6 +652,7 @@ section {
 		padding: 0;
 		margin: 0;
 		li {
+			transition: all 0.1s ease-in-out;
 			figure {
 				padding: 1rem 2ch;
 				margin: 0;
@@ -783,6 +784,8 @@ section {
 			}
 			&.saved-character {
 				margin-bottom: 1rem;
+				box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+				border-top: 1px solid rgba(255, 255, 255, 0.3);
 				ul {
 					display: flex;
 					align-items: center;
@@ -798,6 +801,8 @@ section {
 				}
 				@include class-hover-colors;
 				&.class-selected {
+					box-shadow: 0px 5px 15px rgba(0, 0, 0, 16);
+					transform: scale(1.05);
 					figure {
 						div {
 							img {
@@ -1286,11 +1291,11 @@ section {
 				grid-area: list;
 				display: flex;
 				flex-flow: row wrap;
-				justify-content: flex-start;
+				justify-content: space-between;
 				.saved-character {
 					width: 100%;
 					@include respond-above(sm) {
-						width: 50%;
+						width: 49%;
 					}
 				}
 				.character-input {

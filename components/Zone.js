@@ -11,6 +11,7 @@ export default function Zone({ zone }) {
 	return (
 		<div className="quests-zone">
 			<a href={`${zoneURL}${id}`} target="_blank" rel="noopener noreferrer">
+				{/* If database includes Zone Image URL, generate image from Cloudinary */}
 				{img && (
 					<div className="zone-bg">
 						<img
@@ -19,6 +20,7 @@ export default function Zone({ zone }) {
 						/>
 					</div>
 				)}
+				
 				<h3 className="zone-name">{name}</h3>
 
 				<div className="quests-range">

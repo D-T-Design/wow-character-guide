@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import Zone from "./Zone";
-import zoneImgPath from "../utils/zoneImgPath";
 
 export const ZoneListing = ({ title, zones, level }) => {
 	const containsZones = zones ? zones.length > 0 : false;
