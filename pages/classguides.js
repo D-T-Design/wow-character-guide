@@ -85,7 +85,16 @@ const ClassGuides = (props) => {
 								<ul>
 									<h3>Available Specs</h3>
 									{specs.map((spec, index) => (
-										<li key={index}>{spec}</li>
+										<li key={index}>
+											<img
+												src={`/static/img/spec/${playerClass.toLowerCase()}/${spec
+													.toLowerCase()
+													.replace(/\s/g, "")}.png`}
+												alt={spec}
+												title={spec}
+											/>
+											{spec}
+										</li>
 									))}
 								</ul>
 								<ul>
