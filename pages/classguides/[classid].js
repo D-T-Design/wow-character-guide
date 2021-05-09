@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import ClassGuides from "../classguides";
+import ClassGuides from "../../components/classguides";
 
 // import useSWR from "swr";
 import { graphQLClient, queryAllFactions } from "../../utils/fauna_gql";

@@ -43,9 +43,7 @@ const ClassGuides = (props) => {
 	let selectedCharacter = props.appState.savedCharacters.find(
 		(character) => character.id === props.appState.character
 	);
-	const { playerClass } = selectedCharacter
-		? selectedCharacter
-		: { playerClass: props.classID.replace(/^\w/, (c) => c.toUpperCase()) };
+	const { playerClass } = selectedCharacter ? selectedCharacter : { playerClass: props.classID };
 
 	const ref = classData[`${playerClass.toLowerCase()}Ref`];
 	const {
