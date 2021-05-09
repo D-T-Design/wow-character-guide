@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 import { statToFullName } from "../utils/statToFullName";
 
 const wccgClassImg = "/static/img/class/";
@@ -12,30 +13,6 @@ import { graphQLClient, queryAllFactions } from "../utils/fauna_gql";
 import parseClassData from "../utils/parseClassData";
 
 const fetcher = (query) => graphQLClient.request(query);
-
-export async function getStaticProps() {
-	const classData = await fetcher(queryAllFactions);
-	return {
-		props: { classData },
-	};
-}
-
-const DefaultPage = ({ children }) => (
-	<section className="content guides">
-		<div className="container">
-			<div className="guide-default">
-				<h2>
-					Player class guides - a simple summary of class roles, abilities, and strategies for your
-					character's class.
-				</h2>
-				<h3>
-					Links to community class guides, YouTube channels and streamers that are for your class!
-				</h3>
-				{children}
-			</div>
-		</div>
-	</section>
-);
 
 const ClassGuides = (props) => {
 	const { data } = useSWR(queryAllFactions, fetcher, { initialData: props.classData });
@@ -61,6 +38,10 @@ const ClassGuides = (props) => {
 	console.log(props.classID, props.classData);
 	return (
 		<section className="content guides">
+			<Head>
+				<title>TBC {playerClass} Guide - WCCG</title>
+				<meta property="og:title" content={`TBC ${playerClass} Guide - WCCG`} />
+			</Head>
 			<div className="container">
 				<div className="guide-grid">
 					<section>

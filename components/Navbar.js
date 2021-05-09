@@ -6,7 +6,7 @@ import PlayerCard from "./PlayerCard";
 
 export const Navbar = ({ appState }) => {
 	const router = useRouter();
-	const route = router.pathname;
+	const route = router.asPath;
 	const links = [
 		{
 			path: "/",
@@ -71,27 +71,30 @@ export const Navbar = ({ appState }) => {
 				<ul>
 					<div className="container">
 						{!noCharacters &&
-							links.map((link, index) => (
-								<li key={index}>
-									<Link
-										href={`${
-											link.path === "/"
-												? link.path
-												: `${link.path}/${selectedCharacter.playerClass.toLowerCase()}`
-										}`}
-									>
-										<a
-											className={`playerclass-${selectedCharacter.playerClass}${
-												route === link.path ? " active" : ""
-											}`}
-											onClick={() => toggleNav(false)}
-										>
-											<img src={link.icon} />
-											{link.text}
-										</a>
-									</Link>
-								</li>
-							))}
+							links.map((link, index) => {
+								const isHomeLink = link.path === "/";
+								const isClassLink = link.path.includes("classguides");
+								const isActive = isHomeLink && route !== "/" ? false : route.includes(link.path);
+								const path =
+									isHomeLink || !isClassLink
+										? link.path
+										: `${link.path}/${selectedCharacter.playerClass.toLowerCase()}`;
+								return (
+									<li key={index}>
+										<Link href={`${path}`}>
+											<a
+												className={`playerclass-${selectedCharacter.playerClass}${
+													isActive ? " active" : ""
+												}`}
+												onClick={() => toggleNav(false)}
+											>
+												<img src={link.icon} />
+												{link.text}
+											</a>
+										</Link>
+									</li>
+								);
+							})}
 					</div>
 				</ul>
 			</nav>

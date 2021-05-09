@@ -74,6 +74,8 @@ const MyApp = ({ Component, pageProps }) => {
 	return (
 		<>
 			<Head>
+				<title>WoW TBC Classic Character Guide</title>
+				<meta property="og:title" content="WoW TBC Classic Character Guide" />
 				<meta name="viewport" content="width=device-width, user-scalable=no" />
 			</Head>
 			<Navbar {...pageProps} />

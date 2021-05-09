@@ -1,4 +1,6 @@
 import { useRouter } from "next/router";
+import Head from "next/head";
+
 import ClassGuides from "../../components/classguides";
 
 // import useSWR from "swr";
