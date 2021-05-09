@@ -42,18 +42,29 @@ export const Navbar = ({ appState }) => {
 	return (
 		<header>
 			<div className="header-img">
-				<img
-					className="header-bg"
-					srcset={`${imgBase}w_${imgWidths[0]}${imgBGCrop}${imgFolder}${bgURL} ${imgWidths[0]}w,
-					${imgBase}w_${imgWidths[1]}${imgBGCrop}${imgFolder}${bgURL} ${imgWidths[1]}w,
-					${imgBase}w_${imgWidths[2]}${imgBGCrop}${imgFolder}${bgURL} ${imgWidths[2]}w,
-					${imgBase}w_${imgWidths[3]}${imgBGCrop}${imgFolder}${bgURL} ${imgWidths[3]}w,
-					${imgBase}w_${imgWidths[4]}${imgBGCrop}${imgFolder}${bgURL} ${imgWidths[4]}w,
-					${imgBase}w_${imgWidths[5]}${imgBGCrop}${imgFolder}${bgURL} ${imgWidths[5]}w,
-					${imgBase}w_${imgWidths[6]}${imgBGCrop}${imgFolder}${bgURL} ${imgWidths[6]}w,
-					${imgBase}w_${imgWidths[7]}${imgBGCrop}${imgFolder}${bgURL} ${imgWidths[7]}w`}
-					src={`${imgBase}w_${imgWidths[0]}${imgBGCrop}${imgFolder}${bgURL}`}
-				/>
+				<picture>
+					<source
+						media="(min-width:1920px)"
+						srcset={`${imgBase}w_2560${imgBGCrop}${imgFolder}${bgURL}`}
+					/>
+					<source
+						media="(min-width:1600px)"
+						srcset={`${imgBase}w_1920${imgBGCrop}${imgFolder}${bgURL}`}
+					/>
+					<source
+						media="(min-width:1368px)"
+						srcset={`${imgBase}w_1600${imgBGCrop}${imgFolder}${bgURL}`}
+					/>
+					<source
+						media="(min-width:768px)"
+						srcset={`${imgBase}w_1368${imgBGCrop}${imgFolder}${bgURL}`}
+					/>
+					<img
+						src={`${imgBase}w_768${imgBGCrop}${imgFolder}${bgURL}`}
+						alt="The Burning Crusade -- Promo Artwork"
+						className="header-bg"
+					/>
+				</picture>
 				<div className="container">
 					<Link href="/">
 						<a>
