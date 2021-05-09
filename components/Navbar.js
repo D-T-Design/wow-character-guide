@@ -29,6 +29,11 @@ export const Navbar = ({ appState }) => {
 			icon: "/static/img/zone.svg",
 		},
 	];
+	const imgWidths = ["w_2560", "w_1920", "w_1600", "w_1440", "w_1368", "w_1080", "w_989", "w_768"];
+	const imgBase = "https://res.cloudinary.com/david-torres-design/image/upload/";
+	const imgBGCrop = `,c_fill`;
+	const imgFolder = "/v1618808611/wow-character-guide/";
+	const bgURL = "bc_bg_xtvi76.jpg";
 	const noCharacters = appState.savedCharacters.length === 0;
 	const selectedCharacter = appState.savedCharacters.find(
 		(character) => character.id === appState.character
@@ -37,7 +42,18 @@ export const Navbar = ({ appState }) => {
 	return (
 		<header>
 			<div className="header-img">
-				<img className="header-bg" src="/static/img/bc_bg.jpg" />
+				<img
+					className="header-bg"
+					srcset={`${imgBase}${imgWidths[0]}${imgBGCrop}${imgFolder}${bgURL},
+					${imgBase}${imgWidths[1]}${imgBGCrop}${imgFolder}${bgURL},
+					${imgBase}${imgWidths[2]}${imgBGCrop}${imgFolder}${bgURL},
+					${imgBase}${imgWidths[3]}${imgBGCrop}${imgFolder}${bgURL},
+					${imgBase}${imgWidths[4]}${imgBGCrop}${imgFolder}${bgURL},
+					${imgBase}${imgWidths[5]}${imgBGCrop}${imgFolder}${bgURL},
+					${imgBase}${imgWidths[6]}${imgBGCrop}${imgFolder}${bgURL},
+					${imgBase}${imgWidths[7]}${imgBGCrop}${imgFolder}${bgURL}`}
+					src={`${imgBase}${imgWidths[0]}${imgBGCrop}${imgFolder}${bgURL}`}
+				/>
 				<div className="container">
 					<Link href="/">
 						<a>
