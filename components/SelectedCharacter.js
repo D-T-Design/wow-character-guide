@@ -31,7 +31,8 @@ export const SelectedCharacter = ({ appState }) => {
 				</div>
 
 				<section className="links">
-					<Link href="/classguides">
+					{console.log(playerClass)}
+					<Link href={`/classguides/${playerClass.toLowerCase()}`}>
 						<a title="Go to class guides page">
 							<button>
 								{`View ${playerClass} Guides`}
