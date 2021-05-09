@@ -29,7 +29,7 @@ export const Navbar = ({ appState }) => {
 			icon: "/static/img/zone.svg",
 		},
 	];
-	const imgWidths = ["w_2560", "w_1920", "w_1600", "w_1440", "w_1368", "w_1080", "w_989", "w_768"];
+	const imgWidths = ["2560", "1920", "1600", "1440", "1368", "1080", "989", "768"];
 	const imgBase = "https://res.cloudinary.com/david-torres-design/image/upload/";
 	const imgBGCrop = `,c_fill`;
 	const imgFolder = "/v1618808611/wow-character-guide/";
@@ -44,15 +44,15 @@ export const Navbar = ({ appState }) => {
 			<div className="header-img">
 				<img
 					className="header-bg"
-					srcset={`${imgBase}${imgWidths[0]}${imgBGCrop}${imgFolder}${bgURL},
-					${imgBase}${imgWidths[1]}${imgBGCrop}${imgFolder}${bgURL},
-					${imgBase}${imgWidths[2]}${imgBGCrop}${imgFolder}${bgURL},
-					${imgBase}${imgWidths[3]}${imgBGCrop}${imgFolder}${bgURL},
-					${imgBase}${imgWidths[4]}${imgBGCrop}${imgFolder}${bgURL},
-					${imgBase}${imgWidths[5]}${imgBGCrop}${imgFolder}${bgURL},
-					${imgBase}${imgWidths[6]}${imgBGCrop}${imgFolder}${bgURL},
-					${imgBase}${imgWidths[7]}${imgBGCrop}${imgFolder}${bgURL}`}
-					src={`${imgBase}${imgWidths[0]}${imgBGCrop}${imgFolder}${bgURL}`}
+					srcset={`${imgBase}w_${imgWidths[0]}${imgBGCrop}${imgFolder}${bgURL} ${imgWidths[0]}w,
+					${imgBase}w_${imgWidths[1]}${imgBGCrop}${imgFolder}${bgURL} ${imgWidths[1]}w,
+					${imgBase}w_${imgWidths[2]}${imgBGCrop}${imgFolder}${bgURL} ${imgWidths[2]}w,
+					${imgBase}w_${imgWidths[3]}${imgBGCrop}${imgFolder}${bgURL} ${imgWidths[3]}w,
+					${imgBase}w_${imgWidths[4]}${imgBGCrop}${imgFolder}${bgURL} ${imgWidths[4]}w,
+					${imgBase}w_${imgWidths[5]}${imgBGCrop}${imgFolder}${bgURL} ${imgWidths[5]}w,
+					${imgBase}w_${imgWidths[6]}${imgBGCrop}${imgFolder}${bgURL} ${imgWidths[6]}w,
+					${imgBase}w_${imgWidths[7]}${imgBGCrop}${imgFolder}${bgURL} ${imgWidths[7]}w`}
+					src={`${imgBase}w_${imgWidths[0]}${imgBGCrop}${imgFolder}${bgURL}`}
 				/>
 				<div className="container">
 					<Link href="/">
