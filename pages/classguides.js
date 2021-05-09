@@ -43,7 +43,9 @@ const ClassGuides = (props) => {
 	let selectedCharacter = props.appState.savedCharacters.find(
 		(character) => character.id === props.appState.character
 	);
-	const { playerClass } = selectedCharacter ? selectedCharacter : { playerClass: "Rogue" };
+	const { playerClass } = selectedCharacter
+		? selectedCharacter
+		: { playerClass: props.classID.replace(/^\w/, (c) => c.toUpperCase()) };
 
 	const ref = classData[`${playerClass.toLowerCase()}Ref`];
 	const {
@@ -58,6 +60,7 @@ const ClassGuides = (props) => {
 		classGuides,
 		creators,
 	} = ref ? ref : null;
+	console.log(props.classID, props.classData);
 	return (
 		<section className="content guides">
 			<div className="container">
@@ -77,12 +80,6 @@ const ClassGuides = (props) => {
 							<h2>{playerClass} Quick Reference</h2>
 							<section>
 								<ul>
-									<h3>Team Role</h3>
-									{teamroles.map((role, index) => (
-										<li key={index}>{role}</li>
-									))}
-								</ul>
-								<ul>
 									<h3>Available Specs</h3>
 									{specs.map((spec, index) => (
 										<li key={index}>
@@ -95,6 +92,12 @@ const ClassGuides = (props) => {
 											/>
 											{spec}
 										</li>
+									))}
+								</ul>
+								<ul>
+									<h3>Team Role</h3>
+									{teamroles.map((role, index) => (
+										<li key={index}>{role}</li>
 									))}
 								</ul>
 								<ul>
@@ -150,6 +153,7 @@ const ClassGuides = (props) => {
 														<img
 															src={`${imgBase}${imgGuideTransform}${imgFolder}${guide.thumb}`}
 															alt={`Link to ${guide.title}`}
+															title={`Click to go to ${guide.title}`}
 														/>
 														<figcaption>{guide.title}</figcaption>
 													</figure>

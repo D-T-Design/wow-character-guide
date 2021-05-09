@@ -42,7 +42,11 @@ export const Navbar = ({ appState }) => {
 					<Link href="/">
 						<a>
 							<h1>
-								<img src="/static/img/wccg.svg" alt="WoW Classic Character Guide" />
+								<img
+									src="/static/img/wccg.svg"
+									alt="WoW TBC Classic Character Guide"
+									title="Go back to homepage - WoW TBC Classic Character Guide"
+								/>
 							</h1>
 						</a>
 					</Link>
@@ -69,7 +73,13 @@ export const Navbar = ({ appState }) => {
 						{!noCharacters &&
 							links.map((link, index) => (
 								<li key={index}>
-									<Link href={link.path}>
+									<Link
+										href={`${
+											link.path === "/"
+												? link.path
+												: `${link.path}/${selectedCharacter.playerClass.toLowerCase()}`
+										}`}
+									>
 										<a
 											className={`playerclass-${selectedCharacter.playerClass}${
 												route === link.path ? " active" : ""

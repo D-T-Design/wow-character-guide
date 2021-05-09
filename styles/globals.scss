@@ -395,6 +395,9 @@ header {
 				grid-template-columns: 1fr repeat(3, auto);
 			}
 			li {
+				&:first-child {
+					margin-right: auto;
+				}
 				a {
 					padding: 0.25rem 1ch;
 					height: 100%;
@@ -1667,10 +1670,15 @@ section {
 						li {
 							font-size: 0.8rem;
 							text-transform: uppercase;
-							opacity: 0.6;
+							color: rgba(211, 211, 211, 0.6);
 							letter-spacing: 0.35ch;
 							line-height: 2.5;
 							border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+							img {
+								@include borderDesign();
+								width: 32px;
+								margin-right: 1ch;
+							}
 						}
 					}
 				}
