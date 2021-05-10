@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from "next/link";
 
 import { InputCharacter } from "../components/characterInput";
 
@@ -128,30 +129,49 @@ const CharacterDisplay = ({ character, updateState, appState, gameData, updateGa
 							</li>
 							{!editCharacter && (
 								<li>
-									{removalApproved ? (
-										<>
-											<button
-												onClick={() => {
-													approveRemoval(false);
-													return removeCharacter(id);
-												}}
-												className="button-delete"
-												title="Click to permanently delete character"
-											>
-												<img src={`${iconURL}trash.svg`} />
-												Are you sure?
+									<button
+										onClick={() => {
+											if (removalApproved) {
+												approveRemoval(false);
+												return removeCharacter(id);
+											} else {
+												return approveRemoval(true);
+											}
+										}}
+										className="button-delete"
+										title="Click to permanently delete character"
+									>
+										<img src={`${iconURL}trash.svg`} />
+										{removalApproved ? "Are you sure?" : "Delete"}
+									</button>
+								</li>
+							)}
+							{isSelectedCharacter && (
+								<li className="navigate">
+									<Link href={`/classguides/${playerClass.toLowerCase()}`}>
+										<a>
+											<button className="button-navigate" title={`See all ${playerClass} guides`}>
+												<img src={`${iconURL}guide.svg`} />
+												Guides
 											</button>
-										</>
-									) : (
-										<button
-											onClick={() => approveRemoval(true)}
-											className="button-delete"
-											title="Click to permanently delete character"
-										>
-											<img src={`${iconURL}trash.svg`} />
-											Delete
-										</button>
-									)}
+										</a>
+									</Link>
+									<Link href={`/gear`}>
+										<a>
+											<button className="button-navigate" title={`See all ${playerClass} gear`}>
+												<img src={`${iconURL}loot.svg`} />
+												Gear
+											</button>
+										</a>
+									</Link>
+									<Link href={`/zones`}>
+										<a>
+											<button className="button-navigate" title={`See all ${playerClass} zones`}>
+												<img src={`${iconURL}zone.svg`} />
+												Zones
+											</button>
+										</a>
+									</Link>
 								</li>
 							)}
 						</ul>

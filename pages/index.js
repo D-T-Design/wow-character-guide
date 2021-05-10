@@ -60,9 +60,6 @@ const Home = (props) => {
 							<h2>Choose Your Character</h2>
 							<p>Edit your character, or add new characters to get another personalized guide!</p>
 						</aside>
-						<main className="character-selected">
-							<SelectedCharacter appState={props.appState} updateState={props.updateState} />
-						</main>
 						<main className="character-list">
 							<Character props={props} />
 						</main>

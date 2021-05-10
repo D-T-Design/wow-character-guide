@@ -229,6 +229,7 @@ html {
 	font-family: $body-font;
 	background-color: $bg-color;
 	letter-spacing: 0.05ch;
+	line-height: 1.5;
 	color: lightgray;
 	height: 100%;
 }
@@ -719,6 +720,10 @@ section {
 				margin-top: 0.25em;
 				margin-bottom: 0.25em;
 			}
+			h3 {
+				font-size: 1.5rem;
+				color: white;
+			}
 			h4 {
 				font-family: $body-font;
 				font-weight: 100;
@@ -779,6 +784,7 @@ section {
 			&.class-selected {
 				@include class-selected-shadow;
 				background-color: $bg-bright;
+				width: 100%;
 				figure {
 					div {
 						margin-top: 0;
@@ -789,9 +795,11 @@ section {
 				margin-bottom: 1rem;
 				box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
 				border-top: 1px solid rgba(255, 255, 255, 0.3);
+				opacity: 0.85;
 				ul {
 					display: flex;
 					align-items: center;
+					flex-flow: row wrap;
 				}
 				.character-input {
 					background-color: transparent;
@@ -806,6 +814,7 @@ section {
 				&.class-selected {
 					box-shadow: 0px 5px 15px rgba(0, 0, 0, 16);
 					transform: scale(1.05);
+					opacity: 1;
 					figure {
 						div {
 							img {
@@ -817,6 +826,22 @@ section {
 					figcaption {
 						align-items: flex-start;
 						justify-content: flex-start;
+						li {
+							&.navigate {
+								margin-top: 0.5rem;
+								width: 100%;
+								display: flex;
+								background-color: $bg-color;
+								a {
+									width: 33.33%;
+									text-decoration: none;
+									button {
+										width: 100%;
+										margin: 0;
+									}
+								}
+							}
+						}
 					}
 				}
 			}
@@ -1007,17 +1032,16 @@ section {
 
 .character-add {
 	cursor: pointer;
-	background-color: rgba(0, 0, 0, 0.4);
+	background-color: $cta-color;
 	color: $body-color;
 	border: 0;
 	display: flex;
 	align-items: center;
-	border: 1px solid rgba(255, 255, 255, 0.2);
-	padding: 0.5rem 1ch;
+	padding: 1rem 2ch;
 	transition: all 0.15s ease-in-out;
 	margin-bottom: 1rem;
 	&:hover {
-		background-color: rgba(0, 0, 0, 0.1);
+		filter: brightness(1.2);
 		box-shadow: 0 5px 8px rgba(0, 0, 0, 0.5);
 		color: white;
 	}
@@ -1239,14 +1263,14 @@ section {
 			display: grid;
 			grid-template-columns: 1fr;
 			grid-template-rows: auto;
-			grid-template-areas: "blurb" "selected" "list";
+			grid-template-areas: "blurb" "list";
 			gap: 1rem 2ch;
 			align-items: flex-start;
 			@include respond-above(lg) {
 				gap: 2rem 4ch;
-				grid-template-columns: 1fr 2fr;
+				grid-template-columns: 1fr;
 				grid-template-rows: auto auto;
-				grid-template-areas: "blurb blurb" "selected list";
+				grid-template-areas: "blurb" "list";
 				padding: 0 2rem;
 			}
 		}
@@ -1254,18 +1278,18 @@ section {
 			padding: 1rem 2ch;
 		}
 		.new {
-			grid-template-areas: "blurb" "selected" "list";
+			grid-template-areas: "blurb" "list";
 			@include respond-above(md) {
 				gap: 2rem 4ch;
 				grid-template-columns: 1fr 1fr;
 				grid-template-rows: auto auto;
-				grid-template-areas: "blurb list" "selected list";
+				grid-template-areas: "blurb list" "blurb list";
 			}
 			@include respond-above(lg) {
 				gap: 2rem 4ch;
 				grid-template-columns: 1fr 2fr;
 				grid-template-rows: auto auto;
-				grid-template-areas: "blurb list" "selected list";
+				grid-template-areas: "blurb list" "blurb list";
 			}
 		}
 		.character {
@@ -1295,10 +1319,14 @@ section {
 				display: flex;
 				flex-flow: row wrap;
 				justify-content: space-between;
+				align-items: flex-start;
 				.saved-character {
 					width: 100%;
 					@include respond-above(sm) {
 						width: 49%;
+					}
+					@include respond-above(md) {
+						width: 32%;
 					}
 				}
 				.character-input {
@@ -1310,108 +1338,6 @@ section {
 							}
 						}
 					}
-				}
-			}
-		}
-	}
-	.selected {
-		display: flex;
-		flex-flow: row wrap;
-		h2 {
-			width: 100%;
-			font-size: 1.25rem;
-		}
-		figure {
-			background-color: $nav-bg;
-			@include borderDesign();
-			display: flex;
-			flex-flow: row wrap;
-			align-items: center;
-			align-content: stretch;
-			margin: 0;
-			width: 100%;
-			aside {
-				margin-right: 1.5ch;
-				font-size: 0.75rem;
-				strong {
-					color: white;
-					font-size: 1.1rem;
-				}
-			}
-			div {
-				margin-top: 1rem;
-				margin-left: auto;
-				margin-right: auto;
-				@include respond-above(lg) {
-					margin-left: auto;
-				}
-				img {
-					width: 42px;
-					height: 42px;
-					@include borderDesign();
-					margin-right: 1ch;
-				}
-			}
-			section {
-				width: 100%;
-				margin-top: 1rem;
-				text-align: center;
-				&.links {
-					display: flex;
-					flex-flow: row wrap;
-					margin-top: 1rem;
-					a {
-						display: block;
-						width: 100%;
-						text-decoration: none;
-					}
-					button {
-						width: 100%;
-						font-family: $headline-font;
-						background-color: transparent;
-						font-size: 1.1rem;
-						border: 0;
-						border-radius: 3px;
-						margin-bottom: 0.25rem;
-						cursor: pointer;
-						color: $body-color;
-						display: flex;
-						justify-content: space-between;
-						align-items: center;
-						border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-						transition: all 0.15s ease-in-out;
-						padding: 0.5rem 1ch;
-						img {
-							height: 1rem;
-						}
-						&:hover {
-							color: white;
-							background-color: rgba(0, 0, 0, 0.4);
-							box-shadow: rgba(0, 0, 0, 0.5);
-						}
-					}
-				}
-			}
-			figcaption {
-				display: flex;
-				flex-flow: row wrap;
-				align-items: center;
-				justify-content: center;
-				max-width: 300px;
-				width: 100%;
-				h3 {
-					color: white;
-					margin: 0;
-					margin-right: 1.5ch;
-				}
-				h4 {
-					font-family: $body-font;
-					text-transform: uppercase;
-					font-weight: 100;
-					font-size: 0.9rem;
-					letter-spacing: 0.3ch;
-					margin: 0;
-					margin-right: 1.5ch;
 				}
 			}
 		}
@@ -1556,29 +1482,32 @@ section {
 	}
 	section {
 		box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.75);
+		padding: 2px;
+		padding-bottom: 4px;
+		&.Zone {
+			border-top: 2px solid $zone;
+			@include zoneGradient();
+		}
+		&.Dungeon {
+			border-top: 2px solid $dungeon;
+			@include dungeonGradient();
+		}
+
+		&.Raid {
+			border-top: 2px solid $raid;
+			@include raidGradient();
+		}
+		&.City {
+			border-top: 2px solid $city;
+			@include cityGradient();
+		}
+		&.Battleground {
+			border-top: 2px solid $battleground;
+			@include battlegroundGradient();
+		}
 		& > div {
 			padding: 1rem 3ch;
-			&.worldzones {
-				border-top: 2px solid $zone;
-				@include zoneGradient();
-			}
-			&.dungeons {
-				border-top: 2px solid $dungeon;
-				@include dungeonGradient();
-			}
-
-			&.raids {
-				border-top: 2px solid $raid;
-				@include raidGradient();
-			}
-			&.cities {
-				border-top: 2px solid $city;
-				@include cityGradient();
-			}
-			&.battlegrounds {
-				border-top: 2px solid $battleground;
-				@include battlegroundGradient();
-			}
+			background-color: $bg-bright;
 		}
 	}
 }
@@ -1784,6 +1713,17 @@ section {
 	}
 	&-default {
 		background-color: $bg-bright;
+	}
+}
+
+.about {
+	main {
+		display: flex;
+		justify-content: space-between;
+		p {
+			width: 32%;
+			margin-right: 1ch;
+		}
 	}
 }
 

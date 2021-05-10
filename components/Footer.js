@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 const Footer = () => (
 	<footer className="footer-terms">
@@ -11,6 +12,7 @@ const Footer = () => (
 					fan site!
 				</small>
 			</p>
+			<Link href="/about">About</Link>
 		</div>
 	</footer>
 );

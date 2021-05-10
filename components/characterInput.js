@@ -118,7 +118,10 @@ export const InputCharacter = ({ action, character, updateGameData, gameData }) 
 		  });
 	const updateName = (e) => {
 		e.target.value.match(/^[a-zA-Z]+$/) || e.target.value === ""
-			? setState({ ...formState, name: e.target.value })
+			? setState({
+					...formState,
+					name: e.target.value.toLowerCase().replace(/^\w/, (c) => c.toUpperCase()),
+			  })
 			: null;
 	};
 	const updateLevel = (e) => {
