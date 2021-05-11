@@ -35,7 +35,6 @@ const ClassGuides = (props) => {
 		classGuides,
 		creators,
 	} = ref ? ref : null;
-	console.log(props.classID, props.classData);
 	return (
 		<section className="content guides">
 			<Head>

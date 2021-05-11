@@ -14,7 +14,6 @@ const filteredDungeonData = (dungeonData, level) => {
 	// Filter dungeons based on Level Range
 	return dungeonData.filter((dungeon) => {
 		const range = dungeon.level;
-		console.log(range, dungeon);
 		if (range[0] > level || range[1] < level) {
 			return false;
 		} else if (range[0] === 60 && level > 69) {

@@ -45,19 +45,19 @@ export const Navbar = ({ appState }) => {
 				<picture>
 					<source
 						media="(min-width:1920px)"
-						srcset={`${imgBase}w_2560${imgBGCrop}${imgFolder}${bgURL}`}
+						srcSet={`${imgBase}w_2560${imgBGCrop}${imgFolder}${bgURL}`}
 					/>
 					<source
 						media="(min-width:1600px)"
-						srcset={`${imgBase}w_1920${imgBGCrop}${imgFolder}${bgURL}`}
+						srcSet={`${imgBase}w_1920${imgBGCrop}${imgFolder}${bgURL}`}
 					/>
 					<source
 						media="(min-width:1368px)"
-						srcset={`${imgBase}w_1600${imgBGCrop}${imgFolder}${bgURL}`}
+						srcSet={`${imgBase}w_1600${imgBGCrop}${imgFolder}${bgURL}`}
 					/>
 					<source
 						media="(min-width:768px)"
-						srcset={`${imgBase}w_1368${imgBGCrop}${imgFolder}${bgURL}`}
+						srcSet={`${imgBase}w_1368${imgBGCrop}${imgFolder}${bgURL}`}
 					/>
 					<img
 						src={`${imgBase}w_768${imgBGCrop}${imgFolder}${bgURL}`}

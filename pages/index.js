@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Welcome from "../components/Welcome";
 import Character from "../components/Character";
-import { SelectedCharacter } from "../components/SelectedCharacter";
 
 import useSWR from "swr";
 import { graphQLClient, queryAllFactions } from "../utils/fauna_gql";
