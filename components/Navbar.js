@@ -95,8 +95,8 @@ export const Navbar = ({ appState }) => {
 				</div>
 			</div>
 			<nav className={!noCharacters ? (navOpen ? "nav open" : "nav") : undefined}>
-				<ul>
-					<div className="container">
+				<div className="container">
+					<ul>
 						{!noCharacters &&
 							links.map((link, index) => {
 								const isHomeLink = link.path === "/";
@@ -122,8 +122,8 @@ export const Navbar = ({ appState }) => {
 									</li>
 								);
 							})}
-					</div>
-				</ul>
+					</ul>
+				</div>
 			</nav>
 		</header>
 	);

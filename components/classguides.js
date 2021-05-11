@@ -134,7 +134,10 @@ const ClassGuides = (props) => {
 															alt={`Link to ${guide.title}`}
 															title={`Click to go to ${guide.title}`}
 														/>
-														<figcaption>{guide.title}</figcaption>
+														<figcaption>
+															{guide.title}
+															<img src="/static/img/logout.svg" alt="Link to new tab" />
+														</figcaption>
 													</figure>
 												</a>
 											</li>
@@ -163,7 +166,10 @@ const ClassGuides = (props) => {
 															<img
 																src={`${imgBase}${imgCreatorTransform}${imgFolder}${creator.icon}`}
 															/>
-															<figcaption>{creator.title}</figcaption>
+															<figcaption>
+																{creator.title}
+																<img src="/static/img/link.svg" alt="Link to new tab" />
+															</figcaption>
 														</figure>
 													</a>
 												</li>

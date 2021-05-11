@@ -18,6 +18,7 @@ class MyDocument extends Document {
 						href={`https://fonts.googleapis.com/css2?family=Ropa+Sans:ital@0;1&display=swap`}
 						rel="stylesheet"
 					/>
+					<link rel="shortcut icon" type="image/png" href="/icon.png" />
 				</Head>
 				<body>
 					<Main />
