@@ -39,7 +39,7 @@ const Gear = (props) => {
 	const { gear, error, isPending } = getClassGear(playerClass);
 	const { items, itemsError, itemsPending } = getAllItems();
 	const classGear = items.filter((item) => gear.includes(item.id));
-	const { gearData } = classGear ? filterGearByLevel(classGear, level) : [{}];
+	const { gearData } = gear ? filterGearByLevel(gear, level) : [{}];
 	const separatedGearByType = gearData ? separateGearByType(gearData) : [{}, {}, {}];
 	const classWepTypes = classData.classes.find((className) => className.name === playerClass)
 		.reference.weaponTypes;

@@ -11,9 +11,10 @@ export const GearSlot = ({ name, items, faction, phase, type }) => {
 	const toggleOpen = () => {
 		setOpen(!open);
 	};
+	const phaseLvl = phase;
 	const phaseiLvl = { 1: 125, 2: 141, 3: 156, 4: 156, 5: 164 };
 	const maxiLvl = phaseiLvl[phase];
-	const itemList = containsItems && items.filter((item) => item.iLvl <= maxiLvl);
+	const itemList = containsItems && items.filter((item) => item.phase <= phaseLvl);
 	const numItems = itemList.length;
 	return (
 		<article>
@@ -46,10 +47,10 @@ export const GearSlot = ({ name, items, faction, phase, type }) => {
 			>
 				{containsItems ? (
 					itemList.map((item, index) => {
-						const { id, quality, name, drop, iLvl, slot } = item;
+						const { id, quality, name, drop, iLvl, slot, phase } = item;
 						const itemFaction = item.faction;
 						const itemProhibited = itemFaction && itemFaction.name !== faction;
-						const phaseRestricted = iLvl > maxiLvl;
+						const phaseRestricted = phase > phaseLvl;
 						return !itemProhibited && !phaseRestricted ? (
 							<li key={index}>
 								<a href={`${itemURLTBC}${id}`} target="_blank" rel="noreferrer">

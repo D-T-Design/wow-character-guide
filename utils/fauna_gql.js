@@ -160,13 +160,51 @@ const queryAllItems = () =>
         id
         iLvl
         name
+        phase
         quality
         reqLvl
-        wepType
         slot
+        wepType
       }
     }
   }`;
+
+const queryItemsByArray = (arr) =>
+	`getItemsByArray(array: ${arr}) {
+    armorType
+    drop
+    faction {
+      name
+    }
+    id
+    iLvl
+    name
+    phase
+    quality
+    reqLvl
+    slot
+    wepType
+  }`;
+
+const queryItemsByClassName = (className) =>
+	`{
+  getItemsByClass(
+    class: "${className}") {
+    armorType
+    drop
+    faction {
+      name
+    }
+    id
+    iLvl
+    name
+    phase
+    quality
+    reqLvl
+    slot
+    wepType
+  }
+}`;
 
 export {
 	queryAllFactions,
@@ -174,5 +212,7 @@ export {
 	queryAllZones,
 	queryAllRaids,
 	queryGetClassGear,
-  queryAllItems
+	queryAllItems,
+	queryItemsByArray,
+	queryItemsByClassName,
 };
