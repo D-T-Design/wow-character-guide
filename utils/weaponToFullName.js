@@ -22,6 +22,9 @@ export const weaponToFullName = (weapon) => {
 		case "staff":
 			res = "Staves";
 			break;
+		case "two-handedsword":
+			res = "Two-Handed Swords";
+			break;
 		case "two-handedaxe":
 			res = "Two-Handed Axes";
 			break;

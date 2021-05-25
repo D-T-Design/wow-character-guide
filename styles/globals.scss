@@ -426,7 +426,6 @@ header {
 						text-transform: uppercase;
 						&:hover {
 							color: #fdfffc;
-							border-color: #fff468;
 						}
 						@include respond-above(sm) {
 							padding: 0.5rem 2ch;

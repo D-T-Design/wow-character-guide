@@ -15,40 +15,40 @@ This application is built with NextJS, all of the content on the site is managed
 #### Web Features and Logic
 
 - User Input
-  - --Character--
+  - ~~Character~~
     - Name
     - Faction
     - Race
     - Level
 - Display
-  - --Character List--
-    - --Saved Character--
-      - --Select--
-      - --Edit--
-      - --Delete--
-    - --Add Character--
-  - --Zones--
-    - --Level Range--
-    - --Territory--
-    - --Sort by Type--
+  - ~~Character List~~
+    - ~~Saved Character~~
+      - ~~Select~~
+      - ~~Edit~~
+      - ~~Delete~~
+    - ~~Add Character~~
+  - ~~Zones~~
+    - ~~Level Range~~
+    - ~~Territory~~
+    - ~~Sort by Type~~
   - Gear (need to gather all class gear)
-    - --Sort by Slot--
-      - --Level--
-      - --Rarity--
-      - --Name--
-      - --Link--
-      - --Tooltip--
-  - Guides (need to gather all class guides)
-    - Summary
-    - Resource
-    - Team Roles
-    - Primary Stats
-    - Secondary Stats
-    - Specs
-    - Weapon Types
-    - Armor Types
-    - Class Guide Links
-    - Creator Links
+    - ~~Sort by Slot~~
+      - ~~Level~~
+      - ~~Rarity~~
+      - ~~Name~~
+      - ~~Link~~
+      - ~~Tooltip~~
+  - ~~Guides (need to gather all class guides)~~
+    - ~~Summary~~
+    - ~~Resource~~
+    - ~~Team Roles~~
+    - ~~Primary Stats~~
+    - ~~Secondary Stats~~
+    - ~~Specs~~
+    - ~~Weapon Types~~
+    - ~~Armor Types~~
+    - ~~Class Guide Links~~
+    - ~~Creator Links~~
 
 ##### Future Wishlist Features
 
@@ -59,5 +59,5 @@ This application is built with NextJS, all of the content on the site is managed
 - Character Sheets / Stats
 - Gear Stats and Comparison
 
---
+~~
 This website is a personal development project, it is not affiliated with Activision, Blizzard, or Wowhead. All content displayed and/or linked to are copyright by their respective owners. This is not a clone or meant to replicate an item database at all, it's just a fansite coding project!
