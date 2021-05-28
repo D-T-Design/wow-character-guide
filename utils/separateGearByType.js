@@ -15,6 +15,11 @@ export default function separateGearByType(gearData) {
 		"Gun",
 		"Thrown",
 		"Wand",
+		"Idol",
+		"Totem",
+		"Libram",
+		"Shield",
+		"Held In Off-Hand",
 	];
 	const armorSlots = [
 		"Shoulder",
@@ -25,7 +30,7 @@ export default function separateGearByType(gearData) {
 		"Hands",
 		"Chest",
 		"Waist",
-		"Back",
+		"Back"
 	];
 	const jewelrySlots = ["Neck", "Finger", "Trinket"];
 
@@ -53,7 +58,7 @@ export default function separateGearByType(gearData) {
 		const arr = [];
 		armorSlots.map((slot) =>
 			arr.push({
-				[slot.toLowerCase()]: armorList.filter((item) => item.slot === slot),
+				[slot.toLowerCase().replace(/\s|-/g, "")]: armorList.filter((item) => item.slot === slot),
 			})
 		);
 		return arr;

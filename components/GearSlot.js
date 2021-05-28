@@ -12,8 +12,6 @@ export const GearSlot = ({ name, items, faction, phase, type }) => {
 		setOpen(!open);
 	};
 	const phaseLvl = phase;
-	const phaseiLvl = { 1: 125, 2: 141, 3: 156, 4: 156, 5: 164 };
-	const maxiLvl = phaseiLvl[phase];
 	const itemList = containsItems && items.filter((item) => item.phase <= phaseLvl);
 	const numItems = itemList.length;
 	return (

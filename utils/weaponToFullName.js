@@ -46,6 +46,21 @@ export const weaponToFullName = (weapon) => {
 		case "wand":
 			res = "Wands";
 			break;
+		case "idol":
+			res = "Idols";
+			break;
+		case "totem":
+			res = "Totems";
+			break;
+		case "libram":
+			res = "Librams";
+			break;
+		case "shield":
+			res = "Shields";
+			break;
+		case "heldinoffhand":
+			res = "Held In Off-Hands";
+			break;
 		default:
 			res = `Error, missing weapon type (${weapon})`;
 	}

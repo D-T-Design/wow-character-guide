@@ -4,8 +4,8 @@ import getClassGear from "../utils/getClassGear";
 import getAllItems from "../utils/getAllItems";
 import filterGearByLevel from "../utils/filterGearByLevel";
 import separateGearByType from "../utils/separateGearByType";
-import useClassData from "../utils/useClassData";
 import { weaponToFullName } from "../utils/weaponToFullName";
+import { armorToFullName } from "../utils/armorToFullName";
 
 import { GearSlot } from "../components/GearSlot";
 
@@ -33,14 +33,14 @@ const Gear = (props) => {
 	const { playerClass, level, faction } = selectedCharacter.playerClass
 		? selectedCharacter
 		: { playerClass: "Rogue", level: 1, faction: "Horde" };
+
 	const { data } = useSWR(queryAllFactions, fetcher, { initialData: props.classData });
 	const classData = data ? parseClassData(data) : data;
 
 	const { gear, error, isPending } = getClassGear(playerClass);
-	const { items, itemsError, itemsPending } = getAllItems();
-	const classGear = items.filter((item) => gear.includes(item.id));
 	const { gearData } = gear ? filterGearByLevel(gear, level) : [{}];
 	const separatedGearByType = gearData ? separateGearByType(gearData) : [{}, {}, {}];
+
 	const classWepTypes = classData.classes.find((className) => className.name === playerClass)
 		.reference.weaponTypes;
 
@@ -50,9 +50,9 @@ const Gear = (props) => {
 		<section className="content gear">
 			<div className="container">
 				<h2>Leveling Gear</h2>
-				{error || itemsError ? (
+				{error ? (
 					<p>Error loading class gear. Let me know in a message!</p>
-				) : isPending || itemsPending ? (
+				) : isPending ? (
 					<p>Loading gear based on your class and level...</p>
 				) : (
 					<>
@@ -77,20 +77,18 @@ const Gear = (props) => {
 						)}
 						<main>
 							{separatedGearByType.map((gearType, index) => {
-								const { type } = gearType;
-								// const items = gearType.items.filter((item))
+								const { items, type } = gearType;
 								return (
 									<div className="column" key={index}>
 										<h3>{type}</h3>
-										{gearType.items.map((itemType, index) => {
+										{items.map((itemType, index) => {
 											const itemKey = Object.keys(itemType)[0];
-											if (
-												(gearType.type === "Weapons" &&
-													classWepTypes.some(
-														(wepType) => wepType.name === weaponToFullName(itemKey)
-													)) ||
-												gearType.type != "Weapons"
-											) {
+											const weaponTypeMatch =
+												type === "Weapons" &&
+												classWepTypes.some((wepType) => {
+													return wepType.name === weaponToFullName(itemKey);
+												});
+											if (weaponTypeMatch || type !== "Weapons") {
 												return (
 													<GearSlot
 														name={itemKey}
