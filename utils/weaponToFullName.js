@@ -7,13 +7,13 @@ export const weaponToFullName = (weapon) => {
 		case "fistweapon":
 			res = "Fist Weapons";
 			break;
-		case "one-handedaxe":
+		case "onehandedaxe":
 			res = "One-Handed Axes";
 			break;
-		case "one-handedmace":
+		case "onehandedmace":
 			res = "One-Handed Maces";
 			break;
-		case "one-handedsword":
+		case "onehandedsword":
 			res = "One-Handed Swords";
 			break;
 		case "polearm":
@@ -22,13 +22,13 @@ export const weaponToFullName = (weapon) => {
 		case "staff":
 			res = "Staves";
 			break;
-		case "two-handedsword":
-			res = "Two-Handed Swords";
+		case "twohandedsword":
+			res = "TwoHanded Swords";
 			break;
-		case "two-handedaxe":
+		case "twohandedaxe":
 			res = "Two-Handed Axes";
 			break;
-		case "two-handedmace":
+		case "twohandedmace":
 			res = "Two-Handed Maces";
 			break;
 		case "bow":

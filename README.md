@@ -31,13 +31,10 @@ This application is built with NextJS, all of the content on the site is managed
     - ~~Level Range~~
     - ~~Territory~~
     - ~~Sort by Type~~
-  - Gear (need to gather all class gear)
+  - Gear (need to gather all class gear: Updated Gear List 6/2/21 - 6921 items uploaded to database)
     - ~~Sort by Slot~~
-      - ~~Level~~
-      - ~~Rarity~~
-      - ~~Name~~
-      - ~~Link~~
-      - ~~Tooltip~~
+    - ~~Filter by Phase~~
+    - Filter by Rarity
   - ~~Guides (need to gather all class guides)~~
     - ~~Summary~~
     - ~~Resource~~

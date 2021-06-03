@@ -39,6 +39,7 @@ const Gear = (props) => {
 
 	const { gear, error, isPending } = getClassGear(playerClass);
 	const { gearData } = gear ? filterGearByLevel(gear, level) : [{}];
+	console.log(gearData);
 	const separatedGearByType = gearData ? separateGearByType(gearData) : [{}, {}, {}];
 
 	const classWepTypes = classData.classes.find((className) => className.name === playerClass)

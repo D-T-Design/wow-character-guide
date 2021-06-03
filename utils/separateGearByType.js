@@ -43,7 +43,7 @@ export default function separateGearByType(gearData) {
 		const arr = [];
 		wepTypes.map((type) =>
 			arr.push({
-				[type.toLowerCase().replace(/\s/g, "")]: weaponList.filter((item) => item.wepType === type),
+				[type.toLowerCase().replace(/\s|-/g, "")]: weaponList.filter((item) => item.wepType === type),
 			})
 		);
 		return arr;
