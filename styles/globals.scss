@@ -364,7 +364,7 @@ header {
 		z-index: 1;
 		background-color: $nav-bg;
 		height: 15px;
-		overflow: auto;
+		overflow: visible;
 		transition: all 0.1s ease-in-out;
 		@include respond-above(md) {
 			height: auto;
@@ -383,7 +383,7 @@ header {
 			background-color: $nav-bg;
 			padding: 0;
 			height: 0;
-			overflow: hidden;
+			overflow: visible;
 			@include respond-above(md) {
 				height: auto;
 			}
@@ -454,22 +454,27 @@ header {
 			&:hover {
 				transform: scale(1.02);
 				h1 {
-					img {
-						filter: drop-shadow(0px 2px 2px rgba(255, 255, 255, 0.5));
-					}
+					filter: brightness(1.2);
+					box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.5);
 				}
 			}
 		}
 		h1 {
 			display: flex;
 			align-items: center;
+			padding: 0.5rem;
+			background: rgb(141, 47, 45);
+			box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+			background: linear-gradient(270deg, rgba(141, 47, 45, 1) 0%, rgba(255, 116, 0, 1) 100%);
+			transition: all 0.1s ease-in-out;
 			img {
-				height: 45px;
 				opacity: 1;
 				width: auto;
-				filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 1));
+				height: calc(45px + 1rem);
+				padding: 1rem;
+				background-color: $nav-bg;
 				@include respond-above(sm) {
-					height: 60px;
+					height: calc(60px + 1rem);
 				}
 			}
 		}
@@ -1408,6 +1413,26 @@ section {
 		}
 	}
 }
+.spin {
+	display: inline-block;
+	width: 1.25em;
+	height: 1.25em;
+	border: 0.15em solid rgba(255, 255, 255, 0.3);
+	border-radius: 50%;
+	border-top-color: #fff;
+	animation: spin 1s ease-in-out infinite;
+	-webkit-animation: spin 1s ease-in-out infinite;
+}
+@keyframes spin {
+	to {
+		-webkit-transform: rotate(360deg);
+	}
+}
+@-webkit-keyframes spin {
+	to {
+		-webkit-transform: rotate(360deg);
+	}
+}
 .gear {
 	padding: 1rem 0;
 	@include respond-above(lg) {
@@ -1524,6 +1549,7 @@ section {
 					padding: 1rem 2rem;
 				}
 				h1 {
+					color: white;
 					font-size: 2rem;
 					margin-top: 0;
 					margin-bottom: 0.25em;

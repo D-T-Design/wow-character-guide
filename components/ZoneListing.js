@@ -8,7 +8,6 @@ export const ZoneListing = ({ title, zones, level }) => {
 	if (containsZones && title === "Raids") {
 		raids = zones.sort((a, b) => a.phase - b.phase);
 	}
-	console.log(title, zones, level);
 	if (containsZones && (zones.length === 0 || (title === "Raids" && level < 60)))
 		return (
 			<div className={`${title.toLowerCase().replace(/\s/g, "")}`}>

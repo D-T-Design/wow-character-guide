@@ -39,14 +39,13 @@ const Gear = (props) => {
 
 	const { gear, error, isPending } = getClassGear(playerClass);
 	const { gearData } = gear ? filterGearByLevel(gear, level) : [{}];
-	console.log(gearData);
 	const separatedGearByType = gearData ? separateGearByType(gearData) : [{}, {}, {}];
 
 	const classWepTypes = classData.classes.find((className) => className.name === playerClass)
 		.reference.weaponTypes;
 
 	const [phaseState, setPhase] = useState(1);
-
+	const { updateCharacter } = props.updateState;
 	return (
 		<section className="content gear">
 			<div className="container">
@@ -54,9 +53,28 @@ const Gear = (props) => {
 				{error ? (
 					<p>Error loading class gear. Let me know in a message!</p>
 				) : isPending ? (
-					<p>Loading gear based on your class and level...</p>
+					<p>
+						Loading gear based on your class and level... <div className="spin"></div>
+					</p>
 				) : (
 					<>
+						<aside>
+							<label htmlFor="levelslider">
+								Filter by Level:
+								<br />
+								{level}
+							</label>
+							<input
+								type="range"
+								min="1"
+								max="70"
+								value={level}
+								className="levelfilter"
+								id="levelfilter"
+								name="levelfilter"
+								onChange={(e) => updateCharacter({ ...selectedCharacter, level: e.target.value })}
+							/>
+						</aside>
 						{level === "70" && (
 							<aside>
 								<label htmlFor="phasefilter">
@@ -83,17 +101,17 @@ const Gear = (props) => {
 									<div className="column" key={index}>
 										<h3>{type}</h3>
 										{items.map((itemType, index) => {
-											const itemKey = Object.keys(itemType)[0];
+											const typeName = Object.keys(itemType)[0];
 											const weaponTypeMatch =
 												type === "Weapons" &&
 												classWepTypes.some((wepType) => {
-													return wepType.name === weaponToFullName(itemKey);
+													return wepType.name === weaponToFullName(typeName);
 												});
 											if (weaponTypeMatch || type !== "Weapons") {
 												return (
 													<GearSlot
-														name={itemKey}
-														items={itemType[itemKey]}
+														name={typeName}
+														items={itemType[typeName]}
 														key={index}
 														level={level}
 														faction={faction}
@@ -101,7 +119,7 @@ const Gear = (props) => {
 														type={type}
 													/>
 												);
-											} else return null;
+											}
 										})}
 									</div>
 								);
