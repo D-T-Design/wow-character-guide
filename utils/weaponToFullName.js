@@ -59,7 +59,7 @@ export const weaponToFullName = (weapon) => {
 			res = "Shields";
 			break;
 		case "heldinoffhand":
-			res = "Held In Off-Hands";
+			res = "Held In Off-Hand";
 			break;
 		default:
 			res = `Error, missing weapon type (${weapon})`;

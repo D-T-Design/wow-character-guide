@@ -105,6 +105,7 @@ const Gear = (props) => {
 											const weaponTypeMatch =
 												type === "Weapons" &&
 												classWepTypes.some((wepType) => {
+													console.log(wepType.name, weaponToFullName(typeName));
 													return wepType.name === weaponToFullName(typeName);
 												});
 											if (weaponTypeMatch || type !== "Weapons") {

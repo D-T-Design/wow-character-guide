@@ -197,6 +197,7 @@ const queryItemsByClassName = (className) =>
     }
     id
     iLvl
+    imgURL
     name
     phase
     quality
