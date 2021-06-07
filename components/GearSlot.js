@@ -70,6 +70,11 @@ export const GearSlot = ({ name, items, faction, phase, type }) => {
 												title={faction}
 											/>
 										) : null}
+										{phase ? (
+											<small>
+												Phase <strong>{phase}</strong>
+											</small>
+										) : null}
 									</div>
 								</a>
 							</li>
