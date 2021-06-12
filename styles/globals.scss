@@ -364,15 +364,17 @@ header {
 		z-index: 1;
 		background-color: $nav-bg;
 		height: 15px;
-		overflow: visible;
+		overflow: hidden;
 		transition: all 0.1s ease-in-out;
 		@include respond-above(md) {
 			height: auto;
 		}
 		&.open {
 			height: auto;
+			overflow: visible;
 			.container {
 				height: 100%;
+				overflow: visible;
 			}
 		}
 		img {
@@ -383,7 +385,7 @@ header {
 			background-color: $nav-bg;
 			padding: 0;
 			height: 0;
-			overflow: visible;
+			overflow: hidden;
 			@include respond-above(md) {
 				height: auto;
 			}
@@ -1452,7 +1454,7 @@ section {
 		position: relative;
 		a {
 			background-color: transparent;
-			border-bottom: 1px solid rgba(255,255,255,0.2);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 			padding: 0.5rem 0 1rem;
 			transition: all 0.1s ease-in-out;
 			display: flex;
@@ -1507,7 +1509,7 @@ section {
 		top: 0.75em;
 		right: 0.75em;
 		margin: 0;
-		filter: grayscale(0)
+		filter: grayscale(0);
 	}
 }
 .zones {

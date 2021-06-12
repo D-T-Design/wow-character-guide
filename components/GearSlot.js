@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Image, Transformation } from "cloudinary-react";
 
 const itemURLTBC = "https://tbc.wowhead.com/item=";
 const gearURL = "/static/img/gear/";
@@ -16,6 +17,12 @@ export const GearSlot = ({ name, items, faction, phase, type }) => {
 	const phaseLvl = phase;
 	const itemList = containsItems && items.filter((item) => item.phase <= phaseLvl);
 	const numItems = itemList.length;
+
+	// const cloud = new Cloudinary({
+	// 	cloud: {
+	// 		cloudName: "david-torres-design",
+	// 	},
+	// });
 	return (
 		<article>
 			<figure onClick={toggleOpen} style={{ cursor: "pointer" }}>
@@ -51,10 +58,25 @@ export const GearSlot = ({ name, items, faction, phase, type }) => {
 						const itemFaction = item.faction;
 						const itemProhibited = itemFaction && itemFaction.name !== faction;
 						const phaseRestricted = phase > phaseLvl;
+						// const gearImg = cloud.image(imgURL);
 						return !itemProhibited && !phaseRestricted ? (
 							<li key={index}>
 								<a href={`${itemURLTBC}${id}`} target="_blank" rel="noreferrer">
-									{imgURL && <img src={`${itemImgURL}${imgURL}.jpg`} className="icon" alt={name} />}
+									{
+										<Image
+											public-id={`/wow-character-guide/itemthumbs/${imgURL}`}
+											cloudName="david-torres-design"
+											version="1623049444"
+											width="36"
+											height="36"
+											class="icon"
+											loading="lazy"
+											secure="true"
+											alt={name}
+										>
+											<Transformation quality="auto" fetchFormat="auto" />
+										</Image>
+									}
 									<div className="item-details">
 										<h3 className={quality.toLowerCase()}>{name}</h3>
 										<small className="iLvl">

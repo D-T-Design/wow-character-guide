@@ -1,3 +1,5 @@
+import { Image, Placeholder } from "cloudinary-react";
+
 export default function Zone({ zone }) {
 	const { name, id, type, faction, img } = zone;
 	const zoneLevel = zone.level || zone.range;
@@ -14,13 +16,29 @@ export default function Zone({ zone }) {
 				{/* If database includes Zone Image URL, generate image from Cloudinary */}
 				{img && (
 					<div className="zone-bg">
-						<img
+						<Image
+							public-id={`/wow-character-guide/${img.toLowerCase()}`}
+							cloudName="david-torres-design"
+							version="1618808611"
+							alt={name}
+							title={name}
+							loading="lazy"
+							dpr="auto"
+							responsive
+							width="auto"
+							crop="fill"
+							aspectRatio="16:9"
+							responsiveUseBreakpoints="true"
+						>
+							<Placeholder type="predominant" />
+						</Image>
+						{/* <img
 							src={`${imgBase}${imgTransform}${imgGradient}${imgFolder}${img.toLowerCase()}`}
 							title={name}
-						/>
+						/> */}
 					</div>
 				)}
-				
+
 				<h3 className="zone-name">{name}</h3>
 
 				<div className="quests-range">

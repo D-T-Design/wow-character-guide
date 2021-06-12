@@ -1,10 +1,10 @@
 import React from "react";
 import Head from "next/head";
 import { statToFullName } from "../utils/statToFullName";
+import { Image, Placeholder } from "cloudinary-react";
 
 const wccgClassImg = "/static/img/class/";
 const imgBase = "https://res.cloudinary.com/david-torres-design/image/upload/";
-const imgGuideTransform = "w_690,h_430,c_fill";
 const imgCreatorTransform = "w_200,h_200,c_fill";
 const imgFolder = "/v1618808611/wow-character-guide/";
 
@@ -128,11 +128,22 @@ const ClassGuides = (props) => {
 													className={playerClass}
 												>
 													<figure>
-														<img
-															src={`${imgBase}${imgGuideTransform}${imgFolder}${guide.thumb}`}
+														<Image
+															public-id={`/wow-character-guide/${guide.thumb}`}
+															cloudName="david-torres-design"
+															version="1618808611"
 															alt={`Link to ${guide.title}`}
 															title={`Click to go to ${guide.title}`}
-														/>
+															loading="lazy"
+															dpr="auto"
+															responsive
+															width="auto"
+															crop="fill"
+															aspectRatio="16:9"
+															responsiveUseBreakpoints="true"
+														>
+															<Placeholder type="predominant" />
+														</Image>
 														<figcaption>
 															{guide.title}
 															<img src="/static/img/logout.svg" alt="Link to new tab" />
