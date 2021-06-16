@@ -1467,6 +1467,9 @@ section {
 				color: rgba(255, 255, 255, 0);
 				overflow: hidden;
 			}
+			.item-details {
+				max-width: calc(100% - 36px - 1.5ch);
+			}
 			&:hover {
 				filter: brightness(1.2);
 			}
