@@ -1446,9 +1446,18 @@ section {
 		flex-flow: row wrap;
 		justify-content: space-between;
 	}
+	figure {
+		transition: filter 0.1s ease-in-out;
+		&:hover {
+			filter: brightness(1.2);
+		}
+	}
 	ul {
 		background-color: $nav-bg;
 		padding: 0 2ch;
+		&.open {
+			margin-top: 1rem;
+		}
 	}
 	li {
 		position: relative;
@@ -1524,6 +1533,7 @@ section {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		font-size: 0.8rem;
 		li {
 			margin: 0;
 		}
@@ -1539,7 +1549,7 @@ section {
 		&__link--active {
 			background: rgb(141, 47, 45);
 			background: linear-gradient(270deg, rgba(141, 47, 45, 1) 0%, rgba(255, 116, 0, 1) 100%);
-			padding: 2px;
+			padding: 3px;
 			a {
 				background-color: $nav-bg;
 			}
