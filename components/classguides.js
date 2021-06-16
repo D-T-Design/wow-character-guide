@@ -134,7 +134,6 @@ const ClassGuides = (props) => {
 															version="1618808611"
 															alt={`Link to ${guide.title}`}
 															title={`Click to go to ${guide.title}`}
-															loading="lazy"
 															dpr="auto"
 															responsive
 															width="auto"

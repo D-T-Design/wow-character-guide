@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { Image, Transformation } from "cloudinary-react";
+import ReactPaginate from "react-paginate";
 
-const itemURLTBC = "https://tbc.wowhead.com/item=";
+import { ItemDisplay } from "./ItemDisplay";
+
 const gearURL = "/static/img/gear/";
-const factionURL = "/static/img/faction/";
 import { weaponToFullName } from "../utils/weaponToFullName";
-const itemImgURL =
-	"https://res.cloudinary.com/david-torres-design/image/upload/v1623049444/wow-character-guide/itemthumbs/";
 
 export const GearSlot = ({ name, items, faction, phase, type }) => {
 	const [open, setOpen] = useState(false);
@@ -18,6 +16,21 @@ export const GearSlot = ({ name, items, faction, phase, type }) => {
 	const itemList = containsItems && items.filter((item) => item.phase <= phaseLvl);
 	const numItems = itemList.length;
 
+	const [currentPage, setCurrentPage] = useState(0);
+	const PER_PAGE = 10;
+	const offset = currentPage * PER_PAGE;
+	let currentPageData = [];
+	if (containsItems) {
+		currentPageData = itemList
+			.slice(offset, offset + PER_PAGE)
+			.map((item, index) => (
+				<ItemDisplay item={item} faction={faction} phaseLvl={phase} key={index} />
+			));
+	}
+	const pageCount = Math.ceil(itemList.length / PER_PAGE);
+	function handlePageClick({ selected: selectedPage }) {
+		setCurrentPage(selectedPage);
+	}
 	// const cloud = new Cloudinary({
 	// 	cloud: {
 	// 		cloudName: "david-torres-design",
@@ -53,55 +66,22 @@ export const GearSlot = ({ name, items, faction, phase, type }) => {
 				}
 			>
 				{containsItems ? (
-					itemList.map((item, index) => {
-						const { id, quality, name, drop, iLvl, slot, phase, imgURL } = item;
-						const itemFaction = item.faction;
-						const itemProhibited = itemFaction && itemFaction.name !== faction;
-						const phaseRestricted = phase > phaseLvl;
-						// const gearImg = cloud.image(imgURL);
-						return !itemProhibited && !phaseRestricted ? (
-							<li key={index}>
-								<a href={`${itemURLTBC}${id}`} target="_blank" rel="noreferrer">
-									{
-										<Image
-											public-id={`/wow-character-guide/itemthumbs/${imgURL}`}
-											cloudName="david-torres-design"
-											version="1623049444"
-											width="36"
-											height="36"
-											class="icon"
-											loading="lazy"
-											secure="true"
-											alt={name}
-										>
-											<Transformation quality="auto" fetchFormat="auto" />
-										</Image>
-									}
-									<div className="item-details">
-										<h3 className={quality.toLowerCase()}>{name}</h3>
-										<small className="iLvl">
-											<em>iLvl {iLvl}</em>
-										</small>
-										<small>{slot}</small>
-										{drop ? <h4>Source: {drop}</h4> : null}
-										{itemFaction ? (
-											<img
-												className="faction-icon"
-												src={`${factionURL}${faction.toLowerCase()}.png`}
-												alt={faction}
-												title={faction}
-											/>
-										) : null}
-										{phase ? (
-											<small>
-												Phase <strong>{phase}</strong>
-											</small>
-										) : null}
-									</div>
-								</a>
-							</li>
-						) : null;
-					})
+					<>
+						{currentPageData}
+						<ReactPaginate
+							previousLabel={"← Previous"}
+							pageRangeDisplayed={1}
+							marginPagesDisplayed={1}
+							nextLabel={"Next →"}
+							pageCount={pageCount}
+							onPageChange={handlePageClick}
+							containerClassName={"pagination"}
+							previousLinkClassName={"pagination__link"}
+							nextLinkClassName={"pagination__link"}
+							disabledClassName={"pagination__link--disabled"}
+							activeClassName={"pagination__link--active"}
+						/>
+					</>
 				) : (
 					<li>No items found for your level.</li>
 				)}

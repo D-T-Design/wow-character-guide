@@ -1464,6 +1464,8 @@ section {
 				height: 36px;
 				@include borderDesign();
 				margin-right: 1.5ch;
+				color: rgba(255, 255, 255, 0);
+				overflow: hidden;
 			}
 			&:hover {
 				filter: brightness(1.2);
@@ -1510,6 +1512,50 @@ section {
 		right: 0.75em;
 		margin: 0;
 		filter: grayscale(0);
+	}
+	.pagination {
+		margin-top: 2rem;
+		margin-bottom: 1rem;
+		height: auto;
+		padding: 0;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		li {
+			margin: 0;
+		}
+		a {
+			border: 0;
+			padding: 0.25em 1ch;
+			color: $body-color;
+			cursor: pointer;
+			&:hover {
+				background-color: $bg-bright;
+			}
+		}
+		&__link--active {
+			background: rgb(141, 47, 45);
+			background: linear-gradient(270deg, rgba(141, 47, 45, 1) 0%, rgba(255, 116, 0, 1) 100%);
+			padding: 2px;
+			a {
+				background-color: $nav-bg;
+			}
+		}
+		&__link--disabled {
+			opacity: 0.5;
+			a {
+				cursor: default;
+				&:hover {
+					filter: none;
+					background-color: transparent;
+				}
+			}
+		}
+		.previous,
+		.next {
+			font-size: 0.8rem;
+			text-transform: uppercase;
+		}
 	}
 }
 .zones {

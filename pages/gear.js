@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 
 import getClassGear from "../utils/getClassGear";
-import getAllItems from "../utils/getAllItems";
 import filterGearByLevel from "../utils/filterGearByLevel";
 import separateGearByType from "../utils/separateGearByType";
-import { weaponToFullName } from "../utils/weaponToFullName";
-import { armorToFullName } from "../utils/armorToFullName";
-
 import { GearSlot } from "../components/GearSlot";
 
 import useSWR from "swr";
 import { graphQLClient, queryAllFactions } from "../utils/fauna_gql";
 import parseClassData from "../utils/parseClassData";
+
+import { weaponToFullName } from "../utils/weaponToFullName";
 
 const fetcher = (query) => graphQLClient.request(query);
 
