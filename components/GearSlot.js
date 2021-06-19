@@ -12,35 +12,29 @@ export const GearSlot = ({ name, items, faction, phase, type, level }) => {
 	const toggleOpen = () => {
 		setOpen(!open);
 	};
-	const phaseLvl = phase;
-	const itemList = containsItems && items.filter((item) => item.phase <= phaseLvl);
+
+	const itemsFilterByPhase = containsItems && items.filter((item) => item.phase <= phase);
 	const itemsFilterByFaction =
-		itemList.length > 0
-			? itemList.filter((item) => {
+		itemsFilterByPhase.length > 0
+			? itemsFilterByPhase.filter((item) => {
 					return item.faction === null || item.faction.name === faction;
 			  })
-			: itemList;
-	const itemsFilterByPhase =
-		itemsFilterByFaction.length > 0
-			? itemsFilterByFaction.filter((item) => {
-					return item.phase <= phase;
-			  })
-			: itemsFilterByFaction;
-	const numItems = itemsFilterByPhase.length;
+			: itemsFilterByPhase;
+	const numItems = itemsFilterByFaction.length;
 
 	const [currentPage, setCurrentPage] = useState(0);
 	const PER_PAGE = 10;
 	const offset = currentPage * PER_PAGE;
 	let currentPageData = [];
 	if (containsItems) {
-		currentPageData = itemsFilterByPhase
+		currentPageData = itemsFilterByFaction
 			.slice(offset, offset + PER_PAGE)
 			.map((item, index) => (
 				<ItemDisplay item={item} faction={faction} phaseLvl={phase} key={index} />
 			));
 	}
 
-	const pageCount = Math.ceil(itemList.length / PER_PAGE);
+	const pageCount = Math.ceil(itemsFilterByFaction.length / PER_PAGE);
 
 	function handlePageClick({ selected: selectedPage }) {
 		setCurrentPage(selectedPage);
@@ -49,7 +43,7 @@ export const GearSlot = ({ name, items, faction, phase, type, level }) => {
 	useEffect(() => {
 		setCurrentPage(0);
 	}, [phase, level]);
-	
+
 	return (
 		<article>
 			<figure onClick={toggleOpen} style={{ cursor: "pointer" }}>
