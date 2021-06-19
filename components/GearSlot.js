@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 
 import { ItemDisplay } from "./ItemDisplay";
@@ -6,7 +6,7 @@ import { ItemDisplay } from "./ItemDisplay";
 const gearURL = "/static/img/gear/";
 import { weaponToFullName } from "../utils/weaponToFullName";
 
-export const GearSlot = ({ name, items, faction, phase, type }) => {
+export const GearSlot = ({ name, items, faction, phase, type, level }) => {
 	const [open, setOpen] = useState(false);
 	const containsItems = items.length > 0;
 	const toggleOpen = () => {
@@ -14,28 +14,42 @@ export const GearSlot = ({ name, items, faction, phase, type }) => {
 	};
 	const phaseLvl = phase;
 	const itemList = containsItems && items.filter((item) => item.phase <= phaseLvl);
-	const numItems = itemList.length;
+	const itemsFilterByFaction =
+		itemList.length > 0
+			? itemList.filter((item) => {
+					return item.faction === null || item.faction.name === faction;
+			  })
+			: itemList;
+	const itemsFilterByPhase =
+		itemsFilterByFaction.length > 0
+			? itemsFilterByFaction.filter((item) => {
+					return item.phase <= phase;
+			  })
+			: itemsFilterByFaction;
+	const numItems = itemsFilterByPhase.length;
 
 	const [currentPage, setCurrentPage] = useState(0);
 	const PER_PAGE = 10;
 	const offset = currentPage * PER_PAGE;
 	let currentPageData = [];
 	if (containsItems) {
-		currentPageData = itemList
+		currentPageData = itemsFilterByPhase
 			.slice(offset, offset + PER_PAGE)
 			.map((item, index) => (
 				<ItemDisplay item={item} faction={faction} phaseLvl={phase} key={index} />
 			));
 	}
+
 	const pageCount = Math.ceil(itemList.length / PER_PAGE);
+
 	function handlePageClick({ selected: selectedPage }) {
 		setCurrentPage(selectedPage);
 	}
-	// const cloud = new Cloudinary({
-	// 	cloud: {
-	// 		cloudName: "david-torres-design",
-	// 	},
-	// });
+
+	useEffect(() => {
+		setCurrentPage(0);
+	}, [phase, level]);
+	
 	return (
 		<article>
 			<figure onClick={toggleOpen} style={{ cursor: "pointer" }}>
@@ -74,6 +88,7 @@ export const GearSlot = ({ name, items, faction, phase, type }) => {
 							marginPagesDisplayed={1}
 							nextLabel={"Next →"}
 							pageCount={pageCount}
+							forcePage={currentPage}
 							onPageChange={handlePageClick}
 							containerClassName={"pagination"}
 							previousLinkClassName={"pagination__link"}

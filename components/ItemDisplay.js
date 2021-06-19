@@ -2,12 +2,10 @@ import { Image, Transformation, Placeholder } from "cloudinary-react";
 const itemURLTBC = "https://tbc.wowhead.com/item=";
 const factionURL = "/static/img/faction/";
 
-export const ItemDisplay = ({ item, faction, phaseLvl }) => {
+export const ItemDisplay = ({ item, faction }) => {
 	const { id, quality, name, drop, iLvl, slot, phase, imgURL } = item;
 	const itemFaction = item.faction;
-	const itemProhibited = itemFaction && itemFaction.name !== faction;
-	const phaseRestricted = phase > phaseLvl;
-	return !itemProhibited && !phaseRestricted ? (
+	return (
 		<li>
 			<a href={`${itemURLTBC}${id}`} target="_blank" rel="noreferrer">
 				{
@@ -49,5 +47,5 @@ export const ItemDisplay = ({ item, faction, phaseLvl }) => {
 				</div>
 			</a>
 		</li>
-	) : null;
+	);
 };
