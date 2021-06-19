@@ -1461,6 +1461,7 @@ section {
 	}
 	li {
 		position: relative;
+		cursor: pointer;
 		a {
 			background-color: transparent;
 			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -1473,11 +1474,18 @@ section {
 				height: 36px;
 				@include borderDesign();
 				margin-right: 1.5ch;
-				color: rgba(255, 255, 255, 0);
+				color: rgba(54, 32, 32, 0);
 				overflow: hidden;
+				&-phase {
+					filter: grayscale(0);
+					width: 74px;
+					height: 25px;
+					margin-top: 0.5rem;
+				}
 			}
 			.item-details {
 				max-width: calc(100% - 36px - 1.5ch);
+				width: 100%;
 			}
 			&:hover {
 				filter: brightness(1.2);

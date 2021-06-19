@@ -6,10 +6,6 @@ export default function Zone({ zone }) {
 	const zoneURL = "https://tbc.wowhead.com/zone=";
 	const factionURL = "/static/img/faction/";
 	const zoneURLString = "/static/img/zone/";
-	const imgBase = "https://res.cloudinary.com/david-torres-design/image/upload/";
-	const imgTransform = "w_844,h_400,c_fill";
-	const imgGradient = "/e_gradient_fade,y_-0.5,b_rgb:000000A0/";
-	const imgFolder = "/v1618808611/wow-character-guide/";
 	return (
 		<div className="quests-zone">
 			<a href={`${zoneURL}${id}`} target="_blank" rel="noopener noreferrer">
@@ -29,13 +25,10 @@ export default function Zone({ zone }) {
 							crop="fill"
 							aspectRatio="16:9"
 							responsiveUseBreakpoints="true"
+							secure="true"
 						>
 							<Placeholder type="predominant" />
 						</Image>
-						{/* <img
-							src={`${imgBase}${imgTransform}${imgGradient}${imgFolder}${img.toLowerCase()}`}
-							title={name}
-						/> */}
 					</div>
 				)}
 

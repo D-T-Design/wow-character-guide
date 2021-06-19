@@ -30,7 +30,23 @@ export const ItemDisplay = ({ item, faction }) => {
 						<em>iLvl {iLvl}</em>
 					</small>
 					<small>{slot}</small>
-					{drop ? <h4>Source: {drop}</h4> : null}
+					{phase ? (
+						<Image
+							public-id={`/wow-character-guide/phase${phase}`}
+							cloudName="david-torres-design"
+							version="1623049444"
+							width="74"
+							height="25"
+							class="icon-phase"
+							loading="lazy"
+							secure="true"
+							alt={`Phase ${phase}`}
+						>
+							<Transformation quality="auto" fetchFormat="auto" />
+							<Placeholder />
+						</Image>
+					) : null}
+					{drop ? <h4>Dropped by:<br/>{drop}</h4> : null}
 					{itemFaction ? (
 						<img
 							className="faction-icon"
@@ -38,11 +54,6 @@ export const ItemDisplay = ({ item, faction }) => {
 							alt={faction}
 							title={faction}
 						/>
-					) : null}
-					{phase ? (
-						<small>
-							Phase <strong>{phase}</strong>
-						</small>
 					) : null}
 				</div>
 			</a>

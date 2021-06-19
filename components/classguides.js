@@ -140,6 +140,7 @@ const ClassGuides = (props) => {
 															crop="fill"
 															aspectRatio="16:9"
 															responsiveUseBreakpoints="true"
+															secure="true"
 														>
 															<Placeholder type="predominant" />
 														</Image>
