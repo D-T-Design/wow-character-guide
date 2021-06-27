@@ -286,8 +286,19 @@ article {
 	width: 100%;
 	@include borderDesign;
 	figure {
-		display: flex;
 		margin: 0;
+		overflow: hidden;
+		position: relative;
+		button {
+			display: flex;
+			flex-flow: row wrap;
+			background-color: transparent;
+			border: 0;
+			width: 100%;
+			&:hover {
+				filter: brightness(1.2);
+			}
+		}
 		figcaption {
 			padding-left: 2ch;
 			width: 100%;
@@ -316,6 +327,14 @@ article {
 				box-shadow: none;
 				width: 0.8rem;
 				height: auto;
+				&.open {
+					transform: rotate(45deg);
+					transition: transform 0.1s ease-in-out;
+				}
+				&.closed {
+					transform: rotate(0deg);
+					transition: transform 0.1s ease-in-out;
+				}
 			}
 		}
 	}
@@ -324,7 +343,6 @@ article {
 		opacity: 0.75;
 	}
 	ul {
-		height: 0;
 		list-style: none;
 		margin: 0;
 		overflow: hidden;
@@ -623,6 +641,7 @@ section {
 	display: grid;
 	grid-template-rows: auto 1fr auto;
 	align-items: flex-start;
+	overflow-x: hidden;
 }
 .container {
 	width: 100%;
@@ -642,6 +661,23 @@ section {
 }
 .content {
 	padding: 3rem 0;
+	&-enter {
+		opacity: 0;
+		transform: translateX(50px);
+	}
+	&-enter-active {
+		opacity: 1;
+		transform: translateX(0);
+		transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+	}
+	&-exit {
+		opacity: 1;
+	}
+	&-exit-active {
+		opacity: 0;
+		transform: translateX(-50px);
+		transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+	}
 }
 
 .left {
@@ -1448,16 +1484,21 @@ section {
 	}
 	figure {
 		transition: filter 0.1s ease-in-out;
-		&:hover {
-			filter: brightness(1.2);
+		button {
+			font-size: 1rem;
+			display: flex;
+			flex-flow: initial;
+			color: $body-color;
+			small {
+				opacity: 0.5;
+				text-align: left;
+			}
 		}
 	}
 	ul {
 		background-color: $nav-bg;
-		padding: 0 2ch;
-		&.open {
-			margin-top: 1rem;
-		}
+		padding: 0.5rem 2ch;
+		margin-top: 1rem;
 	}
 	li {
 		position: relative;
@@ -1481,6 +1522,8 @@ section {
 					width: 74px;
 					height: 25px;
 					margin-top: 0.5rem;
+					border: 0;
+					box-shadow: none;
 				}
 			}
 			.item-details {
@@ -1527,6 +1570,7 @@ section {
 	.faction-icon {
 		min-width: auto;
 		width: 24px !important;
+		height: 24px;
 		position: absolute;
 		top: 0.75em;
 		right: 0.75em;

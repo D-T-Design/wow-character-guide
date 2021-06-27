@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 import PlayerCard from "./PlayerCard";
 
-export const Navbar = ({ appState }) => {
+export const Navbar = ({ appState, changePage }) => {
 	const router = useRouter();
 	const route = router.asPath;
 	const links = [
@@ -67,7 +67,7 @@ export const Navbar = ({ appState }) => {
 				</picture>
 				<div className="container">
 					<Link href="/">
-						<a>
+						<a onClick={() => changePage("/")}>
 							<h1>
 								<img
 									src="/static/img/wccg.svg"
@@ -113,7 +113,10 @@ export const Navbar = ({ appState }) => {
 												className={`playerclass-${selectedCharacter.playerClass}${
 													isActive ? " active" : ""
 												}`}
-												onClick={() => toggleNav(false)}
+												onClick={() => {
+													changePage(path);
+													return toggleNav(false);
+												}}
 											>
 												<img src={link.icon} />
 												{link.text}

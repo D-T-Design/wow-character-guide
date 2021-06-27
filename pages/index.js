@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { motion } from "framer-motion";
 import Welcome from "../components/Welcome";
 import Character from "../components/Character";
 
@@ -24,8 +25,33 @@ const Home = (props) => {
 		character = props.appState.savedCharacters.find((char) => char.id === props.appState.character);
 	}
 	props = { ...props, gameData };
+
+	const transition = {
+		duration: 0.3,
+		ease: "easeInOut",
+	};
+
+	const pageVariants = {
+		exit: { opacity: 0, transition },
+		enter: {
+			opacity: 1,
+			transition,
+		},
+		initial: {
+			opacity: 0,
+			transition,
+		},
+	};
+
 	return (
-		<section className="content home">
+		<motion.section
+			key={"home"}
+			className="content home"
+			initial="initial"
+			animate="enter"
+			exit="exit"
+			variants={pageVariants}
+		>
 			<div className="container">
 				{error ? (
 					<p>Error loading game data.</p>
@@ -65,7 +91,7 @@ const Home = (props) => {
 					</section>
 				)}
 			</div>
-		</section>
+		</motion.section>
 	);
 };
 

@@ -1,54 +1,10 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 
 import { InputCharacter } from "../components/characterInput";
-
-export default function Character({ props }) {
-	const { updateState, appState, gameData } = props;
-	const { savedCharacters } = appState;
-	const { addCharacter, updateGameData } = updateState;
-	const [addForm, toggleAddForm] = useState(false);
-	const switchAddForm = () => toggleAddForm(!addForm);
-	const addAction = {
-		title: "Add Character",
-		formAction: addCharacter,
-		callback: switchAddForm,
-	};
-	return (
-		<section className="edit-characters">
-			<h2>Your Saved Characters</h2>
-			<ul className="character-list">
-				{savedCharacters.map((character, index) => (
-					<CharacterDisplay
-						character={character}
-						key={index}
-						updateState={updateState}
-						appState={appState}
-						gameData={gameData}
-						updateGameData={updateGameData}
-					/>
-				))}
-			</ul>
-			<h2>Add Characters</h2>
-			{addForm ? (
-				<>
-					<button onClick={() => toggleAddForm(!addForm)} className="character-add">
-						<img src="/static/img/exit.svg" />
-						Cancel Add Character
-					</button>
-					<InputCharacter action={addAction} gameData={gameData} updateGameData={updateGameData} />
-				</>
-			) : (
-				<button onClick={() => toggleAddForm(!addForm)} className="character-add">
-					<img src="/static/img/plus.svg" />
-					Add Character
-				</button>
-			)}
-		</section>
-	);
-}
-
-const CharacterDisplay = ({ character, updateState, appState, gameData, updateGameData }) => {
+const CharacterDisplay = React.forwardRef((props, ref) => {
+	const { character, updateState, appState, gameData, updateGameData } = props;
 	const { name, level, faction, race, playerClass, gender, id } = character;
 	const { removeCharacter, selectCharacter, updateCharacter } = updateState;
 	const isSelectedCharacter = id === appState.character;
@@ -66,8 +22,13 @@ const CharacterDisplay = ({ character, updateState, appState, gameData, updateGa
 	}.png`;
 	const classImgURL = `/static/img/class/${playerClass.toLowerCase()}.png`;
 	const iconURL = `/static/img/`;
+
 	return (
-		<li className={`saved-character ${playerClass}${isSelectedCharacter ? " class-selected" : ""}`}>
+		<li
+			ref={ref}
+			key={id}
+			className={`saved-character ${playerClass}${isSelectedCharacter ? " class-selected" : ""}`}
+		>
 			<figure>
 				<div>
 					<img src={factionImgURL} title={faction} className="faction" />
@@ -180,4 +141,79 @@ const CharacterDisplay = ({ character, updateState, appState, gameData, updateGa
 			</figure>
 		</li>
 	);
-};
+});
+
+const MotionCharacter = motion(CharacterDisplay, { forwardMotionProps: true });
+
+export default function Character({ props }) {
+	const { updateState, appState, gameData } = props;
+	const { savedCharacters } = appState;
+	const { addCharacter, updateGameData } = updateState;
+	const [addForm, toggleAddForm] = useState(false);
+	const switchAddForm = () => toggleAddForm(!addForm);
+	const addAction = {
+		title: "Add Character",
+		formAction: addCharacter,
+		callback: switchAddForm,
+	};
+	const listVariant = {
+		hidden: { opacity: 0 },
+		show: {
+			opacity: 1,
+			transition: {
+				staggerChildren: 0.5,
+			},
+		},
+	};
+	const characterVariant = {
+		hidden: { opacity: 0, y: 20 },
+		fadeIn: {
+			opacity: 1,
+			y: 0,
+		},
+	};
+	return (
+		<section className="edit-characters">
+			<h2>Your Saved Characters</h2>
+			{savedCharacters && (
+				<motion.ul
+					className="character-list"
+					variants={listVariant}
+					initial="hidden"
+					animate="show"
+					key="characterList"
+				>
+					{savedCharacters.map((character, index) => (
+						<MotionCharacter
+							character={character}
+							key={index}
+							updateState={updateState}
+							appState={appState}
+							gameData={gameData}
+							updateGameData={updateGameData}
+							variants={characterVariant}
+							initial="hidden"
+							animate="fadeIn"
+						/>
+					))}
+				</motion.ul>
+			)}
+
+			<h2>Add Characters</h2>
+			{addForm ? (
+				<>
+					<button onClick={() => toggleAddForm(!addForm)} className="character-add">
+						<img src="/static/img/exit.svg" />
+						Cancel Add Character
+					</button>
+					<InputCharacter action={addAction} gameData={gameData} updateGameData={updateGameData} />
+				</>
+			) : (
+				<button onClick={() => toggleAddForm(!addForm)} className="character-add">
+					<img src="/static/img/plus.svg" />
+					Add Character
+				</button>
+			)}
+		</section>
+	);
+}

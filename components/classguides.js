@@ -1,6 +1,7 @@
 import React from "react";
+import { motion } from "framer-motion";
 import Head from "next/head";
-import { statToFullName } from "../utils/statToFullName";
+
 import { Image, Placeholder } from "cloudinary-react";
 
 const wccgClassImg = "/static/img/class/";
@@ -11,6 +12,7 @@ const imgFolder = "/v1618808611/wow-character-guide/";
 import useSWR from "swr";
 import { graphQLClient, queryAllFactions } from "../utils/fauna_gql";
 import parseClassData from "../utils/parseClassData";
+import { statToFullName } from "../utils/statToFullName";
 
 const fetcher = (query) => graphQLClient.request(query);
 
@@ -35,8 +37,31 @@ const ClassGuides = (props) => {
 		classGuides,
 		creators,
 	} = ref ? ref : null;
+
+	const transition = {
+		duration: 0.3,
+		ease: "easeInOut",
+	};
+
+	const pageVariants = {
+		exit: { opacity: 0, transition },
+		enter: {
+			opacity: 1,
+			transition,
+		},
+		initial: {
+			opacity: 0,
+			transition,
+		},
+	};
 	return (
-		<section className="content guides">
+		<motion.section
+			className="content guides"
+			initial="initial"
+			animate="enter"
+			exit="exit"
+			variants={pageVariants}
+		>
 			<Head>
 				<title>TBC {playerClass} Guide - WCCG</title>
 				<meta property="og:title" content={`TBC ${playerClass} Guide - WCCG`} />
@@ -193,7 +218,7 @@ const ClassGuides = (props) => {
 					</section>
 				</div>
 			</div>
-		</section>
+		</motion.section>
 	);
 };
 

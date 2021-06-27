@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import ReactPaginate from "react-paginate";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-import { ItemDisplay } from "./ItemDisplay";
+import { PaginateGear } from "./PaginateGear";
 
 const gearURL = "/static/img/gear/";
 import { weaponToFullName } from "../utils/weaponToFullName";
 
-export const GearSlot = ({ name, items, faction, phase, type, level }) => {
+export const GearSlot = ({ name, items, faction, phase, type, level, index }) => {
 	const [open, setOpen] = useState(false);
 	const containsItems = items.length > 0;
 	const toggleOpen = () => {
@@ -27,74 +27,95 @@ export const GearSlot = ({ name, items, faction, phase, type, level }) => {
 	const offset = currentPage * PER_PAGE;
 	let currentPageData = [];
 	if (containsItems) {
-		currentPageData = itemsFilterByFaction
-			.slice(offset, offset + PER_PAGE)
-			.map((item, index) => (
-				<ItemDisplay item={item} faction={faction} phaseLvl={phase} key={index} />
-			));
+		currentPageData = itemsFilterByFaction.slice(offset, offset + PER_PAGE);
 	}
 
 	const pageCount = Math.ceil(itemsFilterByFaction.length / PER_PAGE);
 
+	const slotRef = useRef(null);
 	function handlePageClick({ selected: selectedPage }) {
 		setCurrentPage(selectedPage);
+		slotRef.current.scrollIntoView({ behavior: "smooth" });
 	}
 
 	useEffect(() => {
 		setCurrentPage(0);
 	}, [phase, level]);
 
+	const fadeIn = {
+		initial: { opacity: 0, y: "15%" },
+		animate: { opacity: 1, y: 0, transition: { staggerChildren: 1, delay: (index + 1) * 0.05 } },
+		transition: { duration: 0.5 },
+	};
+	const paginateMotionVariants = {
+		animate: {
+			opacity: 1,
+			height: "calc(100% + 1px)",
+		},
+		initial: {
+			opacity: 0,
+			height: 0,
+		},
+		exit: {
+			opacity: 0,
+			height: 0,
+		},
+		transition: { duration: 0.3, ease: "easeInOut" },
+	};
 	return (
-		<article>
-			<figure onClick={toggleOpen} style={{ cursor: "pointer" }}>
-				<img
-					src={`${gearURL}${name.toLowerCase().replace(/\s/g, "").replace(/-/, "")}.png`}
-					className="gear-icon"
-				/>
-				<figcaption>
-					<h3 className="gear-type">
-						{type === "Weapons" ? weaponToFullName(name) : name}
-						<span>
-							{open ? <img src="/static/img/exit.svg" /> : <img src="/static/img/plus.svg" />}
-						</span>
-					</h3>
-					<small>
-						<em>{containsItems ? `${numItems} items found.` : `0 items found.`}</em>
-					</small>
-				</figcaption>
+		<motion.article
+			variants={fadeIn}
+			initial="initial"
+			animate="animate"
+			transition="transition"
+			key={name}
+			ref={slotRef}
+		>
+			<figure>
+				<button onClick={toggleOpen} style={{ cursor: "pointer" }}>
+					<img
+						src={`${gearURL}${name.toLowerCase().replace(/\s/g, "").replace(/-/, "")}.png`}
+						className="gear-icon"
+					/>
+					<figcaption>
+						<h3 className="gear-type">
+							{type === "Weapons" ? weaponToFullName(name) : name}
+							<span>
+								<img
+									src="/static/img/plus.svg"
+									className={`toggle ${open ? "open" : "closed"}`}
+									alt={open ? "Close Gear Slot" : "Open Gear Slot"}
+								/>
+							</span>
+						</h3>
+						<small>
+							<em>{containsItems ? `${numItems} items found.` : `0 items found.`}</em>
+						</small>
+					</figcaption>
+				</button>
+				<AnimatePresence exitBeforeEnter>
+					{open && (
+						<motion.div
+							key="paginate-gear"
+							variants={paginateMotionVariants}
+							initial="initial"
+							animate="animate"
+							exit="exit"
+							transition="transition"
+							layout
+						>
+							<PaginateGear
+								currentPageData={currentPageData}
+								pageCount={pageCount}
+								currentPage={currentPage}
+								handlePageClick={handlePageClick}
+								containsItems={containsItems}
+								faction={faction}
+							/>
+						</motion.div>
+					)}
+				</AnimatePresence>
 			</figure>
-			<ul
-				className={open ? "open" : "closed"}
-				style={
-					open && containsItems
-						? { height: "auto" }
-						: open && !containsItems
-						? { height: "auto" }
-						: { height: "0" }
-				}
-			>
-				{containsItems ? (
-					<>
-						{currentPageData}
-						<ReactPaginate
-							previousLabel={"← Previous"}
-							pageRangeDisplayed={1}
-							marginPagesDisplayed={1}
-							nextLabel={"Next →"}
-							pageCount={pageCount}
-							forcePage={currentPage}
-							onPageChange={handlePageClick}
-							containerClassName={"pagination"}
-							previousLinkClassName={"pagination__link"}
-							nextLinkClassName={"pagination__link"}
-							disabledClassName={"pagination__link--disabled"}
-							activeClassName={"pagination__link--active"}
-						/>
-					</>
-				) : (
-					<li>No items found for your level.</li>
-				)}
-			</ul>
-		</article>
+		</motion.article>
 	);
 };

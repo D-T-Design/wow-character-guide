@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import { AnimatePresence } from "framer-motion";
 import { SWRConfig } from "swr";
 import createPersistedState from "use-persisted-state";
 import Head from "next/head";
@@ -7,6 +9,7 @@ import { Navbar } from "../components/Navbar";
 import Footer from "../components/Footer";
 
 import "../styles/globals.scss";
+import { Router } from "next/router";
 
 const MyApp = ({ Component, pageProps }) => {
 	const useAppState = createPersistedState("appState");
@@ -66,10 +69,16 @@ const MyApp = ({ Component, pageProps }) => {
 		selectCharacter,
 	};
 
+	const router = useRouter();
+	const [currentPage, setPage] = useState("");
+	const changePage = (path) => setPage(path);
+
 	pageProps = {
 		...pageProps,
 		updateState,
 		appState,
+		currentPage,
+		changePage,
 	};
 	return (
 		<>
@@ -84,7 +93,9 @@ const MyApp = ({ Component, pageProps }) => {
 					refreshInterval: 3000000,
 				}}
 			>
-				<Component {...pageProps} />
+				<AnimatePresence exitBeforeEnter>
+					<Component {...pageProps} key={router.route} />
+				</AnimatePresence>
 			</SWRConfig>
 			<Footer />
 		</>
