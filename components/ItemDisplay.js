@@ -108,6 +108,8 @@ export const ItemDisplay = ({ item, index, faction }) => {
 										href={`${itemURLTBC}${id}`}
 										className="equip-link"
 										title="See more details on Wowhead"
+										target="_blank"
+										rel="noreferrer noopener"
 									>
 										View on Wowhead{" "}
 										<Image
