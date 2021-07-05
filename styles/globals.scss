@@ -70,7 +70,7 @@ $zone: #b5cdb0;
 	border-radius: 5px;
 	border: 1px solid #373533;
 	border-top: 1px solid #514f4c;
-	box-shadow: 0 0 0 2px #2c2925, 0 5px 5px rgba(0, 0, 0, 0.5);
+	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
 }
 
 $classColors: (
@@ -257,7 +257,7 @@ h3,
 h4,
 h5,
 h6 {
-	font-family: $headline-font;
+	font-family: $body-font;
 }
 
 h3 {
@@ -466,7 +466,7 @@ header {
 		@include respond-above(lg) {
 			display: flex;
 			width: 100%;
-			max-width: 1286px;
+			max-width: 1367px;
 		}
 		a {
 			z-index: 1;
@@ -477,6 +477,9 @@ header {
 					filter: brightness(1.2);
 					box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.5);
 				}
+			}
+			&:active {
+				transform: scale(0.95);
 			}
 		}
 		h1 {
@@ -656,7 +659,7 @@ section {
 	@include respond-above(lg) {
 		padding: 0 3ch;
 		width: 100%;
-		max-width: 1286px;
+		max-width: 1367px;
 	}
 }
 .content {
@@ -1238,10 +1241,8 @@ section {
 
 .faction-icon,
 .zone-icon {
-	figure {
-		img {
-			border-radius: 50%;
-		}
+	img {
+		border-radius: 50%;
 	}
 }
 
@@ -1500,31 +1501,32 @@ section {
 		padding: 0.5rem 2ch;
 		margin-top: 1rem;
 	}
-	li {
+	.item {
 		position: relative;
-		cursor: pointer;
-		a {
-			background-color: transparent;
-			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-			padding: 0.5rem 0 1rem;
-			transition: all 0.1s ease-in-out;
+		background-color: transparent;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+		padding: 0.5rem 0 1rem;
+		font-family: $body-font;
+		h3 {
+			font-size: 1rem;
+		}
+		h4 {
+			font-weight: normal;
+			font-style: normal;
+			opacity: 1;
+		}
+		button {
 			display: flex;
-			.icon {
+			cursor: pointer;
+			line-height: 1.6 !important;
+			text-align: left;
+			position: relative;
+			.wowhead {
 				filter: grayscale(0);
-				width: 36px;
-				height: 36px;
-				@include borderDesign();
-				margin-right: 1.5ch;
-				color: rgba(54, 32, 32, 0);
-				overflow: hidden;
-				&-phase {
-					filter: grayscale(0);
-					width: 74px;
-					height: 25px;
-					margin-top: 0.5rem;
-					border: 0;
-					box-shadow: none;
-				}
+				border: 0;
+				width: 30px;
+				height: 25px;
+				box-shadow: none;
 			}
 			.item-details {
 				max-width: calc(100% - 36px - 1.5ch);
@@ -1532,7 +1534,106 @@ section {
 			}
 			&:hover {
 				filter: brightness(1.2);
+				.icon {
+					&-arrow {
+						opacity: 1;
+						filter: drop-shadow(rgba(0, 0, 0, 0.5));
+					}
+				}
 			}
+		}
+		small {
+			opacity: 1;
+		}
+		.equip {
+			&-type {
+				display: flex;
+				justify-content: space-between;
+			}
+			&-weapon {
+				margin: 0;
+				padding: 0;
+				background-color: transparent;
+				li {
+					display: flex;
+					justify-content: space-between;
+					margin: 0;
+				}
+				&:hover {
+					background-color: transparent;
+				}
+			}
+			&-toggle {
+				overflow: hidden;
+				display: flex;
+				flex-flow: row wrap;
+				aside,
+				h4 {
+					width: 100%;
+				}
+			}
+			&-bonus {
+				color: #1eff00;
+			}
+			&-spells {
+				color: #1eff00;
+			}
+			&-link {
+				margin-right: auto;
+				font-size: small;
+				display: flex;
+				padding: 0.5em 1ch;
+				align-items: center;
+				font-style: italic;
+				font-weight: bold;
+				border: 1px solid rgba(255, 255, 255, 0.1);
+				transition: all 0.1s ease-in-out;
+				img {
+					margin-left: 1ch;
+				}
+				&:hover {
+					background-color: $cta-color;
+					border-color: $cta-color;
+				}
+			}
+		}
+		.icon {
+			filter: grayscale(0);
+			width: 36px;
+			height: 36px;
+			@include borderDesign();
+			margin-right: 1.5ch;
+			color: rgba(54, 32, 32, 0);
+			overflow: hidden;
+			&-arrow {
+				filter: grayscale(0);
+				width: 16px;
+				height: 9px;
+				border: 0;
+				box-shadow: none;
+				border-radius: 0;
+				position: absolute;
+				top: 0.5em;
+				right: 0;
+				opacity: 0.5;
+			}
+			&-phase {
+				filter: grayscale(0);
+				width: 57px;
+				height: 19px;
+				margin-top: 0.5rem;
+				border: 0;
+				box-shadow: none;
+				border-radius: 0;
+			}
+		}
+		.money {
+			filter: grayscale(0);
+			width: 13px;
+			height: 13px;
+			border: 0;
+			box-shadow: none;
+			opacity: 1;
 		}
 
 		&:last-child a {
@@ -1540,7 +1641,7 @@ section {
 		}
 	}
 	h2 {
-		font-size: 1.3rem;
+		font-size: 1.7rem;
 		padding-bottom: 1rem;
 		width: 100%;
 		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -1567,15 +1668,60 @@ section {
 			width: 32%;
 		}
 	}
+	article {
+		transition: all 0.2s ease-in-out;
+		&.gearslot {
+			&-open {
+				border-top: 1px solid #ff7400;
+				border-bottom: 2px solid #ff7400;
+				box-shadow: 0 10px 10px rgba(0, 0, 0, 0.75);
+			}
+		}
+	}
+	.blurb {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		div {
+			width: 100%;
+		}
+	}
+	.img-container {
+		width: 40%;
+		margin-left: 2ch;
+		img {
+			max-width: 100%;
+			box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);
+		}
+	}
 	.faction-icon {
 		min-width: auto;
 		width: 24px !important;
 		height: 24px;
 		position: absolute;
-		top: 0.75em;
-		right: 0.75em;
+		top: calc(36px + 1rem);
+		left: 0.75em;
 		margin: 0;
 		filter: grayscale(0);
+		border-radius: 100%;
+	}
+	.phase {
+		&-button {
+			overflow: hidden;
+			cursor: pointer;
+			&.active {
+				background-color: rgba(255, 116, 0, 0.3);
+			}
+			&.inactive {
+				background-color: rgba(255, 255, 255, 0.1);
+			}
+			&.check {
+				position: absolute;
+				width: 0;
+				height: 0;
+				opacity: 0;
+			}
+		}
 	}
 	.pagination {
 		margin-top: 2rem;

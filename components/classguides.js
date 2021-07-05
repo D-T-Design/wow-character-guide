@@ -54,6 +54,19 @@ const ClassGuides = (props) => {
 			transition,
 		},
 	};
+
+	const fadeUp = {
+		initial: {
+			opacity: 0,
+			y: "5%",
+			transition,
+		},
+		animate: {
+			opacity: 1,
+			y: 0,
+			transition,
+		},
+	};
 	return (
 		<motion.section
 			className="content guides"
@@ -68,8 +81,19 @@ const ClassGuides = (props) => {
 			</Head>
 			<div className="container">
 				<div className="guide-grid">
-					<section>
-						<main className={`class-feature ${playerClass}`}>
+					<motion.section
+						variants={fadeUp}
+						initial="initial"
+						animate="animate"
+						transition={{ staggerChildren: 0.3, delayChildren: 0.3 }}
+					>
+						<motion.main
+							className={`class-feature ${playerClass}`}
+							variants={fadeUp}
+							initial="initial"
+							animate="animate"
+							transition={{ delay: 0.3 }}
+						>
 							<h1>{playerClass}</h1>
 							<img
 								src={`${wccgClassImg}${playerClass.toLowerCase()}.png`}
@@ -78,8 +102,14 @@ const ClassGuides = (props) => {
 							/>
 							<h2>Class Guide</h2>
 							<p>{summary}</p>
-						</main>
-						<aside className="class-reference">
+						</motion.main>
+						<motion.aside
+							className="class-reference"
+							variants={fadeUp}
+							initial="initial"
+							animate="animate"
+							transition={{ delay: 0.3 }}
+						>
 							<h2>{playerClass} Quick Reference</h2>
 							<section>
 								<ul>
@@ -132,10 +162,21 @@ const ClassGuides = (props) => {
 									))}
 								</ul>
 							</section>
-						</aside>
-					</section>
-					<section>
-						<aside className="class-guides">
+						</motion.aside>
+					</motion.section>
+					<motion.section
+						variants={fadeUp}
+						initial="initial"
+						animate="animate"
+						transition={{ staggerChildren: 0.3, delayChildren: 0.3 }}
+					>
+						<motion.aside
+							className="class-guides"
+							variants={fadeUp}
+							initial="initial"
+							animate="animate"
+							transition={{ delay: 0.3 }}
+						>
 							<h3>{playerClass} Class Guides</h3>
 							<p>
 								Class guides from around the internet, these will help you play your class better.
@@ -146,11 +187,14 @@ const ClassGuides = (props) => {
 									{classGuides.data ? (
 										classGuides.data.map((guide, index) => (
 											<li key={index}>
-												<a
+												<motion.a
 													href={guide.link}
 													target="_blank"
 													title={`Link to ${guide.title}`}
 													className={playerClass}
+													initial={false}
+													whileHover={{ scale: 1.02 }}
+													whileTap={{ scale: 0.98 }}
 												>
 													<figure>
 														<Image
@@ -174,7 +218,7 @@ const ClassGuides = (props) => {
 															<img src="/static/img/logout.svg" alt="Link to new tab" />
 														</figcaption>
 													</figure>
-												</a>
+												</motion.a>
 											</li>
 										))
 									) : (
@@ -182,8 +226,14 @@ const ClassGuides = (props) => {
 									)}
 								</ul>
 							</section>
-						</aside>
-						<aside className="class-creators">
+						</motion.aside>
+						<motion.aside
+							className="class-creators"
+							variants={fadeUp}
+							initial="initial"
+							animate="animate"
+							transition={{ delay: 0.3 }}
+						>
 							<h3>{playerClass} Streamers &amp; YouTubers</h3>
 							<section>
 								<ul>
@@ -191,11 +241,14 @@ const ClassGuides = (props) => {
 										(creators.data ? (
 											creators.data.map((creator, index) => (
 												<li key={index}>
-													<a
+													<motion.a
 														href={creator.link}
 														target="_blank"
 														className={playerClass}
 														title={`Find ${creator.title} online`}
+														initial={false}
+														whileHover={{ scale: 1.02 }}
+														whileTap={{ scale: 0.98 }}
 													>
 														<figure>
 															<img
@@ -206,7 +259,7 @@ const ClassGuides = (props) => {
 																<img src="/static/img/link.svg" alt="Link to new tab" />
 															</figcaption>
 														</figure>
-													</a>
+													</motion.a>
 												</li>
 											))
 										) : (
@@ -214,8 +267,8 @@ const ClassGuides = (props) => {
 										))}
 								</ul>
 							</section>
-						</aside>
-					</section>
+						</motion.aside>
+					</motion.section>
 				</div>
 			</div>
 		</motion.section>

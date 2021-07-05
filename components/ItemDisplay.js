@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Image, Transformation, Placeholder } from "cloudinary-react";
+import ToggleItemStats from "./ToggleItemStats";
 const itemURLTBC = "https://tbc.wowhead.com/item=";
-const factionURL = "/static/img/faction/";
 
 export const ItemDisplay = ({ item, index, faction }) => {
-	const { id, quality, name, drop, iLvl, slot, phase, imgURL } = item;
+	const { id, quality, name, drop, phase, imgURL } = item;
 	const itemFaction = item.faction;
 	const itemMotionVariants = {
 		hidden: { y: "20%", opacity: 0 },
@@ -16,6 +16,13 @@ export const ItemDisplay = ({ item, index, faction }) => {
 		},
 		transition: { duration: 0.3, ease: "easeInOut" },
 	};
+
+	const [itemStatsOpen, setItemStatsOpen] = useState(false);
+	const toggleItemStats = () => {
+		setItemStatsOpen(!itemStatsOpen);
+	};
+	const [savedStats, setSavedStats] = useState({});
+	const updateSavedStats = (blizzStats) => setSavedStats({ ...blizzStats, saved: true });
 	return (
 		<AnimatePresence exitBeforeEnter>
 			<motion.li
@@ -28,7 +35,12 @@ export const ItemDisplay = ({ item, index, faction }) => {
 				exit="hidden"
 				transition="transition"
 			>
-				<a href={`${itemURLTBC}${id}`} target="_blank" rel="noreferrer" className="item-link">
+				<button
+					className="item-link"
+					onClick={() => toggleItemStats()}
+					data-wowhead={`item=${id}`}
+					title={`${itemStatsOpen ? "Close" : "Open"} Item Details`}
+				>
 					<Image
 						public-id={`/wow-character-guide/itemthumbs/${imgURL}`}
 						cloudName="david-torres-design"
@@ -43,51 +55,78 @@ export const ItemDisplay = ({ item, index, faction }) => {
 						<Transformation quality="auto" fetchFormat="auto" />
 						<Placeholder />
 					</Image>
-
 					<div className="item-details">
 						<h3 className={quality.toLowerCase()}>{name}</h3>
-
-						<small className="iLvl">
-							<em>iLvl {iLvl}</em>
-						</small>
-
-						<small>{slot}</small>
-
 						{phase && (
 							<Image
-								public-id={`/wow-character-guide/phase${phase}`}
+								public-id={`/wow-character-guide/phase${phase}-vector.svg`}
 								cloudName="david-torres-design"
 								version="1623049444"
-								width="74"
-								height="25"
+								width="57"
+								height="19"
 								class="icon-phase"
 								loading="lazy"
 								secure="true"
 								alt={`Phase ${phase}`}
-							>
-								<Transformation quality="auto" fetchFormat="auto" />
-								<Placeholder />
-							</Image>
-						)}
-
-						{drop && (
-							<h4>
-								Dropped by:
-								<br />
-								{drop}
-							</h4>
-						)}
-
-						{itemFaction && (
-							<img
-								className="faction-icon"
-								src={`${factionURL}${faction.toLowerCase()}.png`}
-								alt={faction}
-								title={faction}
 							/>
 						)}
+						<small style={{ marginLeft: "auto" }}>
+							<motion.img
+								className="icon-arrow"
+								src="/static/img/arrowdown.svg"
+								alt={itemStatsOpen ? "Open" : "Close"}
+								initial={{
+									transform: `rotate(${itemStatsOpen ? 0 : 180}deg) scaleX(${
+										itemStatsOpen ? "-1" : 1
+									})`,
+								}}
+								animate={{
+									transform: `rotate(${itemStatsOpen ? 180 : 0}deg) scaleX(${
+										itemStatsOpen ? "-1" : 1
+									})`,
+								}}
+							/>
+						</small>
+						<AnimatePresence exitBeforeEnter>
+							{itemStatsOpen && (
+								<motion.section
+									initial={{ height: 0, opacity: 0 }}
+									animate={{ height: "auto", opacity: 1 }}
+									exit={{ height: 0, opacity: 0 }}
+									transition={{ duration: 0.2 }}
+									className="equip-toggle"
+								>
+									<ToggleItemStats
+										id={id}
+										drop={drop}
+										itemFaction={itemFaction}
+										faction={faction}
+										savedStats={savedStats}
+										updateSavedStats={updateSavedStats}
+									/>
+									<a
+										href={`${itemURLTBC}${id}`}
+										className="equip-link"
+										title="See more details on Wowhead"
+									>
+										View on Wowhead{" "}
+										<Image
+											public-id={`/wow-character-guide/wowhead`}
+											cloudName="david-torres-design"
+											version="1623049444"
+											width="30"
+											height="25"
+											class="wowhead"
+											loading="lazy"
+											secure="true"
+											alt="See more details on Wowhead"
+										/>
+									</a>
+								</motion.section>
+							)}
+						</AnimatePresence>
 					</div>
-				</a>
+				</button>
 			</motion.li>
 		</AnimatePresence>
 	);

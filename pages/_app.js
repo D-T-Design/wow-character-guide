@@ -9,7 +9,6 @@ import { Navbar } from "../components/Navbar";
 import Footer from "../components/Footer";
 
 import "../styles/globals.scss";
-import { Router } from "next/router";
 
 const MyApp = ({ Component, pageProps }) => {
 	const useAppState = createPersistedState("appState");

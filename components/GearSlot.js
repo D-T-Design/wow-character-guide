@@ -68,11 +68,16 @@ export const GearSlot = ({ name, items, faction, phase, type, level, index }) =>
 			initial="initial"
 			animate="animate"
 			transition="transition"
+			className={open ? "gearslot-open" : "gearslot-closed"}
 			key={name}
 			ref={slotRef}
 		>
 			<figure>
-				<button onClick={toggleOpen} style={{ cursor: "pointer" }}>
+				<button
+					onClick={toggleOpen}
+					style={{ cursor: "pointer" }}
+					title={open ? "Close List" : "Open List"}
+				>
 					<img
 						src={`${gearURL}${name.toLowerCase().replace(/\s/g, "").replace(/-/, "")}.png`}
 						className="gear-icon"

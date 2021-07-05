@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Welcome from "../components/Welcome";
 import Character from "../components/Character";
@@ -6,14 +6,25 @@ import Character from "../components/Character";
 import useSWR from "swr";
 import { graphQLClient, queryAllFactions } from "../utils/fauna_gql";
 import parseClassData from "../utils/parseClassData";
+// import fetch from "unfetch";
+import fetch from "isomorphic-unfetch";
+import { getBlizzItemData, parseBlizzItemData } from "../utils/parseBlizzData";
+import BlizzContext from "../utils/blizzContext";
 
 const fetcher = (query) => graphQLClient.request(query);
+const blizzFetcher = (url) => fetch(url).then((res) => res.json());
 
 export async function getStaticProps() {
 	const classData = await fetcher(queryAllFactions);
+	const accessBlizz = await blizzFetcher("http://localhost:3000/api/blizzauth");
 	return {
-		props: { classData },
+		props: { classData, accessBlizz },
 	};
+}
+
+async function getItemData(item, token) {
+	const { data } = useSWR(`/api/blizz/${item}&${token}`, blizzFetcher);
+	return await data;
 }
 
 const Home = (props) => {
@@ -42,6 +53,15 @@ const Home = (props) => {
 			transition,
 		},
 	};
+
+	// const [blizzAuthState, setBlizzAuth] = useState({});
+	// const accessBlizz = () => {
+	// 	setBlizzAuth(() => {
+	// 		const { data: blizzAuth } = useSWR("/api/blizzauth", blizzFetcher);
+	// 		return blizzAuth;
+	// 	});
+	// };
+	// console.log(blizzAuthState, accessBlizz());
 
 	return (
 		<motion.section
