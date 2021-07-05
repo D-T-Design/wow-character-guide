@@ -21,7 +21,18 @@ const blizzFetcher = (url) => fetch(url).then((res) => res.json());
 
 export async function getStaticProps() {
 	const classData = await fetcher(queryAllFactions);
-	const accessBlizz = await blizzFetcher("http://localhost:3000/api/blizzauth");
+	const blizzardID = process.env.NEXT_PUBLIC_BLIZZ_ID;
+	const blizzardSecret = process.env.NEXT_PUBLIC_BLIZZ_SECRET;
+	const auth = Buffer.from(`${blizzardID}:${blizzardSecret}`).toString("base64");
+	const tokenResponse = await fetch("https://us.battle.net/oauth/token", {
+		body: "grant_type=client_credentials",
+		headers: {
+			Authorization: `Basic ${auth}`,
+			"Content-Type": "application/x-www-form-urlencoded",
+		},
+		method: "POST",
+	});
+	const accessBlizz = await tokenResponse.json();
 	return {
 		props: { classData, accessBlizz },
 	};
@@ -57,6 +68,7 @@ const Gear = (props) => {
 		4: false,
 		5: false,
 	});
+
 	const handlePhaseChanges = (num, event) => {
 		return setActivePhases({ ...phasesActive, [num]: event.target.checked ? true : false });
 	};
@@ -207,12 +219,7 @@ const Gear = (props) => {
 									/>
 								</motion.aside>
 								{level === "70" && (
-									<motion.aside
-										initial="initial"
-										animate="enter"
-										exit="exit"
-										variants={pageVariants}
-									>
+									<aside initial="initial" animate="enter" exit="exit" variants={pageVariants}>
 										<label htmlFor="phasefilter">
 											Filter by Phase:
 											<br />
@@ -228,7 +235,7 @@ const Gear = (props) => {
 											name="phasefilter"
 											onChange={(e) => setPhase(e.target.value)}
 										/>
-										{[1, 2, 3, 4, 5].map((phaseNum) => (
+										{/* {[1, 2, 3, 4, 5].map((phaseNum) => (
 											<>
 												<label
 													className={
@@ -246,8 +253,8 @@ const Gear = (props) => {
 													checked={phasesActive[phaseNum]}
 												/>
 											</>
-										))}
-									</motion.aside>
+										))} */}
+									</aside>
 								)}
 								<motion.main variants={slotColumnVariants} animate="animate" initial="initial">
 									{separatedGearByType.map((gearType, index) => {
