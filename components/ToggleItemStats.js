@@ -6,9 +6,15 @@ import Money from "./Money";
 
 const factionURL = "/static/img/faction/";
 
-const blizzFetcher = (url) => fetch(url).then((res) => res.json());
+const fetcher = (url) => fetch(url).then((res) => res.json());
 const getItemData = (item, token) => {
-	const { data, isPending, error } = useSWR(`/api/blizz/${item}&${token}`, blizzFetcher);
+	const url = "https://us.api.blizzard.com/data/wow";
+	const namespace = "?namespace=static-classic-us";
+	const locale = "&locale=en_US";
+	const { data, isPending, error } = useSWR(
+		`${url}/item/${item}${namespace}${locale}&access_token=${token}`,
+		fetcher
+	);
 	return { data, isPending, error };
 };
 const BlizzStats = ({ data }) => {
