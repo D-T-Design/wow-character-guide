@@ -17,7 +17,7 @@ const getItemData = (item, token) => {
 	);
 	return { data, isPending, error };
 };
-const BlizzStats = ({ data }) => {
+const BlizzStats = ({ data, reqLvl }) => {
 	if (data.preview_item) {
 		const { binding, armor, weapon, stats, spells, sell_price, durability, requirements, set } =
 			data.preview_item;
@@ -64,7 +64,7 @@ const BlizzStats = ({ data }) => {
 							)
 					)}
 				{durability && <small>{durability.display_string}</small>}
-				{requirements.playable_classes && (
+				{requirements && requirements.playable_classes && (
 					<small>
 						Classes:{" "}
 						{requirements.playable_classes.links.length === 1 ? (
@@ -83,7 +83,11 @@ const BlizzStats = ({ data }) => {
 						)}
 					</small>
 				)}
-				{required_level && <small>Requires Level {required_level}</small>}
+				{required_level && required_level > 0 ? (
+					<small>Requires Level {required_level}</small>
+				) : (
+					<small>Requires Level {reqLvl}</small>
+				)}
 				{stats &&
 					stats.map(
 						(stat, index) =>
@@ -150,7 +154,7 @@ const BlizzStats = ({ data }) => {
 		return "Item Error";
 	}
 };
-const ToggleItemStats = ({ id, drop, itemFaction, faction }) => {
+const ToggleItemStats = ({ id, drop, itemFaction, faction, reqLvl }) => {
 	const { token } = useContext(BlizzContext);
 	const { data: itemBlizzData, isPending, error } = getItemData(id, token);
 
@@ -158,7 +162,7 @@ const ToggleItemStats = ({ id, drop, itemFaction, faction }) => {
 		<>
 			{error && <small>Error loading item stats.</small>}
 			{isPending && <small>Loading item data...</small>}
-			{itemBlizzData ? <BlizzStats data={itemBlizzData} /> : null}
+			{itemBlizzData ? <BlizzStats data={itemBlizzData} reqLvl={reqLvl} /> : null}
 			{drop && (
 				<h4>
 					Dropped by:
@@ -174,6 +178,7 @@ const ToggleItemStats = ({ id, drop, itemFaction, faction }) => {
 					title={faction}
 				/>
 			)}
+			{console.log(id === 30011 && itemBlizzData)}
 		</>
 	);
 };

@@ -5,7 +5,7 @@ import ToggleItemStats from "./ToggleItemStats";
 const itemURLTBC = "https://tbc.wowhead.com/item=";
 
 export const ItemDisplay = ({ item, index, faction }) => {
-	const { id, quality, name, drop, phase, imgURL } = item;
+	const { id, quality, name, drop, phase, imgURL, reqLvl } = item;
 	const itemFaction = item.faction;
 	const itemMotionVariants = {
 		hidden: { y: "20%", opacity: 0 },
@@ -109,6 +109,7 @@ export const ItemDisplay = ({ item, index, faction }) => {
 									itemFaction={itemFaction}
 									faction={faction}
 									savedStats={savedStats}
+									reqLvl={reqLvl}
 									updateSavedStats={updateSavedStats}
 								/>
 								<a
