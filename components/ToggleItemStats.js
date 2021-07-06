@@ -120,9 +120,10 @@ const BlizzStats = ({ data }) => {
 				)}
 				{sell_price && (
 					<small className="equip-sell">
+						{"Sell price: "}
 						{gold > 0 && (
 							<>
-								{`Sell price: ${gold} `}
+								{`${gold} `}
 								<Money name="gold" />
 							</>
 						)}
