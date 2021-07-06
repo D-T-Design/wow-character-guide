@@ -41,36 +41,39 @@ export const ItemDisplay = ({ item, index, faction }) => {
 					data-wowhead={`item=${id}`}
 					title={`${itemStatsOpen ? "Close" : "Open"} Item Details`}
 				>
-					<Image
-						public-id={`/wow-character-guide/itemthumbs/${imgURL}`}
-						cloudName="david-torres-design"
-						version="1623049444"
-						width="36"
-						height="36"
-						class="icon"
-						loading="lazy"
-						secure="true"
-						alt={name}
-					>
-						<Transformation quality="auto" fetchFormat="auto" />
-						<Placeholder />
-					</Image>
 					<div className="item-details">
-						<h3 className={quality.toLowerCase()}>{name}</h3>
-						{phase && (
-							<Image
-								public-id={`/wow-character-guide/phase${phase}-vector.svg`}
-								cloudName="david-torres-design"
-								version="1623049444"
-								width="57"
-								height="19"
-								class="icon-phase"
-								loading="lazy"
-								secure="true"
-								alt={`Phase ${phase}`}
-							/>
-						)}
-						<small style={{ marginLeft: "auto" }}>
+						<Image
+							public-id={`/wow-character-guide/itemthumbs/${imgURL}`}
+							cloudName="david-torres-design"
+							version="1623049444"
+							width="36"
+							height="36"
+							class="icon"
+							loading="lazy"
+							secure="true"
+							alt={name}
+						>
+							<Transformation quality="auto" fetchFormat="auto" />
+							<Placeholder />
+						</Image>
+						<div className="item-name">
+							<h3 className={quality.toLowerCase()}>{name}</h3>
+							{phase && (
+								<Image
+									public-id={`/wow-character-guide/phase${phase}-vector.svg`}
+									cloudName="david-torres-design"
+									version="1623049444"
+									width="57"
+									height="19"
+									class="icon-phase"
+									loading="lazy"
+									secure="true"
+									alt={`Phase ${phase}`}
+								/>
+							)}
+						</div>
+
+						<small className="icon-arrow" style={{ marginLeft: "auto" }}>
 							<motion.img
 								className="icon-arrow"
 								src="/static/img/arrowdown.svg"
@@ -87,48 +90,51 @@ export const ItemDisplay = ({ item, index, faction }) => {
 								}}
 							/>
 						</small>
-						<AnimatePresence exitBeforeEnter>
-							{itemStatsOpen && (
-								<motion.section
-									initial={{ height: 0, opacity: 0 }}
-									animate={{ height: "auto", opacity: 1 }}
-									exit={{ height: 0, opacity: 0 }}
-									transition={{ duration: 0.2 }}
-									className="equip-toggle"
-								>
-									<ToggleItemStats
-										id={id}
-										drop={drop}
-										itemFaction={itemFaction}
-										faction={faction}
-										savedStats={savedStats}
-										updateSavedStats={updateSavedStats}
-									/>
-									<a
-										href={`${itemURLTBC}${id}`}
-										className="equip-link"
-										title="See more details on Wowhead"
-										target="_blank"
-										rel="noreferrer noopener"
-									>
-										View on Wowhead{" "}
-										<Image
-											public-id={`/wow-character-guide/wowhead`}
-											cloudName="david-torres-design"
-											version="1623049444"
-											width="30"
-											height="25"
-											class="wowhead"
-											loading="lazy"
-											secure="true"
-											alt="See more details on Wowhead"
-										/>
-									</a>
-								</motion.section>
-							)}
-						</AnimatePresence>
 					</div>
 				</button>
+				<AnimatePresence exitBeforeEnter>
+					{itemStatsOpen && (
+						<motion.div
+							initial={{ height: 0, opacity: 0 }}
+							animate={{ height: "auto", opacity: 1 }}
+							exit={{ height: 0, opacity: 0 }}
+							transition={{ duration: 0.2 }}
+							style={{ overflow: "hidden" }}
+							className="item-stats"
+						>
+							<section className="equip-toggle">
+								<ToggleItemStats
+									id={id}
+									drop={drop}
+									itemFaction={itemFaction}
+									faction={faction}
+									savedStats={savedStats}
+									updateSavedStats={updateSavedStats}
+								/>
+								<a
+									href={`${itemURLTBC}${id}`}
+									className="equip-link"
+									title="See more details on Wowhead"
+									target="_blank"
+									rel="noreferrer noopener"
+								>
+									<img src="/static/img/logout.svg" class="wowhead-icon" />
+									<Image
+										public-id={`/wow-character-guide/wowhead`}
+										cloudName="david-torres-design"
+										version="1623049444"
+										width="60"
+										height="50"
+										class="wowhead"
+										loading="lazy"
+										secure="true"
+										alt="See more details on Wowhead"
+									/>
+								</a>
+							</section>
+						</motion.div>
+					)}
+				</AnimatePresence>
 			</motion.li>
 		</AnimatePresence>
 	);

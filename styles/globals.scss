@@ -1509,11 +1509,14 @@ section {
 		font-family: $body-font;
 		h3 {
 			font-size: 1rem;
+			line-height: 1.2;
 		}
 		h4 {
 			font-weight: normal;
 			font-style: normal;
 			opacity: 1;
+			margin-bottom: 0;
+			max-width: calc(100% - 95px - 1.5ch);
 		}
 		button {
 			display: flex;
@@ -1521,16 +1524,19 @@ section {
 			line-height: 1.6 !important;
 			text-align: left;
 			position: relative;
-			.wowhead {
-				filter: grayscale(0);
-				border: 0;
-				width: 30px;
-				height: 25px;
-				box-shadow: none;
-			}
+			padding: 0;
 			.item-details {
-				max-width: calc(100% - 36px - 1.5ch);
+				display: flex;
+				flex-flow: row wrap;
+				align-items: center;
 				width: 100%;
+				padding-bottom: 0;
+				.icon {
+					align-self: flex-start;
+				}
+				.icon-phase {
+					margin-bottom: 0;
+				}
 			}
 			&:hover {
 				filter: brightness(1.2);
@@ -1541,6 +1547,13 @@ section {
 					}
 				}
 			}
+		}
+		.item-stats {
+			margin-top: 0.5rem;
+			margin-bottom: 1rem;
+		}
+		.item-name {
+			max-width: calc(100% - 52px - 2.5ch);
 		}
 		small {
 			opacity: 1;
@@ -1564,9 +1577,9 @@ section {
 				}
 			}
 			&-toggle {
-				overflow: hidden;
 				display: flex;
 				flex-flow: row wrap;
+				position: relative;
 				aside,
 				h4 {
 					width: 100%;
@@ -1580,22 +1593,56 @@ section {
 			}
 			&-link {
 				margin-top: 1em;
-				margin-right: auto;
+				margin-left: auto;
 				font-size: small;
 				display: flex;
-				padding: 0.5em 1ch;
+				padding: 0.25em 1.5ch;
 				align-items: center;
-				font-style: italic;
-				font-weight: bold;
 				border: 1px solid rgba(255, 255, 255, 0.1);
 				transition: all 0.1s ease-in-out;
-				img {
-					margin-left: 1ch;
-				}
+				position: absolute;
+				bottom: 0;
+				right: 0;
 				&:hover {
 					background-color: $cta-color;
 					border-color: $cta-color;
 				}
+			}
+			&-set {
+				margin-top: 1rem;
+				color: #9d9d9d;
+				h5 {
+					color: #ffd100;
+					font-weight: normal;
+					margin: 0;
+				}
+				ul {
+					margin: 0;
+					padding: 0;
+					background-color: transparent;
+				}
+				li {
+					margin: 0;
+				}
+				.equip-set-list {
+					padding-left: 1ch;
+					margin-bottom: 1rem;
+				}
+			}
+		}
+		.wowhead {
+			filter: grayscale(0);
+			border: 0;
+			width: 45px;
+			height: 37px;
+			box-shadow: none;
+			margin-left: 1.5ch;
+			&-icon {
+				filter: grayscale(0);
+				border: 0;
+				width: 2ch;
+				height: auto;
+				box-shadow: none;
 			}
 		}
 		.icon {
@@ -1607,15 +1654,13 @@ section {
 			color: rgba(54, 32, 32, 0);
 			overflow: hidden;
 			&-arrow {
+				align-self: flex-start;
 				filter: grayscale(0);
 				width: 16px;
 				height: 9px;
 				border: 0;
 				box-shadow: none;
 				border-radius: 0;
-				position: absolute;
-				top: 0.5em;
-				right: 0;
 				opacity: 0.5;
 			}
 			&-phase {

@@ -19,7 +19,8 @@ const getItemData = (item, token) => {
 };
 const BlizzStats = ({ data }) => {
 	if (data.preview_item) {
-		const { binding, armor, weapon, stats, spells, sell_price, durability } = data.preview_item;
+		const { binding, armor, weapon, stats, spells, sell_price, durability, requirements, set } =
+			data.preview_item;
 		const { level, inventory_type, item_subclass, required_level } = data;
 		let { gold, silver, copper } = 0;
 		if (sell_price) {
@@ -63,6 +64,25 @@ const BlizzStats = ({ data }) => {
 							)
 					)}
 				{durability && <small>{durability.display_string}</small>}
+				{requirements.playable_classes && (
+					<small>
+						Classes:{" "}
+						{requirements.playable_classes.links.length === 1 ? (
+							<span className={requirements.playable_classes.links[0].name}>
+								{requirements.playable_classes.links[0].name}
+							</span>
+						) : (
+							requirements.playable_classes.links.map((playerClass, index) => (
+								<>
+									<span key={index} className={playerClass.name}>
+										{playerClass.name}
+									</span>
+									{index === requirements.playable_classes.links.length - 1 ? "" : ", "}
+								</>
+							))
+						)}
+					</small>
+				)}
 				{required_level && <small>Requires Level {required_level}</small>}
 				{stats &&
 					stats.map(
@@ -79,6 +99,25 @@ const BlizzStats = ({ data }) => {
 							{spell.description}
 						</small>
 					))}
+				{set && (
+					<div className="equip-set">
+						<h5>{set.display_string}</h5>
+						<ul className="equip-set-list">
+							{set.items.map((setItem, index) => (
+								<li key={index}>
+									<small>{setItem.item.name}</small>
+								</li>
+							))}
+						</ul>
+						<ul className="equip-set-spells">
+							{set.effects.map((effect, index) => (
+								<li key={index}>
+									<small>{effect.display_string}</small>
+								</li>
+							))}
+						</ul>
+					</div>
+				)}
 				{sell_price && (
 					<small className="equip-sell">
 						{gold > 0 && (
