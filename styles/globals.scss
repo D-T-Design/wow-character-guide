@@ -1633,6 +1633,12 @@ section {
 					margin-bottom: 1rem;
 				}
 			}
+			&-random {
+				color: #1eff00;
+			}
+			&-description {
+				margin-top: 1rem;
+			}
 		}
 		.wowhead {
 			filter: grayscale(0);
@@ -1749,11 +1755,12 @@ section {
 		width: 24px !important;
 		height: 24px;
 		position: absolute;
-		top: calc(36px + 1rem);
-		left: 0.75em;
+		top: 0;
+		right: 0.75em;
 		margin: 0;
 		filter: grayscale(0);
 		border-radius: 100%;
+		cursor: default;
 	}
 	.phase {
 		&-button {

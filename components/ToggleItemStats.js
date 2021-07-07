@@ -19,8 +19,18 @@ const getItemData = (item, token) => {
 };
 const BlizzStats = ({ data, reqLvl }) => {
 	if (data.preview_item) {
-		const { binding, armor, weapon, stats, spells, sell_price, durability, requirements, set } =
-			data.preview_item;
+		const {
+			armor,
+			binding,
+			description,
+			weapon,
+			stats,
+			spells,
+			sell_price,
+			durability,
+			requirements,
+			set,
+		} = data.preview_item;
 		const { level, inventory_type, item_subclass, required_level } = data;
 		let { gold, silver, copper } = 0;
 		if (sell_price) {
@@ -30,14 +40,14 @@ const BlizzStats = ({ data, reqLvl }) => {
 		}
 		return (
 			<aside>
-				{level && (
-					<small className="iLvl">
-						<em>Item Level {level}</em>
-					</small>
-				)}
+				{level && <small className="iLvl">Item Level {level}</small>}
 				{binding && <small>{binding.name}</small>}
 				<section className="equip-type">
-					{inventory_type && <small>{inventory_type.name}</small>}
+					{inventory_type && (
+						<small>
+							{inventory_type.name || (inventory_type.type === "RANGEDRIGHT" && "Ranged")}
+						</small>
+					)}
 					{item_subclass && item_subclass.name !== "Miscellaneous" && (
 						<small>{item_subclass.name}</small>
 					)}
@@ -83,10 +93,16 @@ const BlizzStats = ({ data, reqLvl }) => {
 						)}
 					</small>
 				)}
+				{requirements && requirements.playable_races && (
+					<small>{requirements.playable_races.display_string}</small>
+				)}
 				{required_level && required_level > 0 ? (
 					<small>Requires Level {required_level}</small>
 				) : (
 					<small>Requires Level {reqLvl}</small>
+				)}
+				{requirements && requirements.reputation && (
+					<small>{requirements.reputation.display_string}</small>
 				)}
 				{stats &&
 					stats.map(
@@ -103,6 +119,7 @@ const BlizzStats = ({ data, reqLvl }) => {
 							{spell.description}
 						</small>
 					))}
+				{!stats && !spells && <small className="equip-random">{`<Random Enchantment>`}</small>}
 				{set && (
 					<div className="equip-set">
 						<h5>{set.display_string}</h5>
@@ -148,6 +165,7 @@ const BlizzStats = ({ data, reqLvl }) => {
 						<Money name="copper" />
 					</small>
 				)}
+				{description && <small className="equip-description iLvl">"{description}"</small>}
 			</aside>
 		);
 	} else {
@@ -178,7 +196,7 @@ const ToggleItemStats = ({ id, drop, itemFaction, faction, reqLvl }) => {
 					title={faction}
 				/>
 			)}
-			{console.log(id === 30011 && itemBlizzData)}
+			{console.log(id === 34066 && itemBlizzData)}
 		</>
 	);
 };
