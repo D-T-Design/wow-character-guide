@@ -18,6 +18,7 @@ const getItemData = (item, token) => {
 	return { data, isPending, error };
 };
 const BlizzStats = ({ data, reqLvl }) => {
+		const { level, inventory_type, item_subclass, required_level } = data;
 	if (data.preview_item) {
 		const {
 			armor,
@@ -31,13 +32,14 @@ const BlizzStats = ({ data, reqLvl }) => {
 			requirements,
 			set,
 		} = data.preview_item;
-		const { level, inventory_type, item_subclass, required_level } = data;
 		let { gold, silver, copper } = 0;
+
 		if (sell_price) {
 			gold = sell_price.display_strings.gold;
 			silver = sell_price.display_strings.silver;
 			copper = sell_price.display_strings.copper;
 		}
+		
 		return (
 			<aside>
 				{level && <small className="iLvl">Item Level {level}</small>}
@@ -192,8 +194,8 @@ const ToggleItemStats = ({ id, drop, itemFaction, faction, reqLvl }) => {
 				<img
 					className="faction-icon"
 					src={`${factionURL}${faction.toLowerCase()}.png`}
-					alt={faction}
-					title={faction}
+					alt={`${faction} Only`}
+					title={`${faction} Only`}
 				/>
 			)}
 			{console.log(id === 34066 && itemBlizzData)}

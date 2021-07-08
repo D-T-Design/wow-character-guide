@@ -28,7 +28,7 @@ export const ItemDisplay = ({ item, index, faction }) => {
 			<motion.li
 				key={id}
 				id={id}
-				className={`item item-${id}`}
+				className={`item`}
 				variants={itemMotionVariants}
 				initial="hidden"
 				animate="visible"
@@ -38,7 +38,6 @@ export const ItemDisplay = ({ item, index, faction }) => {
 				<button
 					className="item-link"
 					onClick={() => toggleItemStats()}
-					data-wowhead={`item=${id}`}
 					title={`${itemStatsOpen ? "Close" : "Open"} Item Details`}
 				>
 					<div className="item-details">
@@ -51,7 +50,7 @@ export const ItemDisplay = ({ item, index, faction }) => {
 							class="icon"
 							loading="lazy"
 							secure="true"
-							alt={name}
+							alt=""
 						>
 							<Transformation quality="auto" fetchFormat="auto" />
 							<Placeholder />
@@ -73,7 +72,7 @@ export const ItemDisplay = ({ item, index, faction }) => {
 							)}
 						</div>
 
-						<small className="icon-arrow" style={{ marginLeft: "auto" }}>
+						<div className="icon-arrow" style={{ marginLeft: "auto" }}>
 							<motion.img
 								className="icon-arrow"
 								src="/static/img/arrowdown.svg"
@@ -89,7 +88,7 @@ export const ItemDisplay = ({ item, index, faction }) => {
 									})`,
 								}}
 							/>
-						</small>
+						</div>
 					</div>
 				</button>
 				<AnimatePresence exitBeforeEnter>

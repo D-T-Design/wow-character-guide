@@ -29,11 +29,6 @@ export const Navbar = ({ appState, changePage }) => {
 			icon: "/static/img/zone.svg",
 		},
 	];
-	const imgWidths = ["2560", "1920", "1600", "1440", "1368", "1080", "989", "768"];
-	const imgBase = "https://res.cloudinary.com/david-torres-design/image/upload/";
-	const imgBGCrop = `,c_fill`;
-	const imgFolder = "/v1618808611/wow-character-guide/";
-	const bgURL = "bc_bg_xtvi76.jpg";
 	const noCharacters = appState.savedCharacters.length === 0;
 	const selectedCharacter = appState.savedCharacters.find(
 		(character) => character.id === appState.character
@@ -42,29 +37,6 @@ export const Navbar = ({ appState, changePage }) => {
 	return (
 		<header>
 			<div className="header-img">
-				<picture>
-					<source
-						media="(min-width:1920px)"
-						srcSet={`${imgBase}w_2560${imgBGCrop}${imgFolder}${bgURL}`}
-					/>
-					<source
-						media="(min-width:1600px)"
-						srcSet={`${imgBase}w_1920${imgBGCrop}${imgFolder}${bgURL}`}
-					/>
-					<source
-						media="(min-width:1368px)"
-						srcSet={`${imgBase}w_1600${imgBGCrop}${imgFolder}${bgURL}`}
-					/>
-					<source
-						media="(min-width:768px)"
-						srcSet={`${imgBase}w_1368${imgBGCrop}${imgFolder}${bgURL}`}
-					/>
-					<img
-						src={`${imgBase}w_768${imgBGCrop}${imgFolder}${bgURL}`}
-						alt="The Burning Crusade -- Promo Artwork"
-						className="header-bg"
-					/>
-				</picture>
 				<div className="container">
 					<Link href="/">
 						<a onClick={() => changePage("/")}>

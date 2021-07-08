@@ -1,38 +1,27 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import fetch from "isomorphic-unfetch";
 import useSWR from "swr";
+import { Image, Placeholder } from "cloudinary-react";
+
 import { graphQLClient, queryAllFactions } from "../utils/fauna_gql";
 
 import getClassGear from "../utils/getClassGear";
 import filterGearByLevel from "../utils/filterGearByLevel";
 import separateGearByType from "../utils/separateGearByType";
-import { GearSlot } from "../components/GearSlot";
 
 import parseClassData from "../utils/parseClassData";
-
+import BlizzContext from "../utils/blizzContext";
 import { weaponToFullName } from "../utils/weaponToFullName";
 
-import { Image, Placeholder } from "cloudinary-react";
-import BlizzContext from "../utils/blizzContext";
+import useBlizzAuth from "../utils/useBlizzAuth";
+
+import { GearSlot } from "../components/GearSlot";
 
 const fetcher = (query) => graphQLClient.request(query);
-const blizzFetcher = (url) => fetch(url).then((res) => res.json());
 
 export async function getStaticProps() {
 	const classData = await fetcher(queryAllFactions);
-	const blizzardID = process.env.NEXT_PUBLIC_BLIZZ_ID;
-	const blizzardSecret = process.env.NEXT_PUBLIC_BLIZZ_SECRET;
-	const auth = Buffer.from(`${blizzardID}:${blizzardSecret}`).toString("base64");
-	const tokenResponse = await fetch("https://us.battle.net/oauth/token", {
-		body: "grant_type=client_credentials",
-		headers: {
-			Authorization: `Basic ${auth}`,
-			"Content-Type": "application/x-www-form-urlencoded",
-		},
-		method: "POST",
-	});
-	const accessBlizz = await tokenResponse.json();
+	const accessBlizz = await useBlizzAuth();
 	return {
 		props: { classData, accessBlizz },
 	};

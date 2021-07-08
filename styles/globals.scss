@@ -218,6 +218,22 @@ $breakpoints: (
 	}
 }
 
+$bgURL: "bg-tbc.jpg";
+$headerURL: "bc_bg_xtvi76.jpg";
+$imgBase: "https://res.cloudinary.com/david-torres-design/image/upload/";
+$imgCropFill: ",c_fill";
+$imgFadeToBG: "/e_gradient_fade,y_0.9,o_30,b_rgb:27221f";
+$imgHeaderFadeToBG: "/o_30,b_rgb:1d1814";
+$imgFolder: "/v1618808611/wow-character-guide/";
+
+@mixin pageBG($width) {
+	background-image: url("#{$imgBase}w_#{$width},#{$imgCropFill}#{$imgFadeToBG}#{$imgFolder}#{$bgURL}");
+}
+
+@mixin navBG($width) {
+	background-image: url("#{$imgBase}w_#{$width},#{$imgCropFill}#{$imgHeaderFadeToBG}#{$imgFolder}#{$headerURL}");
+}
+
 *,
 *:after,
 *:before {
@@ -378,6 +394,8 @@ article {
 }
 
 header {
+	position: relative;
+	z-index: 10;
 	nav {
 		z-index: 1;
 		background-color: $nav-bg;
@@ -502,21 +520,10 @@ header {
 			}
 		}
 	}
-	.header-bg {
-		position: absolute;
-		opacity: 0.3;
-		left: 0;
-		top: 50%;
-		transform: translateY(-35%);
-		width: 100%;
-		height: auto;
-		z-index: 0;
-	}
 	.header-img {
-		z-index: 0;
+		z-index: -1;
 		position: relative;
 		overflow: hidden;
-		background-color: $nav-bg;
 		.nav-toggle {
 			align-self: center;
 			z-index: 1;
@@ -542,95 +549,150 @@ header {
 				display: none;
 			}
 		}
-	}
-	.playercard {
-		text-decoration: none;
-		margin: 1rem 0;
-		@include respond-below(md) {
-			display: none;
+		background-position: center 35%;
+		background-size: cover;
+		@include navBG(576);
+		@media all and (-webkit-min-device-pixel-ratio: 2),
+			all and (min--moz-device-pixel-ratio: 2),
+			all and (-o-min-device-pixel-ratio: 2/1),
+			all and (min-device-pixel-ratio: 2),
+			all and (min-resolution: 192dpi),
+			all and (min-resolution: 2dppx) {
+			@include navBG(1152);
 		}
-		figure {
-			cursor: pointer;
-			margin: 0;
-			padding: 1rem;
-			background-color: $nav-bg;
-			border: 2px solid rgba(255, 255, 255, 0.1);
-			display: flex;
-			transition: filter 0.1s ease-in-out;
-			width: 100%;
-			@include respond-above(sm) {
-				width: auto;
+		@include respond-above(xs) {
+			@include navBG(768);
+			@media all and (-webkit-min-device-pixel-ratio: 2),
+				all and (min--moz-device-pixel-ratio: 2),
+				all and (-o-min-device-pixel-ratio: 2/1),
+				all and (min-device-pixel-ratio: 2),
+				all and (min-resolution: 192dpi),
+				all and (min-resolution: 2dppx) {
+				@include navBG(1536);
 			}
-			&:hover {
-				filter: brightness(1.2);
+		}
+		@include respond-above(sm) {
+			@include navBG(992);
+			@media all and (-webkit-min-device-pixel-ratio: 2),
+				all and (min--moz-device-pixel-ratio: 2),
+				all and (-o-min-device-pixel-ratio: 2/1),
+				all and (min-device-pixel-ratio: 2),
+				all and (min-resolution: 192dpi),
+				all and (min-resolution: 2dppx) {
+				@include navBG(1984);
 			}
-			img {
-				width: 32px;
-				height: 32px;
-				margin: 0 0.5ch 0 0;
-				border-radius: 5px;
-				border: 1px solid #373533;
-				box-shadow: 0 0 0 1px #2c2925, 0 2px 2px rgba(0, 0, 0, 0.5);
-				overflow: hidden;
-				&:first-child {
-					border-radius: 100%;
+		}
+		@include respond-above(md) {
+			@include navBG(1200);
+			@media all and (-webkit-min-device-pixel-ratio: 2),
+				all and (min--moz-device-pixel-ratio: 2),
+				all and (-o-min-device-pixel-ratio: 2/1),
+				all and (min-device-pixel-ratio: 2),
+				all and (min-resolution: 192dpi),
+				all and (min-resolution: 2dppx) {
+				@include navBG(2400);
+			}
+		}
+		@include respond-above(lg) {
+			@include navBG(1920);
+			@media all and (-webkit-min-device-pixel-ratio: 2),
+				all and (min--moz-device-pixel-ratio: 2),
+				all and (-o-min-device-pixel-ratio: 2/1),
+				all and (min-device-pixel-ratio: 2),
+				all and (min-resolution: 192dpi),
+				all and (min-resolution: 2dppx) {
+				@include navBG(3840);
+			}
+		}
+		.playercard {
+			text-decoration: none;
+			margin: 1rem 0;
+			@include respond-below(md) {
+				display: none;
+			}
+			figure {
+				cursor: pointer;
+				margin: 0;
+				padding: 1rem;
+				background-color: $nav-bg;
+				border: 2px solid rgba(255, 255, 255, 0.1);
+				display: flex;
+				transition: filter 0.1s ease-in-out;
+				width: 100%;
+				@include respond-above(sm) {
+					width: auto;
+				}
+				&:hover {
+					filter: brightness(1.2);
+				}
+				img {
+					width: 32px;
+					height: 32px;
+					margin: 0 0.5ch 0 0;
+					border-radius: 5px;
+					border: 1px solid #373533;
+					box-shadow: 0 0 0 1px #2c2925, 0 2px 2px rgba(0, 0, 0, 0.5);
+					overflow: hidden;
+					&:first-child {
+						border-radius: 100%;
+					}
+				}
+				h3 {
+					margin: 0;
+					text-transform: uppercase;
+					color: white;
+					text-decoration: none !important;
+				}
+				figcaption {
+					display: flex;
+				}
+				small {
+					letter-spacing: 0.2ch;
+					opacity: 0.6;
+					text-transform: uppercase;
+					text-decoration: none !important;
+					color: $body-color;
+				}
+				strong {
+					font-size: 1.25em;
+					color: white;
+					text-decoration: none !important;
+				}
+				.lvl {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					margin-right: 2ch;
 				}
 			}
-			h3 {
-				margin: 0;
-				text-transform: uppercase;
-				color: white;
-				text-decoration: none !important;
-			}
-			figcaption {
-				display: flex;
-			}
-			small {
-				letter-spacing: 0.2ch;
-				opacity: 0.6;
-				text-transform: uppercase;
-				text-decoration: none !important;
-				color: $body-color;
-			}
-			strong {
-				font-size: 1.25em;
-				color: white;
-				text-decoration: none !important;
-			}
-			.lvl {
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				margin-right: 2ch;
-			}
-		}
 
-		.rogue {
-			border-bottom-color: $rogue;
-		}
-		.priest {
-			border-bottom-color: $priest;
-		}
-		.mage {
-			border-bottom-color: $mage;
-		}
-		.hunter {
-			border-bottom-color: $hunter;
-		}
-		.warrior {
-			border-bottom-color: $warrior;
-		}
-		.druid {
-			border-bottom-color: $druid;
-		}
-		.paladin {
-			border-bottom-color: $paladin;
-		}
-		.shaman {
-			border-bottom-color: $shaman;
-		}
-		.warlock {
-			border-bottom-color: $warlock;
+			.rogue {
+				border-bottom-color: $rogue;
+			}
+			.priest {
+				border-bottom-color: $priest;
+			}
+			.mage {
+				border-bottom-color: $mage;
+			}
+			.hunter {
+				border-bottom-color: $hunter;
+			}
+			.warrior {
+				border-bottom-color: $warrior;
+			}
+			.druid {
+				border-bottom-color: $druid;
+			}
+			.paladin {
+				border-bottom-color: $paladin;
+			}
+			.shaman {
+				border-bottom-color: $shaman;
+			}
+			.warlock {
+				border-bottom-color: $warlock;
+			}
 		}
 	}
 }
@@ -645,6 +707,62 @@ section {
 	grid-template-rows: auto 1fr auto;
 	align-items: flex-start;
 	overflow-x: hidden;
+	position: relative;
+	background-position: center center;
+	background-size: cover;
+	@include pageBG(576);
+	@media all and (-webkit-min-device-pixel-ratio: 2),
+		all and (min--moz-device-pixel-ratio: 2),
+		all and (-o-min-device-pixel-ratio: 2/1),
+		all and (min-device-pixel-ratio: 2),
+		all and (min-resolution: 192dpi),
+		all and (min-resolution: 2dppx) {
+		@include pageBG(1152);
+	}
+	@include respond-above(xs) {
+		@include pageBG(768);
+		@media all and (-webkit-min-device-pixel-ratio: 2),
+			all and (min--moz-device-pixel-ratio: 2),
+			all and (-o-min-device-pixel-ratio: 2/1),
+			all and (min-device-pixel-ratio: 2),
+			all and (min-resolution: 192dpi),
+			all and (min-resolution: 2dppx) {
+			@include pageBG(1536);
+		}
+	}
+	@include respond-above(sm) {
+		@include pageBG(992);
+		@media all and (-webkit-min-device-pixel-ratio: 2),
+			all and (min--moz-device-pixel-ratio: 2),
+			all and (-o-min-device-pixel-ratio: 2/1),
+			all and (min-device-pixel-ratio: 2),
+			all and (min-resolution: 192dpi),
+			all and (min-resolution: 2dppx) {
+			@include pageBG(1984);
+		}
+	}
+	@include respond-above(md) {
+		@include pageBG(1200);
+		@media all and (-webkit-min-device-pixel-ratio: 2),
+			all and (min--moz-device-pixel-ratio: 2),
+			all and (-o-min-device-pixel-ratio: 2/1),
+			all and (min-device-pixel-ratio: 2),
+			all and (min-resolution: 192dpi),
+			all and (min-resolution: 2dppx) {
+			@include pageBG(2400);
+		}
+	}
+	@include respond-above(lg) {
+		@include pageBG(1920);
+		@media all and (-webkit-min-device-pixel-ratio: 2),
+			all and (min--moz-device-pixel-ratio: 2),
+			all and (-o-min-device-pixel-ratio: 2/1),
+			all and (min-device-pixel-ratio: 2),
+			all and (min-resolution: 192dpi),
+			all and (min-resolution: 2dppx) {
+			@include pageBG(3840);
+		}
+	}
 }
 .container {
 	width: 100%;
@@ -656,6 +774,7 @@ section {
 	flex-flow: row wrap;
 	justify-content: flex-start;
 	align-items: flex-start;
+	z-index: 1;
 	@include respond-above(lg) {
 		padding: 0 3ch;
 		width: 100%;
@@ -663,6 +782,7 @@ section {
 	}
 }
 .content {
+	position: relative;
 	padding: 3rem 0;
 	&-enter {
 		opacity: 0;

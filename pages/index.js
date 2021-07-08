@@ -1,41 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
-import Welcome from "../components/Welcome";
-import Character from "../components/Character";
-
 import useSWR from "swr";
 import { graphQLClient, queryAllFactions } from "../utils/fauna_gql";
 import parseClassData from "../utils/parseClassData";
-// import fetch from "unfetch";
-import fetch from "isomorphic-unfetch";
-import { getBlizzItemData, parseBlizzItemData } from "../utils/parseBlizzData";
-import BlizzContext from "../utils/blizzContext";
+import useBlizzAuth from "../utils/useBlizzAuth";
+
+import Welcome from "../components/Welcome";
+import Character from "../components/Character";
 
 const fetcher = (query) => graphQLClient.request(query);
-const blizzFetcher = (url) => fetch(url).then((res) => res.json());
 
 export async function getStaticProps() {
 	const classData = await fetcher(queryAllFactions);
-	const blizzardID = process.env.NEXT_PUBLIC_BLIZZ_ID;
-	const blizzardSecret = process.env.NEXT_PUBLIC_BLIZZ_SECRET;
-	const auth = Buffer.from(`${blizzardID}:${blizzardSecret}`).toString("base64");
-	const tokenResponse = await fetch("https://us.battle.net/oauth/token", {
-		body: "grant_type=client_credentials",
-		headers: {
-			Authorization: `Basic ${auth}`,
-			"Content-Type": "application/x-www-form-urlencoded",
-		},
-		method: "POST",
-	});
-	const accessBlizz = await tokenResponse.json();
+	const accessBlizz = await useBlizzAuth();
 	return {
 		props: { classData, accessBlizz },
 	};
-}
-
-async function getItemData(item, token) {
-	const { data } = useSWR(`/api/blizz/${item}&${token}`, blizzFetcher);
-	return await data;
 }
 
 const Home = (props) => {
@@ -64,15 +44,6 @@ const Home = (props) => {
 			transition,
 		},
 	};
-
-	// const [blizzAuthState, setBlizzAuth] = useState({});
-	// const accessBlizz = () => {
-	// 	setBlizzAuth(() => {
-	// 		const { data: blizzAuth } = useSWR("/api/blizzauth", blizzFetcher);
-	// 		return blizzAuth;
-	// 	});
-	// };
-	// console.log(blizzAuthState, accessBlizz());
 
 	return (
 		<motion.section
