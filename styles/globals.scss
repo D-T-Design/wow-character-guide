@@ -276,6 +276,13 @@ h6 {
 	font-family: $body-font;
 }
 
+h1 {
+	font-size: 3rem;
+	text-align: center;
+	width: 100%;
+	letter-spacing: -0.05ch;
+}
+
 h3 {
 	&.legendary {
 		color: #ff8000 !important;
@@ -395,12 +402,11 @@ article {
 
 header {
 	position: relative;
-	z-index: 10;
+	z-index: 6;
 	nav {
 		z-index: 1;
 		background-color: $nav-bg;
 		height: 15px;
-		overflow: hidden;
 		transition: all 0.1s ease-in-out;
 		@include respond-above(md) {
 			height: auto;
@@ -421,7 +427,6 @@ header {
 			background-color: $nav-bg;
 			padding: 0;
 			height: 0;
-			overflow: hidden;
 			@include respond-above(md) {
 				height: auto;
 			}
@@ -438,12 +443,11 @@ header {
 				padding: 0;
 				width: 100%;
 				@include respond-above(sm) {
-					grid-template-columns: 1fr repeat(3, auto);
+					grid-template-columns: repeat(4, auto) 1fr;
 				}
 				li {
 					width: 100%;
-					&:first-child {
-						width: auto;
+					&:last-child {
 						margin-right: auto;
 					}
 					a {
@@ -521,9 +525,7 @@ header {
 		}
 	}
 	.header-img {
-		z-index: -1;
 		position: relative;
-		overflow: hidden;
 		.nav-toggle {
 			align-self: center;
 			z-index: 1;
@@ -605,38 +607,29 @@ header {
 			}
 		}
 		.playercard {
-			text-decoration: none;
-			margin: 1rem 0;
+			margin: auto 0;
+			background-color: $nav-bg;
+			border: 2px solid rgba(255, 255, 255, 0.1);
+			position: relative;
+			transition: all 0.2s ease-in-out;
+			width: 100%;
 			@include respond-below(md) {
 				display: none;
 			}
-			figure {
+			@include respond-above(sm) {
+				width: auto;
+			}
+			button {
 				cursor: pointer;
-				margin: 0;
+				background-color: transparent;
+				border: 0;
+			}
+			&-button {
 				padding: 1rem;
-				background-color: $nav-bg;
-				border: 2px solid rgba(255, 255, 255, 0.1);
+				margin: 0;
 				display: flex;
-				transition: filter 0.1s ease-in-out;
-				width: 100%;
-				@include respond-above(sm) {
-					width: auto;
-				}
-				&:hover {
-					filter: brightness(1.2);
-				}
-				img {
-					width: 32px;
-					height: 32px;
-					margin: 0 0.5ch 0 0;
-					border-radius: 5px;
-					border: 1px solid #373533;
-					box-shadow: 0 0 0 1px #2c2925, 0 2px 2px rgba(0, 0, 0, 0.5);
-					overflow: hidden;
-					&:first-child {
-						border-radius: 100%;
-					}
-				}
+				justify-content: flex-start;
+				align-items: flex-start;
 				h3 {
 					margin: 0;
 					text-transform: uppercase;
@@ -665,40 +658,107 @@ header {
 					margin-right: 2ch;
 				}
 			}
-
-			.rogue {
-				border-bottom-color: $rogue;
+			img {
+				width: 32px;
+				height: 32px;
+				margin: 0 0.5ch 0 0;
+				border-radius: 5px;
+				border: 1px solid #373533;
+				box-shadow: 0 0 0 1px #2c2925, 0 2px 2px rgba(0, 0, 0, 0.5);
+				overflow: hidden;
+				&:first-of-type {
+					border-radius: 100%;
+				}
 			}
-			.priest {
-				border-bottom-color: $priest;
+			&-list {
+				overflow: hidden;
+				margin: 0;
+				padding: 0;
+				list-style: none;
+				padding: 1rem;
+				position: absolute;
+				background-color: $nav-bg;
+				box-shadow: inset 0 25px 35px rgba(0, 0, 0, 0.3);
+				top: calc(100% + 2px);
+				width: 100%;
+				z-index: 100;
 			}
-			.mage {
-				border-bottom-color: $mage;
-			}
-			.hunter {
-				border-bottom-color: $hunter;
-			}
-			.warrior {
-				border-bottom-color: $warrior;
-			}
-			.druid {
-				border-bottom-color: $druid;
-			}
-			.paladin {
-				border-bottom-color: $paladin;
-			}
-			.shaman {
-				border-bottom-color: $shaman;
-			}
-			.warlock {
-				border-bottom-color: $warlock;
+			&-character {
+				button {
+					color: $body-color;
+					width: 100%;
+					padding: 0.5rem 1ch;
+					display: flex;
+					align-items: center;
+					justify-content: flex-start;
+					transition: all 0.15s ease-in-out;
+					&:hover {
+						background-color: $bg-bright;
+						img:last-of-type {
+							opacity: 1;
+						}
+					}
+				}
+				h3 {
+					font-weight: lighter;
+					font-style: italic;
+					margin: 0;
+				}
+				h3,
+				strong {
+					margin-left: 1ch;
+				}
+				img {
+					width: 24px;
+					height: 24px;
+					margin: 0 0.5ch 0 0;
+					border-radius: 5px;
+					border: 1px solid #373533;
+					box-shadow: 0 0 0 1px #2c2925, 0 2px 2px rgba(0, 0, 0, 0.5);
+					overflow: hidden;
+					&:first-of-type {
+						border-radius: 3px;
+					}
+					&:last-of-type {
+						transition: all 0.15s ease-in-out;
+						margin-left: auto;
+						border: 0;
+						box-shadow: none;
+						width: 16px;
+						opacity: 0.3;
+					}
+				}
 			}
 		}
-	}
-}
 
-section {
-	transition: height 0.2s ease-in-out;
+		.rogue {
+			border-bottom-color: $rogue;
+		}
+		.priest {
+			border-bottom-color: $priest;
+		}
+		.mage {
+			border-bottom-color: $mage;
+		}
+		.hunter {
+			border-bottom-color: $hunter;
+		}
+		.warrior {
+			border-bottom-color: $warrior;
+		}
+		.druid {
+			border-bottom-color: $druid;
+		}
+		.paladin {
+			border-bottom-color: $paladin;
+		}
+		.shaman {
+			border-bottom-color: $shaman;
+		}
+		.warlock {
+			border-bottom-color: $warlock;
+		}
+	}
 }
 
 #__next {
@@ -1410,6 +1470,61 @@ section {
 }
 
 .home {
+	h2 {
+		margin-bottom: 3rem;
+	}
+	main {
+		width: 100%;
+	}
+	section {
+		margin-bottom: 3rem;
+	}
+	.headline {
+		&-sub {
+			margin: auto;
+			max-width: 100ch;
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: space-between;
+			.headline-icons {
+				width: 100%;
+				img {
+					width: 30px;
+					height: auto;
+				}
+				ul {
+					background-color: $bg-highlight;
+					@include borderDesign();
+					margin: 0;
+					padding: 0;
+					list-style: none;
+					display: flex;
+					flex-flow: row wrap;
+					justify-content: center;
+					li {
+						padding: 1rem 2ch;
+						margin: 0 1ch;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+					}
+				}
+				h3 {
+					font-style: italic;
+					font-size: 1rem;
+					font-weight: normal;
+					text-transform: uppercase;
+					margin: 0;
+					margin-left: 1ch;
+				}
+			}
+			p {
+				width: 48ch;
+			}
+		}
+	}
+}
+.character {
 	padding: 1rem 0;
 	@include respond-above(lg) {
 		padding: 3rem 0;
@@ -1572,6 +1687,7 @@ section {
 		}
 	}
 }
+
 .spin {
 	display: inline-block;
 	width: 1.25em;
@@ -2085,7 +2201,7 @@ section {
 						li {
 							font-size: 0.8rem;
 							text-transform: uppercase;
-							color: rgba(211, 211, 211, 0.6);
+							color: rgba(211, 211, 211, 0.8);
 							letter-spacing: 0.35ch;
 							line-height: 2.5;
 							border-bottom: 1px solid rgba(255, 255, 255, 0.1);

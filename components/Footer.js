@@ -12,7 +12,7 @@ const Footer = () => (
 					fan site!
 				</small>
 			</p>
-			<Link href="/about">About</Link>
+			{/* <Link href="/about">About</Link> */}
 		</div>
 	</footer>
 );

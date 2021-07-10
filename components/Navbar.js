@@ -4,12 +4,12 @@ import { useRouter } from "next/router";
 
 import PlayerCard from "./PlayerCard";
 
-export const Navbar = ({ appState, changePage }) => {
+export const Navbar = ({ appState, updateState, changePage }) => {
 	const router = useRouter();
 	const route = router.asPath;
 	const links = [
 		{
-			path: "/",
+			path: "/character",
 			text: "My Characters",
 			icon: "/static/img/character.svg",
 		},
@@ -29,7 +29,7 @@ export const Navbar = ({ appState, changePage }) => {
 			icon: "/static/img/zone.svg",
 		},
 	];
-	const noCharacters = appState.savedCharacters.length === 0;
+	const charactersSaved = appState.savedCharacters.length !== 0;
 	const selectedCharacter = appState.savedCharacters.find(
 		(character) => character.id === appState.character
 	);
@@ -49,8 +49,14 @@ export const Navbar = ({ appState, changePage }) => {
 							</h1>
 						</a>
 					</Link>
-					{!noCharacters && <PlayerCard appState={selectedCharacter} />}
-					{!noCharacters &&
+					{charactersSaved && (
+						<PlayerCard
+							selectCharacter={updateState.selectCharacter}
+							savedCharacters={appState.savedCharacters}
+							currentCharacter={selectedCharacter}
+						/>
+					)}
+					{charactersSaved &&
 						(!navOpen ? (
 							<div className="nav-toggle">
 								<button onClick={() => toggleNav(true)}>
@@ -66,10 +72,10 @@ export const Navbar = ({ appState, changePage }) => {
 						))}
 				</div>
 			</div>
-			<nav className={!noCharacters ? (navOpen ? "nav open" : "nav") : undefined}>
+			<nav className={charactersSaved ? (navOpen ? "nav open" : "nav") : undefined}>
 				<div className="container">
 					<ul>
-						{!noCharacters &&
+						{charactersSaved &&
 							links.map((link, index) => {
 								const isHomeLink = link.path === "/";
 								const isClassLink = link.path.includes("classguides");
