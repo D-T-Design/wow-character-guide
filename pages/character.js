@@ -17,7 +17,7 @@ export async function getStaticProps() {
 }
 
 const MyCharacters = (props) => {
-	const { data, error } = useSWR(queryAllFactions, fetcher, { initialData: props.classData });
+	const { data } = useSWR(queryAllFactions, fetcher, { initialData: props.classData });
 	const gameData = data ? parseClassData(data) : data;
 	const charactersSaved = props.appState.savedCharacters.length !== 0;
 	let currentCharacter = {};

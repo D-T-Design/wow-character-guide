@@ -18,7 +18,7 @@ const getItemData = (item, token) => {
 	return { data, isPending, error };
 };
 const BlizzStats = ({ data, reqLvl }) => {
-		const { level, inventory_type, item_subclass, required_level } = data;
+	const { level, inventory_type, item_subclass, required_level } = data;
 	if (data.preview_item) {
 		const {
 			armor,
@@ -39,11 +39,13 @@ const BlizzStats = ({ data, reqLvl }) => {
 			silver = sell_price.display_strings.silver;
 			copper = sell_price.display_strings.copper;
 		}
-		
+
 		return (
 			<aside>
 				{level && <small className="iLvl">Item Level {level}</small>}
+
 				{binding && <small>{binding.name}</small>}
+
 				<section className="equip-type">
 					{inventory_type && (
 						<small>
@@ -54,7 +56,9 @@ const BlizzStats = ({ data, reqLvl }) => {
 						<small>{item_subclass.name}</small>
 					)}
 				</section>
+
 				{armor && <small>{armor.display.display_string}</small>}
+
 				{weapon && (
 					<ul className="equip-weapon">
 						<li>
@@ -66,6 +70,7 @@ const BlizzStats = ({ data, reqLvl }) => {
 						</li>
 					</ul>
 				)}
+
 				{stats &&
 					stats.map(
 						(stat, index) =>
@@ -75,8 +80,10 @@ const BlizzStats = ({ data, reqLvl }) => {
 								</small>
 							)
 					)}
+
 				{durability && <small>{durability.display_string}</small>}
-				{requirements && requirements.playable_classes && (
+
+				{requirements?.playable_classes && (
 					<small>
 						Classes:{" "}
 						{requirements.playable_classes.links.length === 1 ? (
@@ -95,17 +102,21 @@ const BlizzStats = ({ data, reqLvl }) => {
 						)}
 					</small>
 				)}
-				{requirements && requirements.playable_races && (
+
+				{requirements?.playable_races && (
 					<small>{requirements.playable_races.display_string}</small>
 				)}
+
 				{required_level && required_level > 0 ? (
 					<small>Requires Level {required_level}</small>
 				) : (
 					<small>Requires Level {reqLvl}</small>
 				)}
-				{requirements && requirements.reputation && (
-					<small>{requirements.reputation.display_string}</small>
-				)}
+
+				{requirements?.reputation && <small>{requirements.reputation.display_string}</small>}
+
+				{requirements?.ability && <small>{requirements.ability.display_string}</small>}
+
 				{stats &&
 					stats.map(
 						(stat, index) =>
@@ -115,13 +126,16 @@ const BlizzStats = ({ data, reqLvl }) => {
 								</small>
 							)
 					)}
+
 				{spells &&
 					spells.map((spell, index) => (
 						<small key={index} className="equip-spells">
 							{spell.description}
 						</small>
 					))}
+
 				{!stats && !spells && <small className="equip-random">{`<Random Enchantment>`}</small>}
+
 				{set && (
 					<div className="equip-set">
 						<h5>{set.display_string}</h5>
@@ -141,6 +155,7 @@ const BlizzStats = ({ data, reqLvl }) => {
 						</ul>
 					</div>
 				)}
+
 				{sell_price && (
 					<small className="equip-sell">
 						{"Sell price: "}
@@ -167,6 +182,7 @@ const BlizzStats = ({ data, reqLvl }) => {
 						<Money name="copper" />
 					</small>
 				)}
+
 				{description && <small className="equip-description iLvl">"{description}"</small>}
 			</aside>
 		);
@@ -198,7 +214,7 @@ const ToggleItemStats = ({ id, drop, itemFaction, faction, reqLvl }) => {
 					title={`${faction} Only`}
 				/>
 			)}
-			{console.log(id === 34066 && itemBlizzData)}
+			{/* {console.log(id === 23542 && itemBlizzData)} */}
 		</>
 	);
 };
