@@ -71,6 +71,7 @@ export const GearSlot = ({ name, items, faction, phase, type, level, index }) =>
 			className={open ? "gearslot-open" : "gearslot-closed"}
 			key={name}
 			ref={slotRef}
+			layout
 		>
 			<figure>
 				<button

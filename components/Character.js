@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence, AnimateSharedLayout, MotionConfig } from "framer-motion";
 import Link from "next/link";
 
 import { InputCharacter } from "../components/characterInput";
@@ -156,6 +156,10 @@ export default function Character({ props }) {
 		formAction: addCharacter,
 		callback: switchAddForm,
 	};
+	const transition = {
+		type: "tween",
+		duration: 0.2,
+	};
 	const listVariant = {
 		hidden: { opacity: 0 },
 		show: {
@@ -175,29 +179,36 @@ export default function Character({ props }) {
 	return (
 		<section className="edit-characters">
 			<h2>Your Saved Characters</h2>
-			{savedCharacters && (
-				<motion.ul
-					className="character-list"
-					variants={listVariant}
-					initial="hidden"
-					animate="show"
-					key="characterList"
-				>
-					{savedCharacters.map((character, index) => (
-						<MotionCharacter
-							character={character}
-							key={index}
-							updateState={updateState}
-							appState={appState}
-							gameData={gameData}
-							updateGameData={updateGameData}
-							variants={characterVariant}
+			<MotionConfig transition={transition}>
+				<AnimateSharedLayout>
+					{savedCharacters && (
+						<motion.ul
+							className="character-list"
+							variants={listVariant}
 							initial="hidden"
-							animate="fadeIn"
-						/>
-					))}
-				</motion.ul>
-			)}
+							animate="show"
+							key="characterList"
+						>
+							<AnimatePresence>
+								{savedCharacters.map((character, index) => (
+									<MotionCharacter
+										character={character}
+										key={index}
+										updateState={updateState}
+										appState={appState}
+										gameData={gameData}
+										updateGameData={updateGameData}
+										variants={characterVariant}
+										initial="hidden"
+										exit="hidden"
+										animate="fadeIn"
+									/>
+								))}
+							</AnimatePresence>
+						</motion.ul>
+					)}
+				</AnimateSharedLayout>
+			</MotionConfig>
 
 			<h2>Add Characters</h2>
 			{addForm ? (

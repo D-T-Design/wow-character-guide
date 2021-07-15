@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, AnimateSharedLayout } from "framer-motion";
 import useSWR from "swr";
 import { Image, Placeholder } from "cloudinary-react";
 
@@ -249,44 +249,52 @@ const Gear = (props) => {
 									{separatedGearByType.map((gearType, index) => {
 										const { items, type } = gearType;
 										return (
-											<motion.div
-												className="column"
-												key={type}
-												initial={{ opacity: 0, y: "15%", transition: { delay: (index + 1) * 0.5 } }}
-												animate={{ opacity: 1, y: 0 }}
-											>
-												<h3>{type}</h3>
+											<AnimateSharedLayout>
 												<motion.div
+													className="column"
 													key={type}
-													variants={slotVariants}
-													animate="animate"
-													initial="initial"
-													transition="transition"
+													initial={{
+														opacity: 0,
+														y: "15%",
+														transition: { delay: (index + 1) * 0.5 },
+													}}
+													animate={{ opacity: 1, y: 0 }}
+													layout
 												>
-													{items.map((itemType, index) => {
-														const typeName = Object.keys(itemType)[0];
-														const weaponTypeMatch =
-															type === "Weapons" &&
-															classWepTypes.some(
-																(wepType) => wepType.name === weaponToFullName(typeName)
-															);
-														if (weaponTypeMatch || type !== "Weapons") {
-															return (
-																<GearSlot
-																	name={typeName}
-																	items={itemType[typeName]}
-																	index={index}
-																	key={index}
-																	level={level}
-																	faction={faction}
-																	phase={phaseState}
-																	type={type}
-																/>
-															);
-														}
-													})}
+													<h3>{type}</h3>
+													<motion.div
+														key={type}
+														variants={slotVariants}
+														animate="animate"
+														initial="initial"
+														transition="transition"
+														layout
+													>
+														{items.map((itemType, index) => {
+															const typeName = Object.keys(itemType)[0];
+															const weaponTypeMatch =
+																type === "Weapons" &&
+																classWepTypes.some(
+																	(wepType) => wepType.name === weaponToFullName(typeName)
+																);
+															if (weaponTypeMatch || type !== "Weapons") {
+																return (
+																	<GearSlot
+																		name={typeName}
+																		items={itemType[typeName]}
+																		index={index}
+																		key={index}
+																		level={level}
+																		faction={faction}
+																		phase={phaseState}
+																		type={type}
+																	/>
+																);
+															}
+														})}
+													</motion.div>
 												</motion.div>
-											</motion.div>
+											</AnimateSharedLayout>
 										);
 									})}
 								</motion.main>
