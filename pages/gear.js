@@ -21,9 +21,8 @@ const fetcher = (query) => graphQLClient.request(query);
 
 export async function getStaticProps() {
 	const classData = await fetcher(queryAllFactions);
-	const accessBlizz = await useBlizzAuth();
 	return {
-		props: { classData, accessBlizz },
+		props: { classData },
 	};
 }
 
@@ -62,6 +61,8 @@ const Gear = (props) => {
 		return setActivePhases({ ...phasesActive, [num]: event.target.checked ? true : false });
 	};
 	const { updateCharacter } = props.updateState;
+
+	const accessBlizz = useBlizzAuth();
 
 	const transition = {
 		duration: 0.3,
@@ -117,7 +118,7 @@ const Gear = (props) => {
 		},
 	};
 	return (
-		<BlizzContext.Provider value={{ token: props.accessBlizz.access_token }}>
+		<BlizzContext.Provider value={{ token: accessBlizz.access_token }}>
 			<motion.section
 				className="content gear"
 				initial="initial"
