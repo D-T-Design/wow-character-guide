@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence, AnimateSharedLayout } from "framer-motion";
 import useSWR from "swr";
 import { Image, Placeholder } from "cloudinary-react";
