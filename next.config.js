@@ -1,6 +1,7 @@
 module.exports = {
-  async redirects() {
-    return [
+	target: "serverless",
+	async redirects() {
+		return [
 			{
 				source: "/classguides",
 				destination: "/",
@@ -17,5 +18,5 @@ module.exports = {
 				permanent: true,
 			},
 		];
-  }
-}
+	},
+};
