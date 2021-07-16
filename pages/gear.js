@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence, AnimateSharedLayout } from "framer-motion";
 import useSWR from "swr";
 import { Image, Placeholder } from "cloudinary-react";
 
 import { graphQLClient, queryAllFactions } from "../utils/fauna_gql";
+import fetch from "isomorphic-unfetch";
 
 import getClassGear from "../utils/getClassGear";
 import filterGearByLevel from "../utils/filterGearByLevel";
@@ -21,33 +22,40 @@ const fetcher = (query) => graphQLClient.request(query);
 
 export async function getStaticProps() {
 	const classData = await fetcher(queryAllFactions);
+	const accessBlizz = await useBlizzAuth();
 	return {
-		props: { classData },
+		props: { classData, accessBlizz },
 	};
 }
 
 const Gear = (props) => {
+	/* Check for saved/selected character, set up variables to access data */
 	const { savedCharacters } = props.appState;
-	let selectedCharacter = {};
-	if (savedCharacters.length > 0) {
-		selectedCharacter = props.appState.savedCharacters.find(
-			(character) => character.id === props.appState.character
-		);
-	}
+	const selectedCharacter =
+		savedCharacters.length > 0 &&
+		props.appState.savedCharacters.find((character) => character.id === props.appState.character);
 	const { playerClass, level, faction } = selectedCharacter.playerClass
 		? selectedCharacter
 		: { playerClass: "Rogue", level: 1, faction: "Horde" };
 
+	/* Get class gear types available from server */
 	const { data } = useSWR(queryAllFactions, fetcher, { initialData: props.classData });
 	const classData = data ? parseClassData(data) : data;
+	const classWepTypes = classData.classes.find((className) => className.name === playerClass)
+		.reference.weaponTypes;
 
+	/* Get class gear data and filter */
 	const { gear, error, isPending } = getClassGear(playerClass);
 	const { gearData } = gear ? filterGearByLevel(gear, level) : [{}];
 	const separatedGearByType = gearData ? separateGearByType(gearData) : [{}, {}, {}];
 
-	const classWepTypes = classData.classes.find((className) => className.name === playerClass)
-		.reference.weaponTypes;
+	/* Update accessBlizz token */
+	const blizzFetch = (url) => fetch(url).then((r) => r.json());
+	const { data: blizzToken } = useSWR("/api/blizzauth", blizzFetch, {
+		initialData: props.accessBlizz,
+	});
 
+	/* Phase filter */
 	const [phaseState, setPhase] = useState(1);
 	const [phasesActive, setActivePhases] = useState({
 		1: true,
@@ -57,13 +65,10 @@ const Gear = (props) => {
 		5: false,
 	});
 
-	const handlePhaseChanges = (num, event) => {
-		return setActivePhases({ ...phasesActive, [num]: event.target.checked ? true : false });
-	};
+	/* Level filter */
 	const { updateCharacter } = props.updateState;
 
-	const accessBlizz = useBlizzAuth();
-
+	/* Framer Motion variants */
 	const transition = {
 		duration: 0.3,
 		ease: "easeInOut",
@@ -117,8 +122,9 @@ const Gear = (props) => {
 			transition,
 		},
 	};
+
 	return (
-		<BlizzContext.Provider value={{ token: accessBlizz.access_token }}>
+		<BlizzContext.Provider value={{ token: blizzToken.access_token }}>
 			<motion.section
 				className="content gear"
 				initial="initial"
