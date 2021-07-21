@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 import Zone from "./Zone";
 
@@ -18,17 +19,19 @@ export const ZoneListing = ({ title, zones, level }) => {
 	return (
 		<div className={`${title.toLowerCase().replace(/\s/g, "")}`}>
 			<div className="zones-list">
-				<h3>
+				<motion.h3 layoutId="zonetype" initial={false} transition={{ duration: 0.3 }}>
 					{title}
-					<small>
-						<em>{`Found ${containsZones ? `${zones.length} zones` : "0 zones"}`}</em>
-						{`Level `}
-						<strong>{level}</strong>
-					</small>
-				</h3>
-				{title === "Raids" && containsZones
-					? raids.map((raid, index) => <Zone zone={raid} key={index} />)
-					: zones.map((zone, index) => <Zone zone={zone} key={index} />)}
+				</motion.h3>
+				<small>
+					<em>{`Found ${containsZones ? `${zones.length} zones` : "0 zones"}`}</em>
+					{`Level `}
+					<strong>{level}</strong>
+				</small>
+				<AnimatePresence>
+					{title === "Raids" && containsZones
+						? raids.map((raid, index) => <Zone zone={raid} key={index} />)
+						: zones.map((zone, index) => <Zone zone={zone} key={index} />)}
+				</AnimatePresence>
 			</div>
 		</div>
 	);
