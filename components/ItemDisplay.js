@@ -47,7 +47,7 @@ export const ItemDisplay = ({ item, index, faction }) => {
 							version="1623049444"
 							width="36"
 							height="36"
-							class="icon"
+							className="icon"
 							loading="lazy"
 							secure="true"
 							alt=""

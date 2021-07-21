@@ -7,6 +7,7 @@ import { graphQLClient, queryAllFactions } from "../utils/fauna_gql";
 import fetch from "isomorphic-unfetch";
 
 import getClassGear from "../utils/getClassGear";
+import getClassGear_Server from "../utils/getClassGear_Server";
 import filterGearByLevel from "../utils/filterGearByLevel";
 import separateGearByType from "../utils/separateGearByType";
 
@@ -22,9 +23,10 @@ const fetcher = (query) => graphQLClient.request(query);
 
 export async function getStaticProps() {
 	const classData = await fetcher(queryAllFactions);
+	const gearData = await getClassGear_Server();
 	const accessBlizz = await useBlizzAuth();
 	return {
-		props: { classData, accessBlizz },
+		props: { classData, gearData, accessBlizz },
 	};
 }
 
@@ -43,16 +45,15 @@ const Gear = (props) => {
 	const classData = data ? parseClassData(data) : data;
 	const classWepTypes = classData.classes.find((className) => className.name === playerClass)
 		.reference.weaponTypes;
-
 	/* Get class gear data and filter */
-	const { gear, error, isPending } = getClassGear(playerClass);
-	const { gearData } = gear ? filterGearByLevel(gear, level) : [{}];
+	const { gearData } = filterGearByLevel(props.gearData[`${playerClass.toLowerCase()}`], level);
 	const separatedGearByType = gearData ? separateGearByType(gearData) : [{}, {}, {}];
 
 	/* Update accessBlizz token */
 	const blizzFetch = (url) => fetch(url).then((r) => r.json());
 	const { data: blizzToken } = useSWR("/api/blizzauth", blizzFetch, {
 		initialData: props.accessBlizz,
+		refreshInterval: 86399,
 	});
 
 	/* Phase filter */
@@ -166,72 +167,49 @@ const Gear = (props) => {
 					</section>
 
 					<AnimatePresence>
-						{error ? (
-							<motion.p
-								key="error-msg"
+						<>
+							<motion.aside
+								key="level-slider"
 								initial="initial"
 								animate="enter"
 								exit="exit"
 								variants={pageVariants}
+								layout
 							>
-								Error loading class gear. Let me know in a message!
-							</motion.p>
-						) : isPending ? (
-							<motion.p
-								key="loading-msg"
-								initial="initial"
-								animate="enter"
-								exit="exit"
-								variants={pageVariants}
-							>
-								Loading gear based on your class and level... <div className="spin"></div>
-							</motion.p>
-						) : (
-							<>
-								<motion.aside
-									key="level-slider"
-									initial="initial"
-									animate="enter"
-									exit="exit"
-									variants={pageVariants}
-									layout
-								>
-									<label htmlFor="levelslider">
-										Filter by Level:
+								<label htmlFor="levelslider">
+									Filter by Level:
+									<br />
+									{level}
+								</label>
+								<input
+									type="range"
+									min="1"
+									max="70"
+									value={level}
+									className="levelfilter"
+									id="levelfilter"
+									name="levelfilter"
+									onChange={(e) => updateCharacter({ ...selectedCharacter, level: e.target.value })}
+								/>
+							</motion.aside>
+							{level === "70" && (
+								<aside initial="initial" animate="enter" exit="exit" variants={pageVariants}>
+									<label htmlFor="phasefilter">
+										Filter by Phase:
 										<br />
-										{level}
+										{phaseState}
 									</label>
 									<input
 										type="range"
 										min="1"
-										max="70"
-										value={level}
-										className="levelfilter"
-										id="levelfilter"
-										name="levelfilter"
-										onChange={(e) =>
-											updateCharacter({ ...selectedCharacter, level: e.target.value })
-										}
+										max="5"
+										value={phaseState}
+										className="phasefilter"
+										id="phasefilter"
+										name="phasefilter"
+										onChange={(e) => setPhase(e.target.value)}
 									/>
-								</motion.aside>
-								{level === "70" && (
-									<aside initial="initial" animate="enter" exit="exit" variants={pageVariants}>
-										<label htmlFor="phasefilter">
-											Filter by Phase:
-											<br />
-											{phaseState}
-										</label>
-										<input
-											type="range"
-											min="1"
-											max="5"
-											value={phaseState}
-											className="phasefilter"
-											id="phasefilter"
-											name="phasefilter"
-											onChange={(e) => setPhase(e.target.value)}
-										/>
-										{/* {[1, 2, 3, 4, 5].map((phaseNum) => (
+									{/* {[1, 2, 3, 4, 5].map((phaseNum) => (
 											<>
 												<label
 													className={
@@ -250,63 +228,62 @@ const Gear = (props) => {
 												/>
 											</>
 										))} */}
-									</aside>
-								)}
-								<motion.main variants={slotColumnVariants} animate="animate" initial="initial">
-									{separatedGearByType.map((gearType, index) => {
-										const { items, type } = gearType;
-										return (
-											<AnimateSharedLayout>
+								</aside>
+							)}
+							<motion.main variants={slotColumnVariants} animate="animate" initial="initial">
+								{separatedGearByType.map((gearType, index) => {
+									const { items, type } = gearType;
+									return (
+										<AnimateSharedLayout>
+											<motion.div
+												className="column"
+												key={type}
+												initial={{
+													opacity: 0,
+													y: "15%",
+													transition: { delay: (index + 1) * 0.5 },
+												}}
+												animate={{ opacity: 1, y: 0 }}
+												layout
+											>
+												<h3>{type}</h3>
 												<motion.div
-													className="column"
 													key={type}
-													initial={{
-														opacity: 0,
-														y: "15%",
-														transition: { delay: (index + 1) * 0.5 },
-													}}
-													animate={{ opacity: 1, y: 0 }}
+													variants={slotVariants}
+													animate="animate"
+													initial="initial"
+													transition="transition"
 													layout
 												>
-													<h3>{type}</h3>
-													<motion.div
-														key={type}
-														variants={slotVariants}
-														animate="animate"
-														initial="initial"
-														transition="transition"
-														layout
-													>
-														{items.map((itemType, index) => {
-															const typeName = Object.keys(itemType)[0];
-															const weaponTypeMatch =
-																type === "Weapons" &&
-																classWepTypes.some(
-																	(wepType) => wepType.name === weaponToFullName(typeName)
-																);
-															if (weaponTypeMatch || type !== "Weapons") {
-																return (
-																	<GearSlot
-																		name={typeName}
-																		items={itemType[typeName]}
-																		index={index}
-																		key={index}
-																		level={level}
-																		faction={faction}
-																		phase={phaseState}
-																		type={type}
-																	/>
-																);
-															}
-														})}
-													</motion.div>
+													{items.map((itemType, index) => {
+														const typeName = Object.keys(itemType)[0];
+														const weaponTypeMatch =
+															type === "Weapons" &&
+															classWepTypes.some(
+																(wepType) => wepType.name === weaponToFullName(typeName)
+															);
+														if (weaponTypeMatch || type !== "Weapons") {
+															return (
+																<GearSlot
+																	name={typeName}
+																	items={itemType[typeName]}
+																	index={index}
+																	key={index}
+																	level={level}
+																	faction={faction}
+																	phase={phaseState}
+																	type={type}
+																/>
+															);
+														}
+													})}
 												</motion.div>
-											</AnimateSharedLayout>
-										);
-									})}
-								</motion.main>
-							</>
-						)}
+											</motion.div>
+										</AnimateSharedLayout>
+									);
+								})}
+							</motion.main>
+						</>
 					</AnimatePresence>
 				</div>
 			</motion.section>

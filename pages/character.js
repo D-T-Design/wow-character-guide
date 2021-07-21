@@ -1,14 +1,23 @@
 import React from "react";
 import { motion } from "framer-motion";
 import useSWR from "swr";
-import { graphQLClient, queryAllFactions } from "../utils/fauna_gql";
+import {
+	graphQLClient,
+	queryAllFactions,
+	getAllClassGear,
+	queryItemsByClassName,
+} from "../utils/fauna_gql";
+
 import parseClassData from "../utils/parseClassData";
+import getClassGear from "../utils/getClassGear";
+import filterGearByLevel from "../utils/filterGearByLevel";
+import separateGearByType from "../utils/separateGearByType";
+import getClassGear_Server from "../utils/getClassGear_Server";
 
 import Welcome from "../components/Welcome";
 import Character from "../components/Character";
 
 const fetcher = (query) => graphQLClient.request(query);
-
 export async function getStaticProps() {
 	const classData = await fetcher(queryAllFactions);
 	return {
@@ -17,8 +26,8 @@ export async function getStaticProps() {
 }
 
 const MyCharacters = (props) => {
-	const { data } = useSWR(queryAllFactions, fetcher, { initialData: props.classData });
-	const gameData = data ? parseClassData(data) : data;
+	const gameData = parseClassData(props.classData);
+
 	const charactersSaved = props.appState.savedCharacters.length !== 0;
 	let currentCharacter = {};
 	if (charactersSaved) {
@@ -26,6 +35,7 @@ const MyCharacters = (props) => {
 			(character) => character.id === props.appState.character
 		);
 	}
+
 	props = { ...props, gameData };
 
 	/* ---- Motion Variants ---- */

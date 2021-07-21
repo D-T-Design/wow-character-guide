@@ -169,6 +169,15 @@ const queryAllItems = () =>
     }
   }`;
 
+const getAllClassGear = `{
+	getAllClassItems {
+        data {
+          name
+          gear
+        }
+      }
+    }`;
+
 const queryItemsByArray = (arr) =>
 	`getItemsByArray(array: ${arr}) {
     armorType
@@ -208,6 +217,7 @@ const queryItemsByClassName = (className) =>
 }`;
 
 export {
+  getAllClassGear,
 	queryAllFactions,
 	queryClassGear,
 	queryAllZones,
