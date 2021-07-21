@@ -1,15 +1,26 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
-import useZoneData from "../utils/useZoneData";
-import useDungeonData from "../utils/useDungeonData";
-import useRaidData from "../utils/useRaidData";
 import { zonesByCategory } from "../utils/filterZones";
 import zoneImgPath from "../utils/zoneImgPath";
+import parseZoneData from "../utils/parseZoneData";
+import parseDungeonData from "../utils/parseDungeonData";
+import parseRaidData from "../utils/parseRaidData";
 
 import { ZoneListing } from "../components/ZoneListing";
+import { graphQLClient, queryAllZones, queryAllDungeons, queryAllRaids } from "../utils/fauna_gql";
 
-const Zones = ({ appState }) => {
+const fetcher = (query) => graphQLClient.request(query);
+export async function getStaticProps() {
+	const { getAllZones: zoneData } = await fetcher(queryAllZones);
+	const { getAllDungeons: dungeonData } = await fetcher(queryAllDungeons);
+	const { getAllRaids: raidData } = await fetcher(queryAllRaids);
+	return {
+		props: { zoneData: zoneData.data, dungeonData: dungeonData.data, raidData: raidData.data },
+	};
+}
+const Zones = (props) => {
+	const { appState } = props;
 	const [currentZoneType, changeZoneType] = useState("Zone");
 	const updateZoneType = (type) => {
 		changeZoneType(type);
@@ -18,10 +29,14 @@ const Zones = ({ appState }) => {
 		(character) => character.id === appState.character
 	);
 	const { faction, level } = selectedCharacter ? selectedCharacter : { faction: "Horde", level: 1 };
-	const { zoneData, error, isPending } = useZoneData();
-	const { dungeonData } = useDungeonData();
-	const { raidData } = useRaidData();
-	const sortedZones = zonesByCategory(zoneData, dungeonData, raidData, level, faction);
+	const { zoneData, dungeonData, raidData } = props;
+	const sortedZones = zonesByCategory(
+		parseZoneData(zoneData),
+		parseDungeonData(dungeonData),
+		parseRaidData(raidData),
+		level,
+		faction
+	);
 	const zoneTypes = {
 		Zone: "World Zones",
 		Dungeon: "Dungeons",
@@ -68,46 +83,41 @@ const Zones = ({ appState }) => {
 				</div>
 				<aside>
 					<div className="zones-container">
-						{error && <p>Error loading zone data. Please refresh the page.</p>}
-						{isPending && <p>Loading zone data...</p>}
-						{!error && !isPending && (
-							<ul>
-								{Object.keys(sortedZones).map((zoneType, index) => {
-									const title = zoneTypes[zoneType];
-									return (
-										<li
-											className={`${title.toLowerCase().replace(/\s/g, "")}${
-												currentZoneType === zoneType ? " active" : ""
-											}`}
-											onClick={() => updateZoneType(zoneType)}
-											key={index}
-										>
-											<img
-												src={`/static/img/zone/${zoneImgPath(title)}.png`}
-												alt={zoneImgPath(title)}
-												title={zoneImgPath(title)}
-											/>
-											<h3>{title}</h3>
-											<img
-												src="/static/img/plus.svg"
-												style={
-													currentZoneType === zoneType
-														? { transform: "rotate(45deg)" }
-														: { transform: "rotate(0deg)" }
-												}
-											/>
-										</li>
-									);
-								})}
-							</ul>
-						)}
+						<ul>
+							{Object.keys(sortedZones).map((zoneType, index) => {
+								const title = zoneTypes[zoneType];
+								return (
+									<li
+										className={`${title.toLowerCase().replace(/\s/g, "")}${
+											currentZoneType === zoneType ? " active" : ""
+										}`}
+										onClick={() => updateZoneType(zoneType)}
+										key={index}
+									>
+										<img
+											src={`/static/img/zone/${zoneImgPath(title)}.png`}
+											alt={zoneImgPath(title)}
+											title={zoneImgPath(title)}
+										/>
+										<h3>{title}</h3>
+										<img
+											src="/static/img/plus.svg"
+											style={
+												currentZoneType === zoneType
+													? { transform: "rotate(45deg)" }
+													: { transform: "rotate(0deg)" }
+											}
+										/>
+									</li>
+								);
+							})}
+						</ul>
 					</div>
 				</aside>
-				{!error && !isPending && (
-					<section className={`${currentZoneType}`}>
-						<ZoneListing {...zoneProps} />
-					</section>
-				)}
+
+				<section className={`${currentZoneType}`}>
+					<ZoneListing {...zoneProps} />
+				</section>
 			</div>
 		</motion.section>
 	);

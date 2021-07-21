@@ -1,18 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
-import useSWR from "swr";
-import {
-	graphQLClient,
-	queryAllFactions,
-	getAllClassGear,
-	queryItemsByClassName,
-} from "../utils/fauna_gql";
+import { graphQLClient, queryAllFactions } from "../utils/fauna_gql";
 
 import parseClassData from "../utils/parseClassData";
-import getClassGear from "../utils/getClassGear";
-import filterGearByLevel from "../utils/filterGearByLevel";
-import separateGearByType from "../utils/separateGearByType";
-import getClassGear_Server from "../utils/getClassGear_Server";
 
 import Welcome from "../components/Welcome";
 import Character from "../components/Character";

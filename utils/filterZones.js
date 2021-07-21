@@ -39,11 +39,11 @@ export const zonesByCategory = (zoneData, dungeonData, raidData, level, playerFa
 		const { type } = zone;
 		zonesByCategory[type].push(zone);
 	});
-	dungeons.map((dungeon) => {
-		zonesByCategory["Dungeon"].push(dungeon);
+	zonesByCategory.Dungeon = dungeons.map((dungeon) => {
+		return dungeon;
 	});
-	raids.map((raid) => {
-		zonesByCategory["Raid"].push(raid);
+	zonesByCategory.Raid = raids.map((raid) => {
+		return raid;
 	});
 	return zonesByCategory;
 };

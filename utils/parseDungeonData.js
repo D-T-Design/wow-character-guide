@@ -1,9 +1,7 @@
 export default function parseDungeonData(data) {
-	if (data.getAllDungeons) {
-		const rawData = data.getAllDungeons.data;
 		const parsedData = [];
 
-		rawData.map((zone) => {
+		data.map((zone) => {
 			const type = "Dungeon";
 			const { id, name, level, img } = zone;
 			const { faction } = zone.zone;
@@ -20,7 +18,4 @@ export default function parseDungeonData(data) {
 		});
 
 		return parsedData;
-	} else {
-		return data;
-	}
 }

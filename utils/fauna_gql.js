@@ -132,8 +132,7 @@ const queryGetClassGear = (className) =>
     }
   }`;
 
-export const queryAllDungeons = () =>
-	`{
+export const queryAllDungeons = `{
     getAllDungeons(_size:500) {
       data {
         id
@@ -217,7 +216,7 @@ const queryItemsByClassName = (className) =>
 }`;
 
 export {
-  getAllClassGear,
+	getAllClassGear,
 	queryAllFactions,
 	queryClassGear,
 	queryAllZones,
