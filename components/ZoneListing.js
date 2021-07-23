@@ -1,7 +1,7 @@
 import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 
-import Zone from "./Zone";
+import { Zone, MotionZone } from "./Zone";
 
 export const ZoneListing = ({ title, zones, level }) => {
 	const containsZones = zones ? zones.length > 0 : false;
@@ -18,21 +18,21 @@ export const ZoneListing = ({ title, zones, level }) => {
 		);
 	return (
 		<div className={`${title.toLowerCase().replace(/\s/g, "")}`}>
-			<div className="zones-list">
-				<motion.h3 layoutId="zonetype" initial={false} transition={{ duration: 0.3 }}>
-					{title}
-				</motion.h3>
-				<small>
-					<em>{`Found ${containsZones ? `${zones.length} zones` : "0 zones"}`}</em>
-					{`Level `}
-					<strong>{level}</strong>
-				</small>
-				<AnimatePresence>
-					{title === "Raids" && containsZones
-						? raids.map((raid, index) => <Zone zone={raid} key={index} />)
-						: zones.map((zone, index) => <Zone zone={zone} key={index} />)}
-				</AnimatePresence>
-			</div>
+			{containsZones && (zones.length === 0 || (title === "Raids" && level < 60)) ? (
+				<div className={`${title.toLowerCase().replace(/\s/g, "")}`}>
+					<h3>{title}</h3>
+					<small>No {title} found for your level.</small>
+				</div>
+			) : (
+				<div className="zones-list">
+					<h3>{title}</h3>
+					<AnimatePresence>
+						{title === "Raids" && containsZones
+							? raids.map((raid, index) => <Zone zone={raid} key={index} />)
+							: zones.map((zone, index) => <Zone zone={zone} key={index} />)}
+					</AnimatePresence>
+				</div>
+			)}
 		</div>
 	);
 };

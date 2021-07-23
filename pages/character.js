@@ -16,17 +16,11 @@ export async function getStaticProps() {
 }
 
 const MyCharacters = (props) => {
-	const gameData = parseClassData(props.classData);
+	const classData = parseClassData(props.classData);
 
 	const charactersSaved = props.appState.savedCharacters.length !== 0;
-	let currentCharacter = {};
-	if (charactersSaved) {
-		currentCharacter = props.appState.savedCharacters.find(
-			(character) => character.id === props.appState.character
-		);
-	}
 
-	props = { ...props, gameData };
+	props = { ...props, classData };
 
 	/* ---- Motion Variants ---- */
 	const transition = {
@@ -66,7 +60,7 @@ const MyCharacters = (props) => {
 						</main>
 					</section>
 				) : (
-					<section className="new">
+					<section className="character">
 						<aside className="blurb">
 							<h2>
 								<small>Welcome to</small> WoW Classic Character Guide!
@@ -83,7 +77,7 @@ const MyCharacters = (props) => {
 								</p>
 							</caption>
 						</aside>
-						<main className="character-new">
+						<main>
 							<Welcome props={props} />
 						</main>
 					</section>

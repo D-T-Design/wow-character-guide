@@ -1,13 +1,21 @@
+import React from "react";
 import { Image, Placeholder } from "cloudinary-react";
+import { motion } from "framer-motion";
 
-export default function Zone({ zone }) {
-	const { name, id, type, faction, img } = zone;
-	const zoneLevel = zone.level || zone.range;
+export const Zone = React.forwardRef((props, ref) => {
+	const { name, id, type, faction, img } = props.zone;
+	const zoneLevel = props.zone.level || props.zone.range;
 	const zoneURL = "https://tbc.wowhead.com/zone=";
 	const factionURL = "/static/img/faction/";
 	const zoneURLString = "/static/img/zone/";
 	return (
-		<div className="quests-zone">
+		<motion.div
+			className="quests-zone"
+			initial={{ opacity: 0, y: 10 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ delay: 0.2 }}
+			ref={ref}
+		>
 			<a href={`${zoneURL}${id}`} target="_blank" rel="noopener noreferrer">
 				{/* If database includes Zone Image URL, generate image from Cloudinary */}
 				{img && (
@@ -38,7 +46,7 @@ export default function Zone({ zone }) {
 					<small>
 						<em>{`(Lvl: ${zoneLevel[0]}${zoneLevel.length > 1 ? `-${zoneLevel[1]}` : ""})`}</em>
 					</small>
-					{zone.tier && <small>Tier: {zone.tier}</small>}
+					{props.zone.tier && <small>Tier: {props.zone.tier}</small>}
 				</div>
 
 				<div className="icons">
@@ -59,6 +67,7 @@ export default function Zone({ zone }) {
 					)}
 				</div>
 			</a>
-		</div>
+		</motion.div>
 	);
-}
+});
+export const MotionZone = motion(Zone, { forwardMotionProps: true });

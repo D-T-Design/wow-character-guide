@@ -2,19 +2,13 @@ import React, { useState } from "react";
 import { motion, AnimatePresence, AnimateSharedLayout, MotionConfig } from "framer-motion";
 import Link from "next/link";
 
-import { InputCharacter } from "../components/characterInput";
+import { InputCharacter, EditCharacterModal } from "../components/characterInput";
+
 const CharacterDisplay = React.forwardRef((props, ref) => {
-	const { character, updateState, appState, gameData, updateGameData } = props;
+	const { character, updateState, appState, classData } = props;
 	const { name, level, faction, race, playerClass, gender, id } = character;
 	const { removeCharacter, selectCharacter, updateCharacter } = updateState;
 	const isSelectedCharacter = id === appState.character;
-	const [editCharacter, toggleEdit] = useState(false);
-	const switchEditForm = () => toggleEdit(!editCharacter);
-	const editAction = {
-		title: "Submit Changes",
-		formAction: updateCharacter,
-		callback: switchEditForm,
-	};
 	const [removalApproved, approveRemoval] = useState(false);
 	const factionImgURL = `/static/img/faction/${faction.toLowerCase()}.png`;
 	const raceImgURL = `/static/img/race/${race.toLowerCase().replace(/\s/g, "")}-${
@@ -23,6 +17,13 @@ const CharacterDisplay = React.forwardRef((props, ref) => {
 	const classImgURL = `/static/img/class/${playerClass.toLowerCase()}.png`;
 	const iconURL = `/static/img/`;
 
+	const [characterModal, setCharacterModal] = useState(false);
+	const toggleCharacterModal = () => setCharacterModal(!characterModal);
+	const editAction = {
+		title: "Submit Changes",
+		formAction: updateCharacter,
+		callback: toggleCharacterModal,
+	};
 	return (
 		<li
 			ref={ref}
@@ -43,7 +44,7 @@ const CharacterDisplay = React.forwardRef((props, ref) => {
 					</h4>
 					<section>
 						<ul>
-							{!isSelectedCharacter && !editCharacter && (
+							{!isSelectedCharacter && (
 								<li>
 									<button
 										onClick={() => {
@@ -62,51 +63,41 @@ const CharacterDisplay = React.forwardRef((props, ref) => {
 								<button
 									onClick={() => {
 										approveRemoval(false);
-										return toggleEdit(!editCharacter);
+										return toggleCharacterModal();
 									}}
-									className={!editCharacter ? "button-edit-inactive" : "button-edit-active"}
+									className={!characterModal ? "button-edit-inactive" : "button-edit-active"}
 									title="Click to edit this character"
 								>
-									{!editCharacter ? (
-										<>
-											<img src={`${iconURL}edit.svg`} />
-											Edit
-										</>
-									) : (
-										<>
-											<img src={`${iconURL}exit.svg`} />
-											Cancel Edit
-										</>
-									)}
+									<img src={`${iconURL}edit.svg`} />
+									Edit
 								</button>
-								{editCharacter && (
-									<InputCharacter
-										action={editAction}
+								{characterModal && (
+									<EditCharacterModal
+										editCharacter={editAction}
 										character={character}
-										gameData={gameData}
-										updateGameData={updateGameData}
+										classData={classData}
+										show={characterModal}
+										onClose={() => toggleCharacterModal()}
 									/>
 								)}
 							</li>
-							{!editCharacter && (
-								<li>
-									<button
-										onClick={() => {
-											if (removalApproved) {
-												approveRemoval(false);
-												return removeCharacter(id);
-											} else {
-												return approveRemoval(true);
-											}
-										}}
-										className="button-delete"
-										title="Click to permanently delete character"
-									>
-										<img src={`${iconURL}trash.svg`} />
-										{removalApproved ? "Are you sure?" : "Delete"}
-									</button>
-								</li>
-							)}
+							<li>
+								<button
+									onClick={() => {
+										if (removalApproved) {
+											approveRemoval(false);
+											return removeCharacter(id);
+										} else {
+											return approveRemoval(true);
+										}
+									}}
+									className="button-delete"
+									title="Click to permanently delete character"
+								>
+									<img src={`${iconURL}trash.svg`} />
+									{removalApproved ? "Are you sure?" : "Delete"}
+								</button>
+							</li>
 							{isSelectedCharacter && (
 								<li className="navigate">
 									<Link href={`/classguides/${playerClass.toLowerCase()}`}>
@@ -146,9 +137,10 @@ const CharacterDisplay = React.forwardRef((props, ref) => {
 const MotionCharacter = motion(CharacterDisplay, { forwardMotionProps: true });
 
 export default function Character({ props }) {
-	const { updateState, appState, gameData } = props;
+	const { updateState, appState, classData } = props;
 	const { savedCharacters } = appState;
-	const { addCharacter, updateGameData } = updateState;
+	const { addCharacter } = updateState;
+
 	const [addForm, toggleAddForm] = useState(false);
 	const switchAddForm = () => toggleAddForm(!addForm);
 	const addAction = {
@@ -156,6 +148,7 @@ export default function Character({ props }) {
 		formAction: addCharacter,
 		callback: switchAddForm,
 	};
+
 	const transition = {
 		type: "tween",
 		duration: 0.2,
@@ -177,54 +170,60 @@ export default function Character({ props }) {
 		},
 	};
 	return (
-		<section className="edit-characters">
-			<h2>Your Saved Characters</h2>
-			<MotionConfig transition={transition}>
-				<AnimateSharedLayout>
-					{savedCharacters && (
-						<motion.ul
-							className="character-list"
-							variants={listVariant}
-							initial="hidden"
-							animate="show"
-							key="characterList"
-						>
-							<AnimatePresence>
-								{savedCharacters.map((character, index) => (
-									<MotionCharacter
-										character={character}
-										key={index}
-										updateState={updateState}
-										appState={appState}
-										gameData={gameData}
-										updateGameData={updateGameData}
-										variants={characterVariant}
-										initial="hidden"
-										exit="hidden"
-										animate="fadeIn"
-									/>
-								))}
-							</AnimatePresence>
-						</motion.ul>
-					)}
-				</AnimateSharedLayout>
-			</MotionConfig>
-
-			<h2>Add Characters</h2>
-			{addForm ? (
-				<>
+		<>
+			<section className="edit-characters">
+				<h2>Your Saved Characters</h2>
+				<MotionConfig transition={transition}>
+					<AnimateSharedLayout>
+						{savedCharacters && (
+							<motion.ul
+								className="character-list"
+								variants={listVariant}
+								initial="hidden"
+								animate="show"
+								key="characterList"
+							>
+								<AnimatePresence>
+									{savedCharacters.map((character, index) => (
+										<MotionCharacter
+											character={character}
+											key={index}
+											updateState={updateState}
+											appState={appState}
+											classData={classData}
+											variants={characterVariant}
+											initial="hidden"
+											exit="hidden"
+											animate="fadeIn"
+										/>
+									))}
+								</AnimatePresence>
+							</motion.ul>
+						)}
+					</AnimateSharedLayout>
+				</MotionConfig>
+			</section>
+			<section className="add-characters">
+				<h2>Add Characters</h2>
+				{addForm ? (
+					<>
+						<button onClick={() => toggleAddForm(!addForm)} className="character-add">
+							<img src="/static/img/exit.svg" />
+							Cancel Add Character
+						</button>
+						<InputCharacter
+							action={addAction}
+							classData={classData}
+							parent="Saved Character Page"
+						/>
+					</>
+				) : (
 					<button onClick={() => toggleAddForm(!addForm)} className="character-add">
-						<img src="/static/img/exit.svg" />
-						Cancel Add Character
+						<img src="/static/img/plus.svg" />
+						Add Character
 					</button>
-					<InputCharacter action={addAction} gameData={gameData} updateGameData={updateGameData} />
-				</>
-			) : (
-				<button onClick={() => toggleAddForm(!addForm)} className="character-add">
-					<img src="/static/img/plus.svg" />
-					Add Character
-				</button>
-			)}
-		</section>
+				)}
+			</section>
+		</>
 	);
 }

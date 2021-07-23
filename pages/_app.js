@@ -16,6 +16,7 @@ const MyApp = ({ Component, pageProps }) => {
 		gear: [],
 		character: 0,
 		savedCharacters: [],
+		gameData: [],
 	});
 	const updateGameData = (data) => {
 		setState({ ...appState, gameData: data });

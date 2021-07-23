@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import useSWR from "swr";
 import { motion } from "framer-motion";
+import { graphQLClient, queryAllFactions } from "../utils/fauna_gql";
+import parseClassData from "../utils/parseClassData";
 
-const Home = () => {
+const fetcher = (query) => graphQLClient.request(query);
+
+export async function getStaticProps() {
+	const classData = await fetcher(queryAllFactions);
+	return {
+		props: { classData },
+	};
+}
+
+const Home = (props) => {
+	const { data } = useSWR(queryAllFactions, fetcher);
+	const [classData, setClassData] = useState({});
+	const { updateGameData } = props.updateState;
+	const saveClassData = (data) => {
+		setClassData(data);
+		return updateGameData(data);
+	};
 	const icons = [
 		{
 			text: "Save Your Characters",
@@ -20,6 +39,7 @@ const Home = () => {
 			icon: "/static/img/zone.svg",
 		},
 	];
+
 	/* ---- Motion Variants ---- */
 	const transition = {
 		duration: 0.3,

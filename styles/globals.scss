@@ -273,7 +273,8 @@ h3,
 h4,
 h5,
 h6 {
-	font-family: $body-font;
+	letter-spacing: -0.05ch;
+	font-family: $headline-font;
 }
 
 h1 {
@@ -405,16 +406,16 @@ header {
 	nav {
 		z-index: 1;
 		background-color: $nav-bg;
-		height: 15px;
 		transition: all 0.1s ease-in-out;
+		overflow: hidden;
 		@include respond-above(md) {
 			height: auto;
 		}
 		&.open {
-			height: auto;
+			height: auto !important;
+			opacity: 1 !important;
 			overflow: visible;
 			.container {
-				height: 100%;
 				overflow: visible;
 			}
 		}
@@ -425,7 +426,7 @@ header {
 		.container {
 			background-color: $nav-bg;
 			padding: 0;
-			height: 0;
+			position: relative;
 			@include respond-above(md) {
 				height: auto;
 			}
@@ -454,17 +455,17 @@ header {
 						display: flex;
 						justify-content: flex-start;
 						align-items: center;
-						img {
-							margin-right: 1ch;
-						}
 						border-bottom: 1px solid transparent;
 						color: #adadad;
 						font-family: $headline-font;
-						font-size: 0.9rem;
+						font-size: 1rem;
 						font-weight: bold;
+						letter-spacing: -0.05ch;
 						padding: 0.5rem 1.5ch;
 						text-decoration: none;
-						text-transform: uppercase;
+						img {
+							margin-right: 1ch;
+						}
 						&:hover {
 							color: #fdfffc;
 						}
@@ -631,9 +632,9 @@ header {
 				padding: 1rem;
 				margin: 0;
 				h3 {
+					font-size: 1.3em;
 					color: white;
 					margin: 0;
-					text-transform: uppercase;
 					text-decoration: none !important;
 				}
 				figcaption {
@@ -641,7 +642,8 @@ header {
 				}
 				small {
 					color: $body-color;
-					letter-spacing: 0.2ch;
+					font-size: 0.7em;
+					letter-spacing: 0.4ch;
 					opacity: 0.6;
 					text-transform: uppercase;
 					text-decoration: none !important;
@@ -702,8 +704,6 @@ header {
 					}
 				}
 				h3 {
-					font-weight: lighter;
-					font-style: italic;
 					margin: 0;
 				}
 				h3,
@@ -1014,10 +1014,12 @@ header {
 				}
 			}
 			&.saved-character {
+				background-color: $bg-bright;
 				margin-bottom: 1rem;
-				box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+				border: 1px solid rgba(0, 0, 0, 0.5);
 				border-top: 1px solid rgba(255, 255, 255, 0.3);
 				opacity: 0.85;
+				@include borderDesign;
 				ul {
 					display: flex;
 					align-items: center;
@@ -1034,7 +1036,9 @@ header {
 				}
 				@include class-hover-colors;
 				&.class-selected {
-					box-shadow: 0px 5px 15px rgba(0, 0, 0, 16);
+					border-top: 1px solid #ff7400;
+					border-bottom: 2px solid #ff7400;
+					box-shadow: 0 10px 10px rgba(0, 0, 0, 0.75);
 					transform: scale(1.05);
 					opacity: 1;
 					figure {
@@ -1069,7 +1073,8 @@ header {
 			}
 		}
 		.character-input {
-			background-color: $nav-bg;
+			background-color: $bg-bright;
+			@include borderDesign();
 			padding: 1rem;
 			figure {
 				padding: 0.5rem;
@@ -1596,15 +1601,17 @@ header {
 				grid-area: list;
 				display: flex;
 				flex-flow: row wrap;
-				justify-content: space-between;
+				justify-content: flex-start;
 				align-items: flex-start;
 				.saved-character {
 					width: 100%;
 					@include respond-above(sm) {
-						width: 49%;
+						width: 48%;
+						margin: 0.5rem 1ch;
 					}
 					@include respond-above(md) {
-						width: 32%;
+						width: 31%;
+						margin: 1rem 1ch;
 					}
 				}
 				.character-input {
@@ -1741,6 +1748,53 @@ header {
 		background-color: $nav-bg;
 		padding: 0.5rem 2ch;
 		margin-top: 1rem;
+	}
+	h2 {
+		font-size: 1.9rem;
+		letter-spacing: -0.05ch;
+		padding-bottom: 1rem;
+		width: 100%;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	}
+	h3 {
+		line-height: 1;
+		margin-bottom: 0.25em;
+	}
+	h4 {
+		font-size: 0.8em;
+		font-style: italic;
+		opacity: 0.7;
+	}
+	.column {
+		width: 100%;
+	}
+	@media (min-width: 768px) {
+		.column {
+			width: 48%;
+		}
+	}
+	@media (min-width: 1168px) {
+		.column {
+			width: 32%;
+		}
+	}
+	article {
+		transition: all 0.2s ease-in-out;
+		&.gearslot {
+			&-open {
+				border-top: 1px solid #ff7400;
+				border-bottom: 2px solid #ff7400;
+				box-shadow: 0 10px 10px rgba(0, 0, 0, 0.75);
+			}
+		}
+	}
+	.blurb {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		div {
+			width: 100%;
+		}
 	}
 	.item {
 		position: relative;
@@ -1937,52 +1991,6 @@ header {
 			border: 0;
 		}
 	}
-	h2 {
-		font-size: 1.7rem;
-		padding-bottom: 1rem;
-		width: 100%;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-	}
-	h3 {
-		line-height: 1;
-		margin-bottom: 0.25em;
-	}
-	h4 {
-		font-size: 0.8em;
-		font-style: italic;
-		opacity: 0.7;
-	}
-	.column {
-		width: 100%;
-	}
-	@media (min-width: 768px) {
-		.column {
-			width: 48%;
-		}
-	}
-	@media (min-width: 1168px) {
-		.column {
-			width: 32%;
-		}
-	}
-	article {
-		transition: all 0.2s ease-in-out;
-		&.gearslot {
-			&-open {
-				border-top: 1px solid #ff7400;
-				border-bottom: 2px solid #ff7400;
-				box-shadow: 0 10px 10px rgba(0, 0, 0, 0.75);
-			}
-		}
-	}
-	.blurb {
-		width: 100%;
-		display: flex;
-		justify-content: space-between;
-		div {
-			width: 100%;
-		}
-	}
 	.img-container {
 		width: 40%;
 		margin-left: 2ch;
@@ -2090,6 +2098,7 @@ header {
 		box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.75);
 		padding: 2px;
 		padding-bottom: 4px;
+		@include borderDesign();
 		&.Zone {
 			border-top: 2px solid $zone;
 			@include zoneGradient();
@@ -2131,6 +2140,7 @@ header {
 				background-color: $bg-bright;
 				padding: 1rem;
 				position: relative;
+				@include borderDesign();
 				border-top: 10px solid transparent;
 				@include respond-above(lg) {
 					padding: 1rem 2rem;
@@ -2228,7 +2238,9 @@ header {
 				}
 			}
 			&-guides {
+				background-color: $bg-color;
 				margin-bottom: 2rem;
+				@include borderDesign();
 				h3 {
 					margin-top: 0;
 				}
@@ -2256,6 +2268,9 @@ header {
 							text-decoration: none;
 							padding: 1ch;
 							transition: filter 0.15s ease-in-out;
+							font-family: $headline-font;
+							font-weight: bold;
+							letter-spacing: -0.05ch;
 							@include guides-hover();
 							&:hover {
 								filter: brightness(1.25);
@@ -2385,7 +2400,7 @@ header {
 			transition: all 0.1s ease-in-out;
 			width: 100%;
 			overflow: hidden;
-			@include borderDesign();
+			text-shadow: 1px 1px 2px #000000;
 			&:hover {
 				border-bottom-color: #982529;
 				filter: brightness(1.15);
@@ -2442,7 +2457,9 @@ header {
 		.faction,
 		.zone {
 			&-icon {
-				margin: 5px 5px;
+				@include borderDesign();
+				border-radius: 100%;
+				margin: 0;
 				overflow: visible;
 				width: 24px;
 				height: 24px;
@@ -2493,7 +2510,7 @@ header {
 		position: relative;
 		z-index: 0;
 		@include respond-above(sm) {
-			width: 25%;
+			width: 20%;
 		}
 	}
 	section {
@@ -2502,7 +2519,7 @@ header {
 		position: relative;
 		z-index: 1;
 		@include respond-above(sm) {
-			width: 75%;
+			width: 80%;
 		}
 	}
 	.container > div {
@@ -2542,22 +2559,31 @@ header {
 			align-items: center;
 			transition: all 0.15s ease-in-out;
 			li {
-				width: 100%;
+				width: 50%;
 				padding: 0.5rem 1ch;
 				background-color: $bg-bright;
 				cursor: pointer;
-				@include borderDesign;
 				border-top-right-radius: 0;
 				border-bottom-right-radius: 0;
 				display: flex;
 				flex-flow: row wrap;
 				justify-content: space-between;
 				align-items: center;
-				margin-bottom: 1rem;
+				margin-bottom: 0.5rem;
+				font-size: 1rem;
+				@include borderDesign;
+				@include respond-above(sm) {
+					margin-bottom: 1rem;
+					font-size: 1rem;
+				}
 				h3 {
 					margin-top: 0.3em;
 					margin-bottom: 0.3em;
 					margin-right: auto;
+					font-size: 1rem;
+					@include respond-above(sm) {
+						font-size: initial;
+					}
 				}
 				img {
 					height: 1.5rem;
@@ -2570,6 +2596,9 @@ header {
 				}
 				&:hover {
 					filter: brightness(1.2);
+				}
+				@include respond-above(sm) {
+					width: 100%;
 				}
 			}
 			.worldzones {
@@ -2616,7 +2645,6 @@ header {
 			width: 100%;
 			margin-top: 0;
 			font-size: 1.5rem;
-			text-transform: uppercase;
 			display: flex;
 			small {
 				margin-left: auto;
@@ -2634,6 +2662,71 @@ header {
 					font-weight: bold;
 					color: $iLvl;
 				}
+			}
+		}
+	}
+}
+
+.character-cta {
+	border: 0;
+	cursor: pointer;
+	background: rgb(141, 47, 45);
+	box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.75);
+	background: linear-gradient(270deg, rgba(141, 47, 45, 1) 0%, rgba(255, 116, 0, 1) 100%);
+	color: white;
+	font-family: $headline-font;
+	font-weight: bold;
+	font-size: 1.3rem;
+	letter-spacing: -0.05ch;
+	padding: 0.5rem 2ch;
+	transition: all 0.15s ease-in-out;
+	margin: auto;
+	margin-right: 0;
+	&:hover {
+		transform: scale(1.05);
+		filter: brightness(1.1);
+	}
+	&:active {
+		transform: scale(1);
+	}
+}
+.modal {
+	background-color: $bg-bright;
+	@include borderDesign();
+	padding: 1.5rem 5ch;
+	width: 100%;
+	max-width: 1080px;
+	min-height: 30%;
+	position: relative;
+	&-overlay {
+		background-color: rgba(0, 0, 0, 0.5);
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100vh;
+		width: 100%;
+		z-index: 1000;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	&-close {
+		position: absolute;
+		top: -0.5em;
+		right: -0.5ch;
+		a {
+			background-color: $nav-bg;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			@include borderDesign();
+			width: 40px;
+			height: 40px;
+			border-radius: 100%;
+			color: white;
+			text-decoration: none;
+			&:hover {
+				filter: brightness(1.2);
 			}
 		}
 	}

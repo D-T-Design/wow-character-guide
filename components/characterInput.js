@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion, AnimatePresence, AnimateSharedLayout } from "framer-motion";
 
 const InputButtonSection = ({ title, currentState, changeState, itemList, gender }) => {
 	const srcURL = `/static/img/${title.toLowerCase()}/`;
@@ -104,7 +105,7 @@ const InputRadioSection = ({ title, caption, currentState, changeState }) => {
 	);
 };
 
-export const InputCharacter = ({ action, character, updateGameData, gameData }) => {
+export const InputCharacter = ({ action, character, classData }) => {
 	const { formAction, title, callback } = action;
 	const [formState, setState] = character
 		? useState(character)
@@ -151,7 +152,7 @@ export const InputCharacter = ({ action, character, updateGameData, gameData }) 
 					title="Faction"
 					currentState={faction}
 					changeState={updateFaction}
-					itemList={gameData.availableFactions}
+					itemList={classData.availableFactions}
 				/>
 			</section>
 			<section className="input-race">
@@ -159,7 +160,7 @@ export const InputCharacter = ({ action, character, updateGameData, gameData }) 
 					title="Race"
 					currentState={race}
 					changeState={updateRace}
-					itemList={gameData[`${faction.toLowerCase()}Races`]}
+					itemList={classData[`${faction.toLowerCase()}Races`]}
 					gender={gender}
 				/>
 			</section>
@@ -168,7 +169,7 @@ export const InputCharacter = ({ action, character, updateGameData, gameData }) 
 					title="Class"
 					currentState={playerClass}
 					changeState={updateClass}
-					itemList={gameData[`${race.replace(/\s/g, "").toLowerCase()}Classes`]}
+					itemList={classData[`${race.replace(/\s/g, "").toLowerCase()}Classes`]}
 				/>
 			</section>
 			{faction && playerClass && race ? (
@@ -197,7 +198,6 @@ export const InputCharacter = ({ action, character, updateGameData, gameData }) 
 				<section className="input-submit">
 					<button
 						onClick={() => {
-							updateGameData(gameData);
 							formAction(formState);
 							return callback();
 						}}
@@ -207,5 +207,127 @@ export const InputCharacter = ({ action, character, updateGameData, gameData }) 
 				</section>
 			) : null}
 		</section>
+	);
+};
+
+export const NewCharacterModal = ({ addCharacter, classData, show, onClose }) => {
+	const addAction = {
+		title: "Add New Character",
+		formAction: addCharacter,
+		callback: onClose,
+	};
+	const closeModal = (e) => {
+		e.preventDefault();
+		onClose();
+	};
+	return (
+		<AnimatePresence>
+			{show ? (
+				<motion.div
+					className="modal-overlay"
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					exit={{ opacity: 0 }}
+					transition={{ duration: 0.15 }}
+					key="overlay"
+				>
+					<AnimateSharedLayout>
+						<motion.div
+							className="modal"
+							initial={{ opacity: 0, y: "5rem" }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ delay: 0.15 }}
+							key="modal"
+							layout
+						>
+							<div className="modal-header">
+								<h2>Add a New Character</h2>
+							</div>
+							<div className="modal-content">
+								<InputCharacter
+									action={addAction}
+									classData={classData}
+									parent="New Character Modal"
+								/>
+							</div>
+							<div className="modal-close">
+								<motion.a
+									href="#"
+									onClick={closeModal}
+									whileHover={{ scale: 1.1 }}
+									whileTap={{ scale: 0.9 }}
+								>
+									<img
+										width="16"
+										height="16"
+										src="/static/img/exit.svg"
+										alt="Close Character Input"
+									/>
+								</motion.a>
+							</div>
+						</motion.div>
+					</AnimateSharedLayout>
+				</motion.div>
+			) : null}
+		</AnimatePresence>
+	);
+};
+
+export const EditCharacterModal = ({ character, editCharacter, classData, show, onClose }) => {
+	const closeModal = (e) => {
+		e.preventDefault();
+		onClose();
+	};
+	return (
+		<AnimatePresence>
+			{show ? (
+				<motion.div
+					className="modal-overlay"
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					exit={{ opacity: 0 }}
+					transition={{ duration: 0.15 }}
+					key="overlay"
+				>
+					<AnimateSharedLayout>
+						<motion.div
+							className="modal"
+							initial={{ opacity: 0, y: "5rem" }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ delay: 0.15 }}
+							key="modal"
+							layout
+						>
+							<div className="modal-header">
+								<h2>Edit {character.name}</h2>
+							</div>
+							<div className="modal-content">
+								<InputCharacter
+									action={editCharacter}
+									character={character}
+									classData={classData}
+									parent="Edit Character Modal"
+								/>
+							</div>
+							<div className="modal-close">
+								<motion.a
+									href="#"
+									onClick={closeModal}
+									whileHover={{ scale: 1.1 }}
+									whileTap={{ scale: 0.9 }}
+								>
+									<img
+										width="16"
+										height="16"
+										src="/static/img/exit.svg"
+										alt="Close Character Input"
+									/>
+								</motion.a>
+							</div>
+						</motion.div>
+					</AnimateSharedLayout>
+				</motion.div>
+			) : null}
+		</AnimatePresence>
 	);
 };
