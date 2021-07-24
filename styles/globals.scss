@@ -422,6 +422,7 @@ header {
 		img {
 			width: 0.9rem;
 			height: 0.9rem;
+			margin-right: 1ch;
 		}
 		.container {
 			background-color: $nav-bg;
@@ -453,7 +454,7 @@ header {
 					a {
 						height: 100%;
 						display: flex;
-						justify-content: flex-start;
+						justify-content: center;
 						align-items: center;
 						border-bottom: 1px solid transparent;
 						color: #adadad;
@@ -463,13 +464,11 @@ header {
 						letter-spacing: -0.05ch;
 						padding: 0.5rem 1.5ch;
 						text-decoration: none;
-						img {
-							margin-right: 1ch;
-						}
 						&:hover {
 							color: #fdfffc;
 						}
 						@include respond-above(sm) {
+							justify-content: flex-start;
 							padding: 0.5rem 2ch;
 						}
 						@include respond-above(md) {
@@ -606,160 +605,204 @@ header {
 				@include navBG(3840);
 			}
 		}
-		.playercard {
-			margin: auto 0;
-			background-color: $nav-bg;
-			border: 2px solid rgba(255, 255, 255, 0.1);
-			box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
-			position: relative;
-			transition: all 0.2s ease-in-out;
+	}
+	figure.playercard {
+		@include respond-below(md) {
+			display: none;
+		}
+	}
+	.playercard {
+		margin: auto 0;
+		background-color: $nav-bg;
+		border: 2px solid rgba(255, 255, 255, 0.1);
+		box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+		position: relative;
+		transition: all 0.2s ease-in-out;
+		width: auto;
+		@include borderDesign();
+		@include respond-below(md) {
+			display: none;
+		}
+		@include respond-above(sm) {
+			display: block;
+			width: auto;
+		}
+		button {
+			cursor: pointer;
+			background-color: transparent;
+			border: 0;
+		}
+		&-button {
+			align-items: flex-start;
+			display: flex;
+			justify-content: flex-start;
+			padding: 1rem;
+			margin: 0;
 			width: 100%;
-			@include respond-below(md) {
-				display: none;
-			}
-			@include respond-above(sm) {
-				width: auto;
-			}
-			button {
-				cursor: pointer;
-				background-color: transparent;
-				border: 0;
-			}
-			&-button {
-				align-items: flex-start;
-				display: flex;
-				justify-content: flex-start;
-				padding: 1rem;
+			transition: all 0.2s;
+			h3 {
+				font-size: 1.3em;
+				color: white;
 				margin: 0;
-				h3 {
-					font-size: 1.3em;
-					color: white;
-					margin: 0;
-					text-decoration: none !important;
+				text-decoration: none !important;
+			}
+			figcaption {
+				display: flex;
+			}
+			small {
+				color: $body-color;
+				font-size: 0.7em;
+				letter-spacing: 0.4ch;
+				opacity: 0.6;
+				text-transform: uppercase;
+				text-decoration: none !important;
+			}
+			strong {
+				font-size: 1.25em;
+				color: white;
+				text-decoration: none !important;
+			}
+			.lvl {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				margin-right: 2ch;
+			}
+			.name {
+				text-align: left;
+			}
+			&:hover {
+				background-color: $bg-color;
+				img:last-of-type {
+					opacity: 1;
 				}
-				figcaption {
-					display: flex;
+			}
+		}
+		img {
+			width: 32px;
+			height: 32px;
+			margin: 0 0.5ch 0 0;
+			border-radius: 5px;
+			border: 1px solid #373533;
+			box-shadow: 0 0 0 1px #2c2925, 0 2px 2px rgba(0, 0, 0, 0.5);
+			overflow: hidden;
+			&:first-of-type {
+				border-radius: 100%;
+			}
+			&:last-of-type {
+				border: 0;
+				box-shadow: none;
+				width: 1rem;
+				opacity: 0.5;
+				margin-left: 2ch;
+				transition: all 0.2s;
+			}
+		}
+		&-list {
+			overflow: hidden;
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			position: absolute;
+			background-color: $nav-bg;
+			box-shadow: inset 0 25px 35px rgba(0, 0, 0, 0.3), 0px 5px 10px rgba(0, 0, 0, 0.5);
+			top: calc(100% + 2px);
+			width: 100%;
+			z-index: 100;
+		}
+		&-character {
+			button {
+				color: $body-color;
+				width: 100%;
+				padding: 1rem 2ch;
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
+				transition: all 0.15s ease-in-out;
+				&:hover {
+					background-color: $bg-bright;
+					img:last-of-type {
+						opacity: 1;
+					}
 				}
-				small {
-					color: $body-color;
-					font-size: 0.7em;
-					letter-spacing: 0.4ch;
-					opacity: 0.6;
-					text-transform: uppercase;
-					text-decoration: none !important;
-				}
-				strong {
-					font-size: 1.25em;
-					color: white;
-					text-decoration: none !important;
-				}
-				.lvl {
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					margin-right: 2ch;
-				}
-				.name {
-					text-align: left;
-				}
+			}
+			h3 {
+				margin: 0;
+			}
+			h3,
+			strong {
+				margin-left: 1ch;
 			}
 			img {
-				width: 32px;
-				height: 32px;
+				width: 24px;
+				height: 24px;
 				margin: 0 0.5ch 0 0;
 				border-radius: 5px;
 				border: 1px solid #373533;
 				box-shadow: 0 0 0 1px #2c2925, 0 2px 2px rgba(0, 0, 0, 0.5);
 				overflow: hidden;
 				&:first-of-type {
-					border-radius: 100%;
+					border-radius: 3px;
 				}
-			}
-			&-list {
-				overflow: hidden;
-				margin: 0;
-				padding: 0;
-				list-style: none;
-				position: absolute;
-				background-color: $nav-bg;
-				box-shadow: inset 0 25px 35px rgba(0, 0, 0, 0.3), 0px 5px 10px rgba(0, 0, 0, 0.5);
-				top: calc(100% + 2px);
-				width: 100%;
-				z-index: 100;
-			}
-			&-character {
-				button {
-					color: $body-color;
-					width: 100%;
-					padding: 1rem 2ch;
-					display: flex;
-					align-items: center;
-					justify-content: flex-start;
+				&:last-of-type {
 					transition: all 0.15s ease-in-out;
-					&:hover {
-						background-color: $bg-bright;
-						img:last-of-type {
-							opacity: 1;
-						}
-					}
-				}
-				h3 {
-					margin: 0;
-				}
-				h3,
-				strong {
-					margin-left: 1ch;
-				}
-				img {
-					width: 24px;
-					height: 24px;
-					margin: 0 0.5ch 0 0;
-					border-radius: 5px;
-					border: 1px solid #373533;
-					box-shadow: 0 0 0 1px #2c2925, 0 2px 2px rgba(0, 0, 0, 0.5);
-					overflow: hidden;
-					&:first-of-type {
-						border-radius: 3px;
-					}
-					&:last-of-type {
-						transition: all 0.15s ease-in-out;
-						margin-left: auto;
-						border: 0;
-						box-shadow: none;
-						width: 16px;
-						opacity: 0.3;
-					}
+					margin-left: auto;
+					border: 0;
+					box-shadow: none;
+					width: 16px;
+					opacity: 0.3;
 				}
 			}
 		}
+	}
 
-		.rogue {
-			border-bottom-color: $rogue;
+	.playercard-mobile {
+		@include respond-above(md) {
+			display: none;
 		}
-		.priest {
-			border-bottom-color: $priest;
+		@include respond-below(md) {
+			display: block;
+			width: auto;
+			margin: 1rem auto;
 		}
-		.mage {
-			border-bottom-color: $mage;
+		figure.playercard {
+			@include respond-below(md) {
+				display: block;
+				width: auto;
+			}
 		}
-		.hunter {
-			border-bottom-color: $hunter;
+		.playercard-list {
+			display: flex;
+			flex-flow: row wrap;
 		}
-		.warrior {
-			border-bottom-color: $warrior;
-		}
-		.druid {
-			border-bottom-color: $druid;
-		}
-		.paladin {
-			border-bottom-color: $paladin;
-		}
-		.shaman {
-			border-bottom-color: $shaman;
-		}
-		.warlock {
-			border-bottom-color: $warlock;
-		}
+	}
+
+	.rogue {
+		border-bottom-color: $rogue;
+	}
+	.priest {
+		border-bottom-color: $priest;
+	}
+	.mage {
+		border-bottom-color: $mage;
+	}
+	.hunter {
+		border-bottom-color: $hunter;
+	}
+	.warrior {
+		border-bottom-color: $warrior;
+	}
+	.druid {
+		border-bottom-color: $druid;
+	}
+	.paladin {
+		border-bottom-color: $paladin;
+	}
+	.shaman {
+		border-bottom-color: $shaman;
+	}
+	.warlock {
+		border-bottom-color: $warlock;
 	}
 }
 
@@ -2077,6 +2120,7 @@ header {
 }
 .zones {
 	padding: 1rem 0;
+	margin-bottom: 3rem;
 	@include respond-above(lg) {
 		padding: 3rem 0;
 	}
@@ -2121,8 +2165,11 @@ header {
 			@include battlegroundGradient();
 		}
 		& > div {
-			padding: 1rem 3ch;
+			padding: 0.5rem 2ch;
 			background-color: $bg-bright;
+			@include respond-above(sm) {
+				padding: 1rem 3ch;
+			}
 		}
 	}
 }
@@ -2376,10 +2423,9 @@ header {
 		position: relative;
 		margin-bottom: 10px;
 		background-color: $bg-bright;
-		width: 49%;
 		overflow: hidden;
 		width: 100%;
-		@include respond-above(md) {
+		@include respond-above(sm) {
 			width: 49%;
 		}
 		a {
@@ -2453,11 +2499,21 @@ header {
 			right: 20px;
 			display: flex;
 			z-index: 1;
+			img {
+				&:last-of-type {
+					width: 24px;
+					height: 24px;
+					background-color: $bg-color;
+					@include borderDesign();
+					padding: 4px;
+					border-radius: 100%;
+					margin-left: 1.5ch;
+				}
+			}
 		}
 		.faction,
 		.zone {
 			&-icon {
-				@include borderDesign();
 				border-radius: 100%;
 				margin: 0;
 				overflow: visible;
@@ -2469,6 +2525,13 @@ header {
 					height: 24px;
 					border-radius: 50%;
 					overflow: hidden;
+					&:last-of-type {
+						margin: 0;
+				background-color: $bg-color;
+				@include borderDesign();
+				border-radius: 100%;
+				padding: 0;
+					}
 				}
 				&:after {
 					content: attr(data-faction);
@@ -2505,22 +2568,11 @@ header {
 }
 
 .zones {
-	aside {
-		width: 100%;
-		position: relative;
-		z-index: 0;
-		@include respond-above(sm) {
-			width: 20%;
-		}
-	}
 	section {
 		width: 100%;
 		background-color: $bg-bright;
 		position: relative;
 		z-index: 1;
-		@include respond-above(sm) {
-			width: 80%;
-		}
 	}
 	.container > div {
 		width: 100%;
@@ -2559,9 +2611,8 @@ header {
 			align-items: center;
 			transition: all 0.15s ease-in-out;
 			li {
-				width: 50%;
+				width: 100%;
 				padding: 0.5rem 1ch;
-				background-color: $bg-bright;
 				cursor: pointer;
 				border-top-right-radius: 0;
 				border-bottom-right-radius: 0;
@@ -2569,17 +2620,17 @@ header {
 				flex-flow: row wrap;
 				justify-content: space-between;
 				align-items: center;
-				margin-bottom: 0.5rem;
 				font-size: 1rem;
-				@include borderDesign;
 				@include respond-above(sm) {
-					margin-bottom: 1rem;
 					font-size: 1rem;
+				}
+				@include respond-above(md) {
+					width: 50%;
 				}
 				h3 {
 					margin-top: 0.3em;
 					margin-bottom: 0.3em;
-					margin-right: auto;
+					width: auto;
 					font-size: 1rem;
 					@include respond-above(sm) {
 						font-size: initial;
@@ -2587,18 +2638,16 @@ header {
 				}
 				img {
 					height: 1.5rem;
+					width: auto;
 					border-radius: 100%;
 					margin-right: 1ch;
 					&:last-of-type {
 						height: 0.9rem;
-						margin: 0;
+						margin-left: auto;
 					}
 				}
 				&:hover {
 					filter: brightness(1.2);
-				}
-				@include respond-above(sm) {
-					width: 100%;
 				}
 			}
 			.worldzones {
@@ -2641,28 +2690,70 @@ header {
 		display: flex;
 		flex-flow: row wrap;
 		justify-content: space-between;
-		h3 {
+		button {
+			cursor: pointer;
+			background-color: transparent;
 			width: 100%;
-			margin-top: 0;
-			font-size: 1.5rem;
+			border: 0;
+			position: relative;
+			padding: 0;
 			display: flex;
-			small {
-				margin-left: auto;
-				font-size: 1rem;
-				font-weight: 100;
-				display: block;
-				padding: 0.5rem 1ch;
-				background-color: rgba(0, 0, 0, 0.1);
-				em {
-					margin-right: 2ch;
-					opacity: 0.8;
-					text-transform: none;
-				}
-				strong {
-					font-weight: bold;
-					color: $iLvl;
+			flex-flow: row wrap;
+			transition: all 0.2s;
+			margin-bottom: 1rem;
+			border-top-left-radius: 5px;
+			border-top-right-radius: 5px;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+			.zones-container {
+				position: absolute;
+				top: 100%;
+				z-index: 100;
+				background-color: $nav-bg;
+			}
+			&:hover {
+				background-color: $bg-highlight;
+			}
+			h3 {
+				display: flex;
+				padding: 1rem 1ch;
+				align-items: center;
+			}
+			img {
+				margin-left: 0;
+				margin-right: 1ch;
+				width: 1.5rem;
+				height: 1.5rem;
+				@include borderDesign();
+				border-radius: 100%;
+				&:last-of-type {
+					border: 0;
+					box-shadow: none;
+					width: 1rem;
+					height: 1rem;
+					margin-left: auto;
+					margin-right: 0;
 				}
 			}
+			@include respond-above(sm) {
+				img {
+					margin-left: 0;
+					&:last-of-type {
+						margin-left: auto;
+					}
+				}
+			}
+		}
+		img {
+			margin-left: 0;
+			width: 1rem;
+		}
+		h3 {
+			color: white;
+			width: 100%;
+			margin-top: 0;
+			margin-bottom: 0;
+			font-size: 1.5rem;
+			display: flex;
 		}
 	}
 }

@@ -60,10 +60,15 @@ const Zones = (props) => {
 			transition,
 		},
 	};
+
 	const zoneProps = {
 		title: zoneTypes[currentZoneType],
 		zones: sortedZones[currentZoneType],
 		level,
+		zoneTypes,
+		sortedZones,
+		currentZoneType,
+		updateZoneType,
 	};
 	return (
 		<motion.section
@@ -81,39 +86,6 @@ const Zones = (props) => {
 						want to see! Clicking on a zone will take you to Wowhead for more info.
 					</p>
 				</div>
-				<aside>
-					<div className="zones-container">
-						<ul>
-							{Object.keys(sortedZones).map((zoneType, index) => {
-								const title = zoneTypes[zoneType];
-								return (
-									<li
-										className={`${title.toLowerCase().replace(/\s/g, "")}${
-											currentZoneType === zoneType ? " active" : ""
-										}`}
-										onClick={() => updateZoneType(zoneType)}
-										key={index}
-									>
-										<img
-											src={`/static/img/zone/${zoneImgPath(title)}.png`}
-											alt={zoneImgPath(title)}
-											title={zoneImgPath(title)}
-										/>
-										<h3>{title}</h3>
-										<img
-											src="/static/img/plus.svg"
-											style={
-												currentZoneType === zoneType
-													? { transform: "rotate(45deg)" }
-													: { transform: "rotate(0deg)" }
-											}
-										/>
-									</li>
-								);
-							})}
-						</ul>
-					</div>
-				</aside>
 
 				<section className={`${currentZoneType}`}>
 					<ZoneListing {...zoneProps} />

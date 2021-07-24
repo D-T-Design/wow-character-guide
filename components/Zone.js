@@ -65,6 +65,7 @@ export const Zone = React.forwardRef((props, ref) => {
 							/>
 						</div>
 					)}
+					<img src="/static/img/logout.svg" />
 				</div>
 			</a>
 		</motion.div>

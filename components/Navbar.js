@@ -45,7 +45,12 @@ export const Navbar = ({ appState, updateState, changePage }) => {
 			<div className="header-img">
 				<div className="container">
 					<Link href="/">
-						<a onClick={() => changePage("/")}>
+						<a
+							onClick={() => {
+								toggleNav(false);
+								changePage("/");
+							}}
+						>
 							<h1>
 								<img
 									src="/static/img/wccg.svg"
@@ -91,52 +96,65 @@ export const Navbar = ({ appState, updateState, changePage }) => {
 						))}
 				</div>
 			</div>
-			<AnimatePresence exitBeforeEnter>
-				{navOpen && (
-					<motion.nav
-						className={charactersSaved ? (navOpen ? "nav open" : "nav") : undefined}
-						initial={{ opacity: 0, height: 0 }}
-						animate={{ opacity: 1, height: "auto" }}
-						exit={{ opacity: 0, height: 0 }}
-						transition={{ duration: 0.3, type: "tween" }}
-						style={{ overflow: "hidden" }}
-						key="nav"
-					>
-						<div className="container">
-							<ul>
-								{charactersSaved &&
-									links.map((link, index) => {
-										const isHomeLink = link.path === "/";
-										const isClassLink = link.path.includes("classguides");
-										const isActive =
-											isHomeLink && route !== "/" ? false : route.includes(link.path);
-										const path =
-											isHomeLink || !isClassLink
-												? link.path
-												: `${link.path}/${selectedCharacter.playerClass.toLowerCase()}`;
-										return (
-											<li key={index}>
-												<Link href={`${path}`}>
-													<a
-														className={`playerclass-${selectedCharacter.playerClass}${
-															isActive ? " active" : ""
-														}`}
-														onClick={() => {
-															changePage(path);
-														}}
-													>
-														<img src={link.icon} />
-														{link.text}
-													</a>
-												</Link>
-											</li>
-										);
-									})}
-							</ul>
-						</div>
-					</motion.nav>
-				)}
-			</AnimatePresence>
+			<motion.nav
+				className={charactersSaved ? (navOpen ? "nav open" : "nav") : undefined}
+				initial={false}
+				animate={navOpen ? { height: "calc(100% + 1px)" } : { height: "10px" }}
+				transition={{ duration: 0.3 }}
+				key="nav"
+			>
+				<div className="container">
+					{charactersSaved && (
+						<motion.div
+							className="playercard-mobile"
+							initial={false}
+							animate={navOpen ? { opacity: 1 } : { opacity: 0 }}
+							transition={{ duration: 0.3 }}
+						>
+							<PlayerCard
+								selectCharacter={updateState.selectCharacter}
+								savedCharacters={appState.savedCharacters}
+								currentCharacter={selectedCharacter}
+							/>
+						</motion.div>
+					)}
+					<ul>
+						{charactersSaved &&
+							links.map((link, index) => {
+								const isHomeLink = link.path === "/";
+								const isClassLink = link.path.includes("classguides");
+								const isActive = isHomeLink && route !== "/" ? false : route.includes(link.path);
+								const path =
+									isHomeLink || !isClassLink
+										? link.path
+										: `${link.path}/${selectedCharacter.playerClass.toLowerCase()}`;
+								return (
+									<motion.li
+										key={index}
+										initial={false}
+										animate={navOpen ? { opacity: 1 } : { opacity: 0 }}
+										transition={{ duration: 0.3 }}
+									>
+										<Link href={`${path}`}>
+											<a
+												className={`playerclass-${selectedCharacter.playerClass}${
+													isActive ? " active" : ""
+												}`}
+												onClick={() => {
+													changePage(path);
+													toggleNav(false);
+												}}
+											>
+												<img src={link.icon} />
+												{link.text}
+											</a>
+										</Link>
+									</motion.li>
+								);
+							})}
+					</ul>
+				</div>
+			</motion.nav>
 		</header>
 	);
 };

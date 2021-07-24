@@ -8,6 +8,29 @@ const PlayerCard = ({ savedCharacters, currentCharacter, selectCharacter }) => {
 	const toggleCharacterList = () => setToggle(!toggleOpen);
 	const characterListRef = useRef(null);
 	const clickHandler = useClickOutside([characterListRef], toggleOpen, toggleCharacterList);
+	/* Motion Variants */
+	const playercardToggleImg = {
+		rest: {
+			opacity: 0.5,
+			transition: { duration: 0.2 },
+		},
+		hover: {
+			opacity: 1,
+			transition: { duration: 0.2 },
+		},
+		exit: { opacity: 0, transition: { duration: 0.2 } },
+	};
+	const playercardToggleBtn = {
+		rest: {
+			transform: "brightness(1)",
+			transition: { duration: 0.2 },
+		},
+		hover: {
+			transform: "brightness(1.2)",
+			transition: { duration: 0.2 },
+		},
+		exit: { opacity: 0, transition: { duration: 0.2 } },
+	};
 	useEffect(() => {
 		document.addEventListener("click", clickHandler, true);
 		return () => {
@@ -15,15 +38,8 @@ const PlayerCard = ({ savedCharacters, currentCharacter, selectCharacter }) => {
 		};
 	});
 	return (
-		<motion.figure
-			initial={{ width: 0 }}
-			animate={{ width: "auto" }}
-			className={`playercard ${playerClass.toLowerCase()}`}
-			whileHover={{ scale: 1.03 }}
-			whileTap={{ scale: 0.95 }}
-			transition={{ duration: 0.1 }}
-		>
-			<motion.button
+		<figure className={`playercard ${playerClass.toLowerCase()}`}>
+			<button
 				onClick={() => toggleCharacterList()}
 				className="playercard-button"
 				style={{ cursor: savedCharacters.length <= 1 ? "default" : "pointer" }}
@@ -56,7 +72,14 @@ const PlayerCard = ({ savedCharacters, currentCharacter, selectCharacter }) => {
 					title={playerClass}
 					alt={playerClass}
 				/>
-			</motion.button>
+				<AnimatePresence>
+					{toggleOpen && savedCharacters.length > 1 ? (
+						<img src="/static/img/exit.svg" alt="Close List" title="Close List" />
+					) : (
+						<img src="/static/img/swap.svg" alt="Select Character" title="Select Character" />
+					)}
+				</AnimatePresence>
+			</button>
 			<AnimatePresence>
 				{toggleOpen && savedCharacters.length > 1 && (
 					<motion.ul
@@ -107,7 +130,7 @@ const PlayerCard = ({ savedCharacters, currentCharacter, selectCharacter }) => {
 					</motion.ul>
 				)}
 			</AnimatePresence>
-		</motion.figure>
+		</figure>
 	);
 };
 
