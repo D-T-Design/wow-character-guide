@@ -406,18 +406,30 @@ header {
 	nav {
 		z-index: 1;
 		background-color: $nav-bg;
-		transition: all 0.1s ease-in-out;
+		transition: all 0.3s;
 		overflow: hidden;
+		height: 10px;
 		@include respond-above(md) {
 			height: auto;
+			&.open {
+				li {
+					opacity: 1;
+				}
+			}
+			&.closed {
+				height: auto !important;
+			}
 		}
 		&.open {
-			height: auto !important;
+			height: calc(100% + 1px);
 			opacity: 1 !important;
 			overflow: visible;
 			.container {
 				overflow: visible;
 			}
+		}
+		&.closed {
+			height: 10px;
 		}
 		img {
 			width: 0.9rem;
@@ -2421,13 +2433,9 @@ header {
 	&-zone {
 		font-size: 1rem;
 		position: relative;
-		margin-bottom: 10px;
 		background-color: $bg-bright;
 		overflow: hidden;
 		width: 100%;
-		@include respond-above(sm) {
-			width: 49%;
-		}
 		a {
 			align-items: flex-end;
 			align-self: center;
@@ -2470,6 +2478,10 @@ header {
 			margin-top: 4rem;
 			margin-bottom: 0.5rem;
 			font-size: 1rem;
+			span {
+				background-color: rgba(0, 0, 0, 0.5);
+				padding: 0.25rem 1ch;
+			}
 		}
 		div {
 			text-align: left;
@@ -2527,10 +2539,10 @@ header {
 					overflow: hidden;
 					&:last-of-type {
 						margin: 0;
-				background-color: $bg-color;
-				@include borderDesign();
-				border-radius: 100%;
-				padding: 0;
+						background-color: $bg-color;
+						@include borderDesign();
+						border-radius: 100%;
+						padding: 0;
 					}
 				}
 				&:after {
@@ -2600,6 +2612,25 @@ header {
 	}
 	&-container {
 		width: 100%;
+		padding: 1rem 2ch;
+		position: relative;
+		z-index: 0;
+		display: grid;
+		grid-template-rows: auto;
+		grid-template-columns: 1fr;
+		grid-gap: 1rem;
+		background-color: $nav-bg;
+		@include respond-above(sm) {
+			padding: 1.5rem 2.5ch;
+			grid-template-columns: 1fr 1fr;
+		}
+		@include respond-above(lg) {
+			padding: 2rem 3ch;
+			grid-template-columns: 1fr 1fr 1fr;
+		}
+	}
+	&-dropdown {
+		width: 100%;
 		ul {
 			width: 100%;
 			list-style: none;
@@ -2612,20 +2643,21 @@ header {
 			transition: all 0.15s ease-in-out;
 			li {
 				width: 100%;
-				padding: 0.5rem 1ch;
+				padding: 0 2ch;
 				cursor: pointer;
-				border-top-right-radius: 0;
-				border-bottom-right-radius: 0;
 				display: flex;
 				flex-flow: row wrap;
 				justify-content: space-between;
 				align-items: center;
 				font-size: 1rem;
+				border-bottom: 2px solid transparent;
+				transition: all 0.2s;
 				@include respond-above(sm) {
+					width: 50%;
 					font-size: 1rem;
 				}
 				@include respond-above(md) {
-					width: 50%;
+					width: 25%;
 				}
 				h3 {
 					margin-top: 0.3em;
@@ -2651,32 +2683,42 @@ header {
 				}
 			}
 			.worldzones {
-				border-top: 2px solid $zone;
+				&:hover {
+					border-bottom: 2px solid $zone;
+				}
 				&.active {
 					@include zoneGradient();
 				}
 			}
 			.dungeons {
-				border-top: 2px solid $dungeon;
+				&:hover {
+					border-bottom: 2px solid $dungeon;
+				}
 				&.active {
 					@include dungeonGradient();
 				}
 			}
 
 			.raids {
-				border-top: 2px solid $raid;
+				&:hover {
+					border-bottom: 2px solid $raid;
+				}
 				&.active {
 					@include raidGradient();
 				}
 			}
 			.cities {
-				border-top: 2px solid $city;
+				&:hover {
+					border-bottom: 2px solid $city;
+				}
 				&.active {
 					@include cityGradient();
 				}
 			}
 			.battlegrounds {
-				border-top: 2px solid $battleground;
+				&:hover {
+					border-bottom: 2px solid $battleground;
+				}
 				&.active {
 					@include battlegroundGradient();
 				}
@@ -2700,15 +2742,21 @@ header {
 			display: flex;
 			flex-flow: row wrap;
 			transition: all 0.2s;
-			margin-bottom: 1rem;
 			border-top-left-radius: 5px;
 			border-top-right-radius: 5px;
 			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-			.zones-container {
-				position: absolute;
-				top: 100%;
-				z-index: 100;
+			.zones-dropdown {
 				background-color: $nav-bg;
+				box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+			}
+			.zones-mask {
+				overflow: hidden;
+				position: absolute;
+				top: calc(100% + 3px);
+				z-index: 1;
+				overflow: hidden;
+				width: 100%;
+				padding-bottom: 2rem;
 			}
 			&:hover {
 				background-color: $bg-highlight;
@@ -2717,6 +2765,8 @@ header {
 				display: flex;
 				padding: 1rem 1ch;
 				align-items: center;
+				position: relative;
+				z-index: 100;
 			}
 			img {
 				margin-left: 0;

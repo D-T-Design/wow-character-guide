@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, Placeholder } from "cloudinary-react";
+import { Image, Placeholder, Transformation } from "cloudinary-react";
 import { motion } from "framer-motion";
 
 export const Zone = React.forwardRef((props, ref) => {
@@ -13,8 +13,10 @@ export const Zone = React.forwardRef((props, ref) => {
 			className="quests-zone"
 			initial={{ opacity: 0, y: 10 }}
 			animate={{ opacity: 1, y: 0 }}
-			transition={{ delay: 0.2 }}
+			exit={{ opacity: 0 }}
+			transition={{ duration: 0.15, delay: 0.05 * (props.index + 1) }}
 			ref={ref}
+			key={name}
 		>
 			<a href={`${zoneURL}${id}`} target="_blank" rel="noopener noreferrer">
 				{/* If database includes Zone Image URL, generate image from Cloudinary */}
@@ -36,11 +38,14 @@ export const Zone = React.forwardRef((props, ref) => {
 							secure="true"
 						>
 							<Placeholder type="predominant" />
+							<Transformation quality="auto" fetchFormat="auto" />
 						</Image>
 					</div>
 				)}
 
-				<h3 className="zone-name">{name}</h3>
+				<h3 className="zone-name">
+					<span>{name}</span>
+				</h3>
 
 				<div className="quests-range">
 					<small>

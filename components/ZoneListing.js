@@ -14,7 +14,6 @@ export const ZoneListing = ({
 	currentZoneType,
 	updateZoneType,
 }) => {
-	console.log(zoneTypes, sortedZones, currentZoneType, updateZoneType);
 	const containsZones = zones ? zones.length > 0 : false;
 	let raids = [];
 	const [zoneChangeOpen, toggleZoneChange] = useState(false);
@@ -51,36 +50,53 @@ export const ZoneListing = ({
 								animate={zoneChangeOpen ? { rotate: 45 } : { rotate: 0 }}
 							/>
 						</h3>
-						{zoneChangeOpen && (
-							<div className="zones-container">
-								<ul>
-									{Object.keys(sortedZones).map((zoneType, index) => {
-										const title = zoneTypes[zoneType];
-										return currentZoneType !== zoneType ? (
-											<li
-												className={`${title.toLowerCase().replace(/\s/g, "")}`}
-												onClick={() => updateZoneType(zoneType)}
-												key={index}
-											>
-												<img
-													src={`/static/img/zone/${zoneImgPath(title)}.png`}
-													alt={zoneImgPath(title)}
-													title={zoneImgPath(title)}
-												/>
-												<h3>{title}</h3>
-												<img src="/static/img/swap.svg" />
-											</li>
-										) : null;
-									})}
-								</ul>
-							</div>
-						)}
+						<div className={`zones-mask ${zoneChangeOpen ? "open" : "closed"}`}>
+							<AnimatePresence>
+								{zoneChangeOpen && (
+									<motion.div
+										className="zones-dropdown"
+										initial={{ y: "-2rem", opacity: 0 }}
+										animate={{ y: 0, opacity: 1 }}
+										exit={{ y: "-5rem", opacity: 0 }}
+										transition={{ duration: 0.3 }}
+									>
+										<ul>
+											{Object.keys(sortedZones).map((zoneType, index) => {
+												const title = zoneTypes[zoneType];
+												return currentZoneType !== zoneType ? (
+													<li
+														className={`${title.toLowerCase().replace(/\s/g, "")}`}
+														onClick={() => updateZoneType(zoneType)}
+														key={index}
+														title={`View ${title}`}
+													>
+														<img
+															src={`/static/img/zone/${zoneImgPath(title)}.png`}
+															alt={zoneImgPath(title)}
+															title={zoneImgPath(title)}
+														/>
+														<h3>{title}</h3>
+														<img src="/static/img/swap.svg" />
+													</li>
+												) : null;
+											})}
+										</ul>
+									</motion.div>
+								)}
+							</AnimatePresence>
+						</div>
 					</button>
-					<AnimatePresence>
-						{title === "Raids" && containsZones
-							? raids.map((raid, index) => <Zone zone={raid} key={index} />)
-							: zones.map((zone, index) => <Zone zone={zone} key={index} />)}
-					</AnimatePresence>
+					<div className="zones-container">
+						<AnimatePresence exitBeforeEnter>
+							{title === "Raids" && containsZones
+								? raids.map((raid, index) => (
+										<MotionZone zone={raid} index={index} key={raid.name} />
+								  ))
+								: zones.map((zone, index) => (
+										<MotionZone zone={zone} index={index} key={zone.name} />
+								  ))}
+						</AnimatePresence>
+					</div>
 				</div>
 			)}
 		</div>

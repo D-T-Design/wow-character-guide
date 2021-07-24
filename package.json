@@ -9,6 +9,7 @@
     "export": "next export"
   },
   "dependencies": {
+    "@react-hook/window-size": "^3.0.7",
     "blizzapi": "^1.3.3",
     "cloudinary-react": "^1.7.0",
     "framer-motion": "^4.1.17",

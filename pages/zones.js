@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
+import { graphQLClient, queryAllZones, queryAllDungeons, queryAllRaids } from "../utils/fauna_gql";
+
 import { zonesByCategory } from "../utils/filterZones";
-import zoneImgPath from "../utils/zoneImgPath";
 import parseZoneData from "../utils/parseZoneData";
 import parseDungeonData from "../utils/parseDungeonData";
 import parseRaidData from "../utils/parseRaidData";
 
 import { ZoneListing } from "../components/ZoneListing";
-import { graphQLClient, queryAllZones, queryAllDungeons, queryAllRaids } from "../utils/fauna_gql";
 
 const fetcher = (query) => graphQLClient.request(query);
+
 export async function getStaticProps() {
 	const { getAllZones: zoneData } = await fetcher(queryAllZones);
 	const { getAllDungeons: dungeonData } = await fetcher(queryAllDungeons);
@@ -19,12 +20,9 @@ export async function getStaticProps() {
 		props: { zoneData: zoneData.data, dungeonData: dungeonData.data, raidData: raidData.data },
 	};
 }
+
 const Zones = (props) => {
 	const { appState } = props;
-	const [currentZoneType, changeZoneType] = useState("Zone");
-	const updateZoneType = (type) => {
-		changeZoneType(type);
-	};
 	const selectedCharacter = appState.savedCharacters.find(
 		(character) => character.id === appState.character
 	);
@@ -37,6 +35,10 @@ const Zones = (props) => {
 		level,
 		faction
 	);
+	const [currentZoneType, changeZoneType] = useState("Zone");
+	const updateZoneType = (type) => {
+		changeZoneType(type);
+	};
 	const zoneTypes = {
 		Zone: "World Zones",
 		Dungeon: "Dungeons",
@@ -44,11 +46,21 @@ const Zones = (props) => {
 		Battleground: "Battlegrounds",
 		City: "Cities",
 	};
+	const zoneProps = {
+		title: zoneTypes[currentZoneType],
+		zones: sortedZones[currentZoneType],
+		level,
+		zoneTypes,
+		sortedZones,
+		currentZoneType,
+		updateZoneType,
+	};
+
+	/* Motion Variants */
 	const transition = {
 		duration: 0.3,
 		ease: "easeInOut",
 	};
-
 	const pageVariants = {
 		exit: { opacity: 0, transition },
 		enter: {
@@ -61,15 +73,6 @@ const Zones = (props) => {
 		},
 	};
 
-	const zoneProps = {
-		title: zoneTypes[currentZoneType],
-		zones: sortedZones[currentZoneType],
-		level,
-		zoneTypes,
-		sortedZones,
-		currentZoneType,
-		updateZoneType,
-	};
 	return (
 		<motion.section
 			className="content zones"

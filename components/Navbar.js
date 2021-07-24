@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useWindowWidth } from "@react-hook/window-size";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 import PlayerCard from "./PlayerCard";
 import { NewCharacterModal } from "./characterInput";
@@ -40,6 +41,13 @@ export const Navbar = ({ appState, updateState, changePage }) => {
 
 	const gameData = appState.gameData;
 	const [characterModal, toggleCharacterModal] = useState(false);
+
+	const windowWidth = useWindowWidth({ wait: 500 });
+
+	useEffect(() => {
+		windowWidth >= 992 && toggleNav(true);
+	}, [windowWidth]);
+
 	return (
 		<header>
 			<div className="header-img">
@@ -97,10 +105,7 @@ export const Navbar = ({ appState, updateState, changePage }) => {
 				</div>
 			</div>
 			<motion.nav
-				className={charactersSaved ? (navOpen ? "nav open" : "nav") : undefined}
-				initial={false}
-				animate={navOpen ? { height: "calc(100% + 1px)" } : { height: "10px" }}
-				transition={{ duration: 0.3 }}
+				className={charactersSaved ? (navOpen ? "nav open" : "nav closed") : undefined}
 				key="nav"
 			>
 				<div className="container">
@@ -142,7 +147,7 @@ export const Navbar = ({ appState, updateState, changePage }) => {
 												}`}
 												onClick={() => {
 													changePage(path);
-													toggleNav(false);
+													windowWidth < 992 && toggleNav(false);
 												}}
 											>
 												<img src={link.icon} />
