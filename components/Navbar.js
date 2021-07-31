@@ -40,6 +40,7 @@ export const Navbar = ({ appState, updateState, changePage }) => {
 	const [navOpen, toggleNav] = useState(true);
 
 	const gameData = appState.gameData;
+
 	const [characterModal, toggleCharacterModal] = useState(false);
 
 	const windowWidth = useWindowWidth({ wait: 500 });
@@ -81,8 +82,7 @@ export const Navbar = ({ appState, updateState, changePage }) => {
 							</button>
 							<NewCharacterModal
 								addCharacter={updateState.addCharacter}
-								gameData={gameData}
-								updateGameData={updateState.updateCharacter}
+								classData={gameData}
 								show={characterModal}
 								onClose={() => toggleCharacterModal(false)}
 							/>

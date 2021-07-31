@@ -14,13 +14,15 @@ export async function getStaticProps() {
 }
 
 const Home = (props) => {
-	const { data } = useSWR(queryAllFactions, fetcher);
-	const [classData, setClassData] = useState({});
-	const { updateGameData } = props.updateState;
-	const saveClassData = (data) => {
-		setClassData(data);
-		return updateGameData(data);
-	};
+	// const { data } = useSWR(queryAllFactions, fetcher);
+	// const [classData, setClassData] = useState({});
+	const classData = parseClassData(props.classData);
+	const { updateClassData } = props.updateState;
+
+	useEffect(() => {
+		updateClassData(classData);
+	}, []);
+
 	const icons = [
 		{
 			text: "Save Your Characters",

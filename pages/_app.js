@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, createContext } from "react";
 import { useRouter } from "next/router";
 import { AnimatePresence } from "framer-motion";
 import { SWRConfig } from "swr";
@@ -12,27 +12,32 @@ import "../styles/globals.scss";
 
 const MyApp = ({ Component, pageProps }) => {
 	const useAppState = createPersistedState("appState");
+
 	const [appState, setState] = useAppState({
 		gear: [],
 		character: 0,
 		savedCharacters: [],
-		gameData: [],
+		classData: [],
 	});
-	const updateGameData = (data) => {
-		setState({ ...appState, gameData: data });
+
+	const updateClassData = (data) => {
+		data.length > 0 && setState({ ...appState, classData: data });
 	};
+
 	const updateGear = (gear) => {
 		const updatedList = appState.savedCharacters.map((savedCharacter) =>
 			savedCharacter.id === appState.character ? { ...savedCharacter, gear } : savedCharacter
 		);
 		setState({ ...appState, gear, savedCharacters: updatedList });
 	};
+
 	const addCharacter = (data) => {
 		const character = { ...data, id: Date.now() };
 		const savedCharacters = [...appState.savedCharacters, character];
 		setState({ ...appState, character: character.id, savedCharacters });
 		window.scrollTo(0, 0);
 	};
+
 	const updateCharacter = (updatedCharacter) => {
 		const characters = [...appState.savedCharacters];
 		const updatedList = characters.map((savedCharacter) =>
@@ -40,6 +45,7 @@ const MyApp = ({ Component, pageProps }) => {
 		);
 		setState({ ...appState, savedCharacters: updatedList });
 	};
+
 	const removeCharacter = (id) => {
 		const newCharacterList = appState.savedCharacters.filter((character) => character.id !== id);
 		const isListEmpty = newCharacterList.length === 0;
@@ -61,7 +67,7 @@ const MyApp = ({ Component, pageProps }) => {
 	};
 
 	const updateState = {
-		updateGameData,
+		updateClassData,
 		updateGear,
 		addCharacter,
 		removeCharacter,
@@ -80,6 +86,7 @@ const MyApp = ({ Component, pageProps }) => {
 		currentPage,
 		changePage,
 	};
+
 	return (
 		<>
 			<Head>
