@@ -62,6 +62,7 @@ export const GearSlot = ({ name, items, faction, phase, type, level, index }) =>
 		},
 		transition: { duration: 0.3, ease: "easeInOut" },
 	};
+	
 	return (
 		<motion.article
 			variants={fadeIn}
