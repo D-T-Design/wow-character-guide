@@ -21,7 +21,7 @@ const Home = (props) => {
 
 	useEffect(() => {
 		updateClassData(classData);
-	}, []);
+	}, [classData]);
 
 	const icons = [
 		{

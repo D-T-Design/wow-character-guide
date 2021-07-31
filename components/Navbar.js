@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import PlayerCard from "./PlayerCard";
 import { NewCharacterModal } from "./characterInput";
 
-export const Navbar = ({ appState, updateState, changePage }) => {
+export const Navbar = ({ appState, updateState, changePage, buildNewCharacterModal }) => {
 	const router = useRouter();
 	const route = router.asPath;
 	const links = [
@@ -56,8 +56,8 @@ export const Navbar = ({ appState, updateState, changePage }) => {
 					<Link href="/">
 						<a
 							onClick={() => {
-								toggleNav(false);
 								changePage("/");
+								windowWidth < 992 && toggleNav(false);
 							}}
 						>
 							<h1>
@@ -77,15 +77,9 @@ export const Navbar = ({ appState, updateState, changePage }) => {
 						/>
 					) : (
 						<>
-							<button className="character-cta" onClick={() => toggleCharacterModal(true)}>
+							<button className="character-cta" onClick={() => buildNewCharacterModal(gameData)}>
 								Create Character
 							</button>
-							<NewCharacterModal
-								addCharacter={updateState.addCharacter}
-								classData={gameData}
-								show={characterModal}
-								onClose={() => toggleCharacterModal(false)}
-							/>
 						</>
 					)}
 					{charactersSaved &&

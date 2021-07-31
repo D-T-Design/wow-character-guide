@@ -7,6 +7,7 @@ import Head from "next/head";
 
 import { Navbar } from "../components/Navbar";
 import Footer from "../components/Footer";
+import { NewCharacterModal } from "../components/characterInput";
 
 import "../styles/globals.scss";
 
@@ -79,12 +80,21 @@ const MyApp = ({ Component, pageProps }) => {
 	const [currentPage, setPage] = useState("");
 	const changePage = (path) => setPage(path);
 
+	const [newCharacterModal, toggleNewCharacterModal] = useState(false);
+	const [modalData, setModalData] = useState(appState.classData);
+	const buildNewCharacterModal = (classData) => {
+		setModalData(classData);
+		toggleNewCharacterModal(true);
+	};
+
 	pageProps = {
 		...pageProps,
 		updateState,
 		appState,
 		currentPage,
 		changePage,
+		toggleNewCharacterModal,
+		buildNewCharacterModal,
 	};
 
 	return (
@@ -105,6 +115,12 @@ const MyApp = ({ Component, pageProps }) => {
 				</AnimatePresence>
 			</SWRConfig>
 			<Footer />
+			<NewCharacterModal
+				addCharacter={addCharacter}
+				classData={modalData}
+				show={newCharacterModal}
+				onClose={() => toggleNewCharacterModal(false)}
+			/>
 		</>
 	);
 };

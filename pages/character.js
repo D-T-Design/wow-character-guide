@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { graphQLClient, queryAllFactions } from "../utils/fauna_gql";
 
@@ -6,6 +6,7 @@ import parseClassData from "../utils/parseClassData";
 
 import Welcome from "../components/Welcome";
 import Character from "../components/Character";
+import { NewCharacterModal } from "../components/characterInput";
 
 const fetcher = (query) => graphQLClient.request(query);
 export async function getStaticProps() {
@@ -78,7 +79,12 @@ const MyCharacters = (props) => {
 							</caption>
 						</aside>
 						<main>
-							<Welcome props={props} />
+							<button
+								className="character-cta"
+								onClick={() => props.buildNewCharacterModal(classData)}
+							>
+								Create Character
+							</button>
 						</main>
 					</section>
 				)}

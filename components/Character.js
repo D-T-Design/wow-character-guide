@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence, AnimateSharedLayout, MotionConfig } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { InputCharacter, EditCharacterModal } from "../components/characterInput";
 
 const CharacterDisplay = React.forwardRef((props, ref) => {
-	const { character, updateState, appState, classData } = props;
+	const router = useRouter();
+	const { character, updateState, appState, classData, changePage } = props;
 	const { name, level, faction, race, playerClass, gender, id } = character;
 	const { removeCharacter, selectCharacter, updateCharacter } = updateState;
 	const isSelectedCharacter = id === appState.character;
+	const numSavedCharacters = appState.savedCharacters.length;
+
 	const [removalApproved, approveRemoval] = useState(false);
+
 	const factionImgURL = `/static/img/faction/${faction.toLowerCase()}.png`;
 	const raceImgURL = `/static/img/race/${race.toLowerCase().replace(/\s/g, "")}-${
 		gender ? gender : "male"
@@ -85,9 +90,16 @@ const CharacterDisplay = React.forwardRef((props, ref) => {
 								<button
 									onClick={() => {
 										if (removalApproved) {
+											// User has clicked delete once already, proceed with delete, route if needed
 											approveRemoval(false);
-											return removeCharacter(id);
+											if (numSavedCharacters === 1) {
+												removeCharacter(id);
+												router.push("/");
+											} else {
+												removeCharacter(id);
+											}
 										} else {
+											// User has not clicked delete button, approveRemoval allows deletion on another button press
 											return approveRemoval(true);
 										}
 									}}
@@ -137,7 +149,7 @@ const CharacterDisplay = React.forwardRef((props, ref) => {
 const MotionCharacter = motion(CharacterDisplay, { forwardMotionProps: true });
 
 export default function Character({ props }) {
-	const { updateState, appState, classData } = props;
+	const { updateState, appState, classData, changePage } = props;
 	const { savedCharacters } = appState;
 	const { addCharacter } = updateState;
 
@@ -191,6 +203,7 @@ export default function Character({ props }) {
 											updateState={updateState}
 											appState={appState}
 											classData={classData}
+											changePage={changePage}
 											variants={characterVariant}
 											initial="hidden"
 											exit="hidden"
