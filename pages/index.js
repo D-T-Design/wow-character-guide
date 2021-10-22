@@ -20,7 +20,9 @@ const Home = (props) => {
 	const { updateClassData } = props.updateState;
 
 	useEffect(() => {
+		console.log(classData);
 		updateClassData(classData);
+		console.log(props);
 	}, []);
 
 	const icons = [

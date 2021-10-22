@@ -19,6 +19,7 @@ const MyApp = ({ Component, pageProps }) => {
 		character: 0,
 		savedCharacters: [],
 		classData: [],
+		gameData: {}
 	});
 
 	const updateClassData = (data) => {
