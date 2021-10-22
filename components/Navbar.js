@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import PlayerCard from "./PlayerCard";
 import { NewCharacterModal } from "./characterInput";
 
-export const Navbar = ({ appState, updateState, changePage, buildNewCharacterModal }) => {
+export const Navbar = ({ appState, updateState, classData, changePage, buildNewCharacterModal }) => {
 	const router = useRouter();
 	const route = router.asPath;
 	const links = [
