@@ -83,6 +83,7 @@ const MyApp = ({ Component, pageProps }) => {
 	const [newCharacterModal, toggleNewCharacterModal] = useState(false);
 	const [modalData, setModalData] = useState(appState.classData);
 	const buildNewCharacterModal = (classData) => {
+		console.log(classData);
 		setModalData(classData);
 		toggleNewCharacterModal(true);
 	};
