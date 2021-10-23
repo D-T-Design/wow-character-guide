@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import useSWR from "swr";
 import { motion } from "framer-motion";
 import { graphQLClient, queryAllFactions } from "../utils/fauna_gql";
 import parseClassData from "../utils/parseClassData";
 
 const fetcher = (query) => graphQLClient.request(query);
-
-export async function getStaticProps() {
+const getClassData = async () => {
 	const classData = await fetcher(queryAllFactions);
+	return parseClassData(classData);
+}
+export async function getStaticProps() {
+	const classData = await getClassData();
 	return {
 		props: { classData },
 	};
@@ -16,13 +18,11 @@ export async function getStaticProps() {
 const Home = (props) => {
 	// const { data } = useSWR(queryAllFactions, fetcher);
 	// const [classData, setClassData] = useState({});
-	const classData = parseClassData(props.classData);
+	// const classData = parseClassData(props.classData);
 	const { updateClassData } = props.updateState;
 
 	useEffect(() => {
-		console.log(classData);
-		updateClassData(classData);
-		console.log(props);
+		updateClassData(props.classData);
 	}, []);
 
 	const icons = [
