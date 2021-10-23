@@ -1,27 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
-import { graphQLClient, queryAllFactions } from "../utils/fauna_gql";
 
-import parseClassData from "../utils/parseClassData";
-
-import Welcome from "../components/Welcome";
 import Character from "../components/Character";
-import { NewCharacterModal } from "../components/characterInput";
-
-const fetcher = (query) => graphQLClient.request(query);
-export async function getStaticProps() {
-	const classData = await fetcher(queryAllFactions);
-	return {
-		props: { classData },
-	};
-}
 
 const MyCharacters = (props) => {
-	const classData = parseClassData(props.classData);
-
 	const charactersSaved = props.appState.savedCharacters.length !== 0;
-
-	props = { ...props, classData };
 
 	/* ---- Motion Variants ---- */
 	const transition = {
@@ -50,7 +33,7 @@ const MyCharacters = (props) => {
 			variants={pageVariants}
 		>
 			<div className="container">
-				{charactersSaved ? (
+				{charactersSaved && (
 					<section className="character">
 						<aside className="blurb">
 							<h2>Choose Your Character</h2>
@@ -58,33 +41,6 @@ const MyCharacters = (props) => {
 						</aside>
 						<main className="character-list">
 							<Character props={props} />
-						</main>
-					</section>
-				) : (
-					<section className="character">
-						<aside className="blurb">
-							<h2>
-								<small>Welcome to</small> WoW Classic Character Guide!
-							</h2>
-							<h3>Build Your Character</h3>
-							<caption>
-								<p>
-									Enter your character details and you'll get a{" "}
-									<strong>quick reference guide</strong> for your World of Warcraft Character.
-								</p>
-								<p>
-									The quick reference guide includes a class guide, gear options, and zones… all
-									tailored to your current level, class, and race!
-								</p>
-							</caption>
-						</aside>
-						<main>
-							<button
-								className="character-cta"
-								onClick={() => props.buildNewCharacterModal(classData)}
-							>
-								Create Character
-							</button>
 						</main>
 					</section>
 				)}

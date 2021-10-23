@@ -6,9 +6,8 @@ import { useWindowWidth } from "@react-hook/window-size";
 import { motion } from "framer-motion";
 
 import PlayerCard from "./PlayerCard";
-import { NewCharacterModal } from "./characterInput";
 
-export const Navbar = ({ appState, updateState, classData, changePage, buildNewCharacterModal }) => {
+export const Navbar = ({ appState, updateState, changePage, buildNewCharacterModal }) => {
 	const router = useRouter();
 	const route = router.asPath;
 	const links = [
@@ -39,7 +38,7 @@ export const Navbar = ({ appState, updateState, classData, changePage, buildNewC
 	);
 	const [navOpen, toggleNav] = useState(true);
 
-	const gameData = appState.gameData;
+	const { gameData } = appState;
 
 	const [characterModal, toggleCharacterModal] = useState(false);
 

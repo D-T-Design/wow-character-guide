@@ -3,12 +3,10 @@ import { motion } from "framer-motion";
 import useSWR from "swr";
 import { Image, Placeholder } from "cloudinary-react";
 
-import { graphQLClient, queryAllFactions } from "../utils/fauna_gql";
 import fetch from "isomorphic-unfetch";
 import BlizzContext from "../utils/blizzContext";
 import useBlizzAuth from "../utils/useBlizzAuth";
 
-import parseClassData from "../utils/parseClassData";
 import getClassGear_Server from "../utils/getClassGear_Server";
 import filterGearByLevel from "../utils/filterGearByLevel";
 import separateGearByType from "../utils/separateGearByType";
@@ -16,20 +14,17 @@ import { weaponToFullName } from "../utils/weaponToFullName";
 
 import { GearSlot } from "../components/GearSlot";
 
-const fetcher = (query) => graphQLClient.request(query);
-
 export async function getStaticProps() {
-	const classData = await fetcher(queryAllFactions);
 	const gearData = await getClassGear_Server();
 	const accessBlizz = await useBlizzAuth();
 	return {
-		props: { classData, gearData, accessBlizz },
+		props: { gearData, accessBlizz },
 	};
 }
 
 const Gear = (props) => {
 	/* Check for saved/selected character, set up variables to access data */
-	const { savedCharacters } = props.appState;
+	const { savedCharacters, gameData } = props.appState;
 	const selectedCharacter =
 		savedCharacters.length > 0 &&
 		props.appState.savedCharacters.find((character) => character.id === props.appState.character);
@@ -38,8 +33,7 @@ const Gear = (props) => {
 		: { playerClass: "Rogue", level: 1, faction: "Horde" };
 
 	/* Get class gear types available from server */
-	const classData = parseClassData(props.classData);
-	const classWepTypes = classData.classes.find((className) => className.name === playerClass)
+	const classWepTypes = gameData.classes.find((className) => className.name === playerClass)
 		.reference.weaponTypes;
 	/* Get class gear data and filter */
 	const { gearData } = filterGearByLevel(props.gearData[`${playerClass.toLowerCase()}`], level);

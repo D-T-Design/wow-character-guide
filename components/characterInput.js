@@ -105,7 +105,7 @@ const InputRadioSection = ({ title, caption, currentState, changeState }) => {
 	);
 };
 
-export const InputCharacter = ({ action, character, classData }) => {
+export const InputCharacter = ({ action, character, gameData }) => {
 	const { formAction, title, callback } = action;
 	const [formState, setState] = character
 		? useState(character)
@@ -152,7 +152,7 @@ export const InputCharacter = ({ action, character, classData }) => {
 					title="Faction"
 					currentState={faction}
 					changeState={updateFaction}
-					itemList={classData.availableFactions}
+					itemList={gameData.availableFactions}
 				/>
 			</section>
 			<section className="input-race">
@@ -160,7 +160,7 @@ export const InputCharacter = ({ action, character, classData }) => {
 					title="Race"
 					currentState={race}
 					changeState={updateRace}
-					itemList={classData[`${faction.toLowerCase()}Races`]}
+					itemList={gameData[`${faction.toLowerCase()}Races`]}
 					gender={gender}
 				/>
 			</section>
@@ -169,7 +169,7 @@ export const InputCharacter = ({ action, character, classData }) => {
 					title="Class"
 					currentState={playerClass}
 					changeState={updateClass}
-					itemList={classData[`${race.replace(/\s/g, "").toLowerCase()}Classes`]}
+					itemList={gameData[`${race.replace(/\s/g, "").toLowerCase()}Classes`]}
 				/>
 			</section>
 			{faction && playerClass && race ? (
@@ -210,7 +210,7 @@ export const InputCharacter = ({ action, character, classData }) => {
 	);
 };
 
-export const NewCharacterModal = ({ addCharacter, classData, show, onClose }) => {
+export const NewCharacterModal = ({ addCharacter, gameData, show, onClose }) => {
 	const addAction = {
 		title: "Add New Character",
 		formAction: addCharacter,
@@ -246,7 +246,7 @@ export const NewCharacterModal = ({ addCharacter, classData, show, onClose }) =>
 							<div className="modal-content">
 								<InputCharacter
 									action={addAction}
-									classData={classData}
+									gameData={gameData}
 									parent="New Character Modal"
 								/>
 							</div>
@@ -273,7 +273,7 @@ export const NewCharacterModal = ({ addCharacter, classData, show, onClose }) =>
 	);
 };
 
-export const EditCharacterModal = ({ character, editCharacter, classData, show, onClose }) => {
+export const EditCharacterModal = ({ character, editCharacter, gameData, show, onClose }) => {
 	const closeModal = (e) => {
 		e.preventDefault();
 		onClose();
@@ -305,7 +305,7 @@ export const EditCharacterModal = ({ character, editCharacter, classData, show, 
 								<InputCharacter
 									action={editCharacter}
 									character={character}
-									classData={classData}
+									gameData={gameData}
 									parent="Edit Character Modal"
 								/>
 							</div>

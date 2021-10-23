@@ -1,7 +1,7 @@
 import React from "react";
 import { Faction, Race, PlayerClass, Name, Level } from "./characterInput";
 
-const EditCharacter = ({ updateState, appState, classData }) => {
+const EditCharacter = ({ updateState, appState }) => {
 	return (
 		<section className="edit-character-section">
 			<section className="input-container">
@@ -13,7 +13,7 @@ const EditCharacter = ({ updateState, appState, classData }) => {
 							<Faction
 								changeFaction={updateState.updateFaction}
 								chosenFaction={appState.faction}
-								data={classData}
+								data={appState.gameData}
 							/>
 						</section>
 					</div>
@@ -22,13 +22,13 @@ const EditCharacter = ({ updateState, appState, classData }) => {
 							changeRace={updateState.updateRace}
 							chosenRace={appState.race}
 							faction={appState.faction}
-							data={classData}
+							data={appState.gameData}
 						/>
 						<PlayerClass
 							changeClass={updateState.updateClass}
 							race={appState.race}
 							chosenClass={appState.playerClass}
-							data={classData}
+							data={appState.gameData}
 						/>
 					</div>
 				</div>

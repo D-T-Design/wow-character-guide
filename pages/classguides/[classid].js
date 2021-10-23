@@ -1,10 +1,6 @@
 import { useRouter } from "next/router";
-
 import ClassGuides from "../../components/classguides";
 
-import { graphQLClient, queryAllFactions } from "../../utils/fauna_gql";
-
-const fetcher = (query) => graphQLClient.request(query);
 
 export async function getStaticPaths() {
 	return {
@@ -24,12 +20,11 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-	const classData = await fetcher(queryAllFactions);
 	return {
-		props: { classData, classID: params.classid },
+		props: { classID: params.classid },
 	};
 }
-const ClassGuide = ({ appState, classData, classID, currentPage }) => {
+const ClassGuide = ({ appState, classID }) => {
 	const router = useRouter();
 	if (router.isFallback) {
 		return <div>Loading...</div>;
@@ -37,9 +32,7 @@ const ClassGuide = ({ appState, classData, classID, currentPage }) => {
 	return (
 		<ClassGuides
 			appState={appState}
-			classData={classData}
 			classID={classID}
-			currentPage={currentPage}
 		/>
 	);
 };

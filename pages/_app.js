@@ -5,26 +5,20 @@ import { SWRConfig } from "swr";
 import createPersistedState from "use-persisted-state";
 import Head from "next/head";
 
+import getGameData from "../libs/gameData";
 import { Navbar } from "../components/Navbar";
 import Footer from "../components/Footer";
 import { NewCharacterModal } from "../components/characterInput";
 
 import "../styles/globals.scss";
-
+const useAppState = createPersistedState("appState");
 const MyApp = ({ Component, pageProps }) => {
-	const useAppState = createPersistedState("appState");
-
 	const [appState, setState] = useAppState({
 		gear: [],
 		character: 0,
 		savedCharacters: [],
-		classData: [],
-		gameData: {}
+		gameData: getGameData(),
 	});
-
-	const updateClassData = (data) => {
-		data.length > 0 && setState({ ...appState, classData: data });
-	};
 
 	const updateGear = (gear) => {
 		const updatedList = appState.savedCharacters.map((savedCharacter) =>
@@ -69,7 +63,6 @@ const MyApp = ({ Component, pageProps }) => {
 	};
 
 	const updateState = {
-		updateClassData,
 		updateGear,
 		addCharacter,
 		removeCharacter,
@@ -82,9 +75,9 @@ const MyApp = ({ Component, pageProps }) => {
 	const changePage = (path) => setPage(path);
 
 	const [newCharacterModal, toggleNewCharacterModal] = useState(false);
-	const [modalData, setModalData] = useState(appState.classData);
-	const buildNewCharacterModal = (classData) => {
-		setModalData(classData);
+	const [modalData, setModalData] = useState(appState.gameData);
+	const buildNewCharacterModal = (gameData) => {
+		setModalData(gameData);
 		toggleNewCharacterModal(true);
 	};
 
@@ -118,7 +111,7 @@ const MyApp = ({ Component, pageProps }) => {
 			<Footer />
 			<NewCharacterModal
 				addCharacter={addCharacter}
-				classData={modalData}
+				gameData={modalData}
 				show={newCharacterModal}
 				onClose={() => toggleNewCharacterModal(false)}
 			/>

@@ -1,46 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { graphQLClient, queryAllFactions } from "../utils/fauna_gql";
-import parseClassData from "../utils/parseClassData";
 
-const fetcher = (query) => graphQLClient.request(query);
-const getClassData = async () => {
-	const classData = await fetcher(queryAllFactions);
-	return parseClassData(classData);
-}
-export async function getStaticProps() {
-	const classData = await getClassData();
-	return {
-		props: { classData },
-	};
-}
+import HomeLinks from "../components/HomeLinks";
 
-const Home = (props) => {
-	// const { data } = useSWR(queryAllFactions, fetcher);
-	// const [classData, setClassData] = useState({});
-	// const classData = parseClassData(props.classData);
-	const { updateClassData } = props.updateState;
-
-	useEffect(() => {
-		updateClassData(props.classData);
-	}, []);
-
+const Home = ({ appState }) => {
+	const [savedCharacters, setSavedCharacters] = useState(false);
 	const icons = [
 		{
-			text: "Save Your Characters",
+			text: "Add or Edit Characters",
 			icon: "/static/img/character.svg",
+			link: "/character",
 		},
 		{
 			text: "Class Guides",
 			icon: "/static/img/guide.svg",
+			link: "/guides",
 		},
 		{
 			text: "Suggested Gear",
 			icon: "/static/img/loot.svg",
+			link: "/gear",
 		},
 		{
 			text: "World Zones",
 			icon: "/static/img/zone.svg",
+			link: "/zones",
 		},
 	];
 
@@ -62,6 +46,12 @@ const Home = (props) => {
 		},
 	};
 
+	useEffect(() => {
+		const savedCharacters = appState.savedCharacters.length > 0;
+		if (savedCharacters) {
+			setSavedCharacters(true);
+		}
+	}, [appState.savedCharacters]);
 	return (
 		<motion.section
 			key={"home"}
@@ -88,31 +78,7 @@ const Home = (props) => {
 							Crusade Classic. Enter your character's details and get a list of gear to get, zones
 							to go to, and class guides for your class.
 						</h2>
-						<section className="headline-icons">
-							<motion.ul
-								initial={{ y: "20px", opacity: 0 }}
-								animate={{
-									y: 0,
-									opacity: 1,
-									transition: { staggerChildren: 0.5, delayChildren: 0.5, duration: 0.5 },
-								}}
-							>
-								{icons.map((icon, i) => (
-									<motion.li
-										key={i}
-										initial={{ y: "20px", opacity: 0 }}
-										animate={{
-											y: 0,
-											opacity: 1,
-											transition: { duration: 0.5 },
-										}}
-									>
-										<img src={icon.icon} />
-										<h3>{icon.text}</h3>
-									</motion.li>
-								))}
-							</motion.ul>
-						</section>
+						<HomeLinks savedCharacters={savedCharacters} icons={icons} />
 						<p>
 							New and returning players of World of Warcraft Classic could use some help guiding
 							them to make the most of time spent. Even a veteran player may hop on an old character

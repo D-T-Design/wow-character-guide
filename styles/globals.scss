@@ -1265,7 +1265,6 @@ header {
 							opacity: 1;
 						}
 						figure {
-							padding: 0;
 							img {
 								margin-right: 1.5ch;
 							}
@@ -1483,6 +1482,11 @@ header {
 
 .faction-icon,
 .zone-icon {
+	figure {
+		img {
+			border-radius: 100%;
+		}
+	}
 	img {
 		border-radius: 50%;
 	}
@@ -1547,7 +1551,7 @@ header {
 	.headline {
 		&-sub {
 			margin: auto;
-			max-width: 100ch;
+			max-width: 125ch;
 			display: flex;
 			flex-flow: row wrap;
 			justify-content: space-between;
@@ -1581,6 +1585,35 @@ header {
 					text-transform: uppercase;
 					margin: 0;
 					margin-left: 1ch;
+				}
+				&.links {
+					ul {
+						background-color: transparent;
+						border: 0;
+						box-shadow: none;
+						li {
+							padding: 0;
+							margin: 0 1ch;
+							display: block;
+							a {
+								background-color: $bg-bright;
+								@include borderDesign();
+								padding: 1rem 2ch;
+								display: flex;
+								align-items: center;
+								justify-content: center;
+								color: white;
+								text-decoration: none;
+								transition: all 0.15s;
+								&:hover {
+									background-color: $bg-highlight;
+								}
+								&:active {
+									transform: scale(0.95);
+								}
+							}
+						}
+					}
 				}
 			}
 			p {
@@ -1691,6 +1724,9 @@ header {
 			border: none;
 			margin: 0;
 		}
+	}
+	.add-characters {
+		width: 100%;
 	}
 	.blurb {
 		width: 100%;

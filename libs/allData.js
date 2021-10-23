@@ -1,4 +1,4 @@
-export default function getClassData() {
+export default function getAllData() {
   return {
 		allFactions: {
 			data: [

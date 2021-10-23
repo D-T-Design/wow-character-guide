@@ -7,7 +7,7 @@ import { InputCharacter, EditCharacterModal } from "../components/characterInput
 
 const CharacterDisplay = React.forwardRef((props, ref) => {
 	const router = useRouter();
-	const { character, updateState, appState, classData, changePage } = props;
+	const { character, updateState, appState } = props;
 	const { name, level, faction, race, playerClass, gender, id } = character;
 	const { removeCharacter, selectCharacter, updateCharacter } = updateState;
 	const isSelectedCharacter = id === appState.character;
@@ -80,7 +80,7 @@ const CharacterDisplay = React.forwardRef((props, ref) => {
 									<EditCharacterModal
 										editCharacter={editAction}
 										character={character}
-										classData={classData}
+										gameData={appState.gameData}
 										show={characterModal}
 										onClose={() => toggleCharacterModal()}
 									/>
@@ -149,8 +149,8 @@ const CharacterDisplay = React.forwardRef((props, ref) => {
 const MotionCharacter = motion(CharacterDisplay, { forwardMotionProps: true });
 
 export default function Character({ props }) {
-	const { updateState, appState, classData, changePage } = props;
-	const { savedCharacters } = appState;
+	const { updateState, appState, changePage } = props;
+	const { savedCharacters, gameData } = appState;
 	const { addCharacter } = updateState;
 
 	const [addForm, toggleAddForm] = useState(false);
@@ -202,7 +202,6 @@ export default function Character({ props }) {
 											key={index}
 											updateState={updateState}
 											appState={appState}
-											classData={classData}
 											changePage={changePage}
 											variants={characterVariant}
 											initial="hidden"
@@ -226,7 +225,7 @@ export default function Character({ props }) {
 						</button>
 						<InputCharacter
 							action={addAction}
-							classData={classData}
+							gameData={gameData}
 							parent="Saved Character Page"
 						/>
 					</>

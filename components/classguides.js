@@ -9,22 +9,17 @@ const imgBase = "https://res.cloudinary.com/david-torres-design/image/upload/";
 const imgCreatorTransform = "w_200,h_200,c_fill";
 const imgFolder = "/v1618808611/wow-character-guide/";
 
-import useSWR from "swr";
-import { graphQLClient, queryAllFactions } from "../utils/fauna_gql";
-import parseClassData from "../utils/parseClassData";
 import { statToFullName } from "../utils/statToFullName";
 
-const fetcher = (query) => graphQLClient.request(query);
 
 const ClassGuides = (props) => {
-	const { data } = useSWR(queryAllFactions, fetcher, { initialData: props.classData });
-	const classData = data ? parseClassData(data) : data;
-	let selectedCharacter = props.appState.savedCharacters.find(
-		(character) => character.id === props.appState.character
+	const { appState, classID } = props;
+	let selectedCharacter = appState.savedCharacters.find(
+		(character) => character.id === appState.character
 	);
-	const { playerClass } = selectedCharacter ? selectedCharacter : { playerClass: props.classID };
+	const { playerClass } = selectedCharacter ? selectedCharacter : { playerClass: classID };
 
-	const ref = classData[`${playerClass.toLowerCase()}Ref`];
+	const ref = appState.gameData[`${playerClass.toLowerCase()}Ref`];
 	const {
 		summary,
 		teamroles,
