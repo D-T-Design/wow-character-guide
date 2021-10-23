@@ -96,6 +96,16 @@ const MyApp = ({ Component, pageProps }) => {
 			<Head>
 				<title>WoW TBC Classic Character Guide</title>
 				<meta property="og:title" content="WoW TBC Classic Character Guide" />
+				<meta
+					property="og:image"
+					content="https://res.cloudinary.com/david-torres-design/image/upload/c_scale,w_1200/c_crop,h_630,w_1200/v1625720643/wow-character-guide/bg-tbc.jpg"
+				/>
+				<meta
+					property="og:description"
+					content="Your cheat sheet for playing World of Warcraft Classic and Burning Crusade Classic. Enter your character's details and get a list of gear to get, zones to go to, and class guides for your class."
+				/>
+				<meta property="og:image:width" content="1200" />
+				<meta property="og:image:height" content="630" />
 				<meta name="viewport" content="width=device-width, user-scalable=no" />
 			</Head>
 			<Navbar {...pageProps} />

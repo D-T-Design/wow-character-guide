@@ -19,5 +19,5 @@ module.exports = {
 			},
 		];
 	},
-	generateBuildId: async () => "build"
+	generateBuildId: () => "build"
 };
