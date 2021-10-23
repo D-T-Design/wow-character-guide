@@ -1371,8 +1371,17 @@ header {
 .footer-terms {
 	background-color: $nav-bg;
 	padding: 2rem;
+	.container {
+		flex-direction: column;
+		align-items: center;
+	}
 	p {
-		opacity: 0.75;
+		color: rgba(255, 255, 255, 0.5);
+		text-align: center;
+		margin: 0.5em 0;
+	}
+	a {
+		color: $cta-color;
 	}
 }
 
@@ -1572,7 +1581,7 @@ header {
 					justify-content: center;
 					li {
 						padding: 1rem 2ch;
-						margin: 0 1ch;
+						margin: 0.5em 1ch;
 						display: flex;
 						align-items: center;
 						justify-content: center;
@@ -1593,7 +1602,7 @@ header {
 						box-shadow: none;
 						li {
 							padding: 0;
-							margin: 0 1ch;
+							margin: 0.5em 1ch;
 							display: block;
 							a {
 								background-color: $bg-bright;
@@ -1617,7 +1626,11 @@ header {
 				}
 			}
 			p {
-				width: 48ch;
+				width: 100%;
+				max-width: 100vw;
+				@include respond-above(lg) {
+					width: 48%;
+				}
 			}
 		}
 	}

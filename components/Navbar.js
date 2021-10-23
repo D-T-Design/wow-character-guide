@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import PlayerCard from "./PlayerCard";
 
 export const Navbar = ({ appState, updateState, changePage, buildNewCharacterModal }) => {
+	const [charactersSaved, setSavedCharacters] = useState(false);
 	const router = useRouter();
 	const route = router.asPath;
 	const links = [
@@ -32,11 +33,10 @@ export const Navbar = ({ appState, updateState, changePage, buildNewCharacterMod
 			icon: "/static/img/zone.svg",
 		},
 	];
-	const charactersSaved = appState.savedCharacters.length !== 0;
 	const selectedCharacter = appState.savedCharacters.find(
 		(character) => character.id === appState.character
 	);
-	const [navOpen, toggleNav] = useState(true);
+	const [navOpen, toggleNav] = useState(false);
 
 	const { gameData } = appState;
 
@@ -45,8 +45,9 @@ export const Navbar = ({ appState, updateState, changePage, buildNewCharacterMod
 	const windowWidth = useWindowWidth({ wait: 500 });
 
 	useEffect(() => {
+		appState.savedCharacters.length > 0 && setSavedCharacters(true);
 		windowWidth >= 992 && toggleNav(true);
-	}, [windowWidth]);
+	}, [windowWidth, appState.savedCharacters]);
 
 	return (
 		<header>
