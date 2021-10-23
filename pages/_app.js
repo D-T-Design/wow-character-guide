@@ -98,7 +98,7 @@ const MyApp = ({ Component, pageProps }) => {
 				<meta property="og:title" content="WoW TBC Classic Character Guide" />
 				<meta
 					property="og:image"
-					content="https://res.cloudinary.com/david-torres-design/image/upload/c_scale,w_1200/c_crop,h_630,w_1200/v1625720643/wow-character-guide/bg-tbc.jpg"
+					content="https://res.cloudinary.com/david-torres-design/image/upload/c_scale,w_1200/c_crop,h_630,w_1200/l_wow-character-guide:wccg.svg,e_shadow:50,x_0,y_5/v1625720643/wow-character-guide/bg-tbc.jpg"
 				/>
 				<meta
 					property="og:description"
@@ -106,6 +106,8 @@ const MyApp = ({ Component, pageProps }) => {
 				/>
 				<meta property="og:image:width" content="1200" />
 				<meta property="og:image:height" content="630" />
+				<meta property="og:url" content="https://www.wowcharacter.guide/" />
+				<meta property="og:type" content="website" />
 				<meta name="viewport" content="width=device-width, user-scalable=no" />
 			</Head>
 			<Navbar {...pageProps} />
