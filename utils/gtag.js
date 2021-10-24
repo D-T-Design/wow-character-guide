@@ -3,6 +3,7 @@
 export const pageview = (url) => {
 	window.gtag("config", process.env.NEXT_PUBLIC_GA, {
 		page_path: url,
+		cookie_flags: "SameSite=None;Secure",
 	});
 };
 
@@ -12,5 +13,6 @@ export const event = ({ action, category, label, value }) => {
 		event_category: category,
 		event_label: label,
 		value: value,
+		cookie_flags: "SameSite=None;Secure",
 	});
 };
