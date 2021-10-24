@@ -1,17 +1,20 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import { AnimatePresence } from "framer-motion";
-import { SWRConfig } from "swr";
-import createPersistedState from "use-persisted-state";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
-
+import ReactGA from "react-ga";
+import { useRouter } from "next/router";
+import { SWRConfig } from "swr";
+import { AnimatePresence } from "framer-motion";
+import createPersistedState from "use-persisted-state";
 import getGameData from "../libs/gameData";
+
 import { Navbar } from "../components/Navbar";
 import Footer from "../components/Footer";
 import { NewCharacterModal } from "../components/characterInput";
 
 import "../styles/globals.scss";
+
 const useAppState = createPersistedState("appState");
+
 const MyApp = ({ Component, pageProps }) => {
 	const [appState, setState] = useAppState({
 		gear: [],
@@ -90,6 +93,11 @@ const MyApp = ({ Component, pageProps }) => {
 		toggleNewCharacterModal,
 		buildNewCharacterModal,
 	};
+
+	useEffect(() => {
+		ReactGA.initialize(`${process.env.NEXT_PUBLIC_GA}`);
+		ReactGA.pageview(window.location.pathname + window.location.search);
+	});
 
 	return (
 		<>
