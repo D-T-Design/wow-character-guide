@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
-import ReactGA from "react-ga";
 import { useRouter } from "next/router";
 import { SWRConfig } from "swr";
 import { AnimatePresence } from "framer-motion";
 import createPersistedState from "use-persisted-state";
 import getGameData from "../libs/gameData";
+import * as gtag from "../utils/gtag";
 
 import { Navbar } from "../components/Navbar";
 import Footer from "../components/Footer";
 import { NewCharacterModal } from "../components/characterInput";
 
 import "../styles/globals.scss";
+import { getAllClassGear } from "utils/fauna_gql";
 
 const useAppState = createPersistedState("appState");
 
@@ -95,9 +96,14 @@ const MyApp = ({ Component, pageProps }) => {
 	};
 
 	useEffect(() => {
-		ReactGA.initialize(`${process.env.NEXT_PUBLIC_GA}`);
-		ReactGA.pageview(window.location.pathname + window.location.search);
-	});
+		const handleRouteChange = (url) => {
+			gtag.pageview(url);
+		};
+		router.events.on("routeChangeComplete", handleRouteChange);
+		return () => {
+			router.events.off("routeChangeComplete", handleRouteChange);
+		};
+	}, [router.events]);
 
 	return (
 		<>

@@ -12,6 +12,21 @@ class MyDocument extends Document {
 						media="print"
 					/>
 					<link rel="shortcut icon" type="image/png" href="/icon.png" />
+					{/*GTAG */}
+					<script
+						async
+						src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA}`}
+					></script>
+					<script
+						dangerouslySetInnerHTML={{
+							__html: `
+								window.dataLayer = window.dataLayer || [];
+								function gtag(){dataLayer.push(arguments);}
+								gtag('js', new Date());
+								gtag('config', '${process.env.NEXT_PUBLIC_GA}');
+							`,
+						}}
+					/>
 				</Head>
 				<body>
 					<Main />
