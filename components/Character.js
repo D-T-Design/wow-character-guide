@@ -181,6 +181,12 @@ export default function Character({ props }) {
 			y: 0,
 		},
 	};
+	const buttonVariant = {
+		hidden: { opacity: 0 },
+		fadeIn: {
+			opacity: 1,
+		},
+	};
 	return (
 		<>
 			<section className="edit-characters">
@@ -217,24 +223,40 @@ export default function Character({ props }) {
 			</section>
 			<section className="add-characters">
 				<h2>Add Characters</h2>
-				{addForm ? (
-					<>
-						<button onClick={() => toggleAddForm(!addForm)} className="character-add">
-							<img src="/static/img/exit.svg" />
-							Cancel Add Character
-						</button>
-						<InputCharacter
-							action={addAction}
-							gameData={gameData}
-							parent="Saved Character Page"
-						/>
-					</>
-				) : (
-					<button onClick={() => toggleAddForm(!addForm)} className="character-add">
-						<img src="/static/img/plus.svg" />
-						Add Character
-					</button>
-				)}
+				<AnimatePresence exitBeforeEnter>
+					{addForm ? (
+						<>
+							<motion.button
+								onClick={() => toggleAddForm(!addForm)}
+								className="character-add open"
+								variants={characterVariant}
+								initial="hidden"
+								exit="hidden"
+								animate="fadeIn"
+							>
+								<img src="/static/img/exit.svg" />
+								Cancel Add Character
+							</motion.button>
+							<InputCharacter
+								action={addAction}
+								gameData={gameData}
+								parent="Saved Character Page"
+							/>
+						</>
+					) : (
+						<motion.button
+							onClick={() => toggleAddForm(!addForm)}
+							className="character-add"
+							variants={characterVariant}
+							initial="hidden"
+							exit="hidden"
+							animate="fadeIn"
+						>
+							<img src="/static/img/plus.svg" />
+							Add Character
+						</motion.button>
+					)}
+				</AnimatePresence>
 			</section>
 		</>
 	);

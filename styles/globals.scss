@@ -24,6 +24,10 @@ $battleground: #ae2600;
 $city: #e08308;
 $zone: #b5cdb0;
 
+@mixin wccgGradient {
+	background: linear-gradient(270deg, rgba(141, 47, 45, 1) 0%, rgba(255, 116, 0, 1) 100%);
+}
+
 @mixin dungeonGradient {
 	background: linear-gradient(
 		170deg,
@@ -521,7 +525,7 @@ header {
 			padding: 0.5rem;
 			background: rgb(141, 47, 45);
 			box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
-			background: linear-gradient(270deg, rgba(141, 47, 45, 1) 0%, rgba(255, 116, 0, 1) 100%);
+			@include wccgGradient();
 			transition: all 0.1s ease-in-out;
 			img {
 				opacity: 1;
@@ -1313,13 +1317,13 @@ header {
 
 .character-add {
 	cursor: pointer;
-	background-color: $cta-color;
+	@include wccgGradient();
 	color: $body-color;
-	border: 0;
+	@include borderDesign();
 	display: flex;
 	align-items: center;
 	padding: 1rem 2ch;
-	transition: all 0.15s ease-in-out;
+	transition: width 0.15s ease-in-out;
 	margin-bottom: 1rem;
 	&:hover {
 		filter: brightness(1.2);
@@ -1329,6 +1333,10 @@ header {
 	img {
 		height: 1rem;
 		margin-right: 1ch;
+	}
+	&.open {
+		background: rgba(0,0,0,0.3);
+		border-color: $cta-color;
 	}
 }
 
@@ -2156,7 +2164,7 @@ header {
 		}
 		&__link--active {
 			background: rgb(141, 47, 45);
-			background: linear-gradient(270deg, rgba(141, 47, 45, 1) 0%, rgba(255, 116, 0, 1) 100%);
+			@include wccgGradient();
 			padding: 3px;
 			a {
 				background-color: $nav-bg;
@@ -2862,7 +2870,7 @@ header {
 	cursor: pointer;
 	background: rgb(141, 47, 45);
 	box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.75);
-	background: linear-gradient(270deg, rgba(141, 47, 45, 1) 0%, rgba(255, 116, 0, 1) 100%);
+	@include wccgGradient();
 	color: white;
 	font-family: $headline-font;
 	font-weight: bold;
