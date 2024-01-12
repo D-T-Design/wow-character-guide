@@ -6,7 +6,7 @@ export function useClassGearQuery(className: string) {
     ["classGear", className],
     async () => {
       const docs = await getItemsByClass(className);
-      return docs.data;
+      return docs?.data ?? [];
     },
     {
       staleTime: 1000 * 60 * 60,
