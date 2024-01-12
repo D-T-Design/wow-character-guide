@@ -13,6 +13,9 @@ import { NewCharacterModal } from "../components/characterInput";
 
 import "../styles/globals.scss";
 import { getAllClassGear } from "utils/fauna_gql";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 const useAppState = createPersistedState("appState");
 
@@ -124,23 +127,25 @@ const MyApp = ({ Component, pageProps }) => {
 				<meta property="og:type" content="website" />
 				<meta name="viewport" content="width=device-width, user-scalable=no" />
 			</Head>
-			<Navbar {...pageProps} />
-			<SWRConfig
-				value={{
-					refreshInterval: 3000000,
-				}}
-			>
-				<AnimatePresence exitBeforeEnter>
-					<Component {...pageProps} key={router.route} />
-				</AnimatePresence>
-			</SWRConfig>
-			<Footer />
-			<NewCharacterModal
-				addCharacter={addCharacter}
-				gameData={modalData}
-				show={newCharacterModal}
-				onClose={() => toggleNewCharacterModal(false)}
-			/>
+      <QueryClientProvider client={queryClient}>
+        <Navbar {...pageProps} />
+        <SWRConfig
+          value={{
+            refreshInterval: 3000000,
+          }}
+        >
+          <AnimatePresence exitBeforeEnter>
+            <Component {...pageProps} key={router.route} />
+          </AnimatePresence>
+        </SWRConfig>
+        <Footer />
+        <NewCharacterModal
+          addCharacter={addCharacter}
+          gameData={modalData}
+          show={newCharacterModal}
+          onClose={() => toggleNewCharacterModal(false)}
+        />
+      </QueryClientProvider>
 		</>
 	);
 };
