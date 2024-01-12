@@ -12,7 +12,6 @@ import Footer from "../components/Footer";
 import { NewCharacterModal } from "../components/characterInput";
 
 import "../styles/globals.scss";
-import { getAllClassGear } from "utils/fauna_gql";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
