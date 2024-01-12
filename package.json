@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "SET NODE_OPTIONS=--openssl-legacy-provider && next dev",
-    "build": "SET NODE_OPTIONS=--openssl-legacy-provider && next build",
-    "start": "SET NODE_OPTIONS=--openssl-legacy-provider && next start",
-    "export": "SET NODE_OPTIONS=--openssl-legacy-provider && next export"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export"
   },
   "dependencies": {
     "@react-hook/window-size": "^3.0.7",
@@ -20,7 +20,7 @@
     "graphql-request": "^3.4.0",
     "gsap": "^3.7.0",
     "isomorphic-unfetch": "^3.1.0",
-    "next": "^11.0.1",
+    "next": "^12.3.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-fast-compare": "^3.2.0",
