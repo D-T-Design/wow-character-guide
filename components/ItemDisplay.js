@@ -1,20 +1,14 @@
+import { AdvancedImage } from "@cloudinary/react";
+import { fill } from "@cloudinary/url-gen/actions/resize";
+import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Image, Transformation, Placeholder } from "cloudinary-react";
+import { cld } from "../utils/cloudinary";
 import ToggleItemStats from "./ToggleItemStats";
+
 const itemURLTBC = "https://tbc.wowhead.com/item=";
 
 export const ItemDisplay = ({ item, index, faction }) => {
-  const {
-    data: { id },
-    quality,
-    name,
-    drop,
-    phase,
-    imgURL,
-    reqLvl,
-    iLvl
-  } = item;
+  const { item_id, quality, name, drop_location, phase, img_url, req_lvl, ilvl } = item;
   const itemFaction = item.faction;
   const itemMotionVariants = {
     hidden: { y: "20%", opacity: 0 },
@@ -30,8 +24,8 @@ export const ItemDisplay = ({ item, index, faction }) => {
   return (
     <AnimatePresence exitBeforeEnter>
       <motion.li
-        key={id}
-        id={id}
+        key={item_id}
+        id={item_id}
         className={`item`}
         variants={itemMotionVariants}
         initial="hidden"
@@ -40,33 +34,21 @@ export const ItemDisplay = ({ item, index, faction }) => {
         transition="transition"
       >
         <div className="item-details">
-          <Image
-            public-id={`/wow-character-guide/itemthumbs/${imgURL}`}
-            cloudName="david-torres-design"
-            version="1623049444"
-            width="36"
-            height="36"
-            className="icon"
-            loading="lazy"
-            secure="true"
-            alt=""
-          >
-            <Transformation quality="auto" fetchFormat="auto" />
-            <Placeholder />
-          </Image>
+          <AdvancedImage
+            cldImg={cld
+              .image(`/wow-character-guide/itemthumbs/${img_url}`)
+              .resize(fill().width(36).height(36))}
+          />
           <div className="item-name">
             <h3 className={quality.toLowerCase()}>{name}</h3>
             {phase && (
-              <Image
-                public-id={`/wow-character-guide/phase${phase}-vector.svg`}
-                cloudName="david-torres-design"
-                version="1623049444"
-                width="57"
-                height="19"
+              <AdvancedImage
                 className="icon-phase"
                 loading="lazy"
-                secure="true"
                 alt={`Phase ${phase}`}
+                cldImg={cld
+                  .image(`/wow-character-guide/phase${phase}-vector.svg`)
+                  .resize(fill().width(57).height(19))}
               />
             )}
           </div>
@@ -74,31 +56,26 @@ export const ItemDisplay = ({ item, index, faction }) => {
         <div className="item-stats">
           <section className="equip-toggle">
             <ToggleItemStats
-              id={id}
-              drop={drop}
+              id={item_id}
+              drop={drop_location}
               itemFaction={itemFaction}
               faction={faction}
               savedStats={savedStats}
-              reqLvl={reqLvl}
-              iLvl={iLvl}
+              reqLvl={req_lvl}
+              iLvl={ilvl}
             />
             <a
-              href={`${itemURLTBC}${id}`}
+              href={`${itemURLTBC}${item_id}`}
               className="equip-link"
               title="See more details on Wowhead"
               target="_blank"
               rel="noreferrer noopener"
             >
               <img src="/static/img/logout.svg" className="wowhead-icon" />
-              <Image
-                public-id={`/wow-character-guide/wowhead`}
-                cloudName="david-torres-design"
-                version="1623049444"
-                width="60"
-                height="50"
+              <AdvancedImage
+                cldImg={cld.image(`/wow-character-guide/wowhead`).resize(fill().width(60).height(50))}
                 className="wowhead"
                 loading="lazy"
-                secure="true"
                 alt="See more details on Wowhead"
               />
             </a>

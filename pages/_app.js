@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { SWRConfig } from "swr";
 import { AnimatePresence } from "framer-motion";
-import createPersistedState from "use-persisted-state";
+// import createPersistedState from "use-persisted-state";
 import getGameData from "../libs/gameData";
 import * as gtag from "../utils/gtag";
 
@@ -13,119 +13,140 @@ import { NewCharacterModal } from "../components/characterInput";
 
 import "../styles/globals.scss";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
+import { getAppState, setAppState } from "../utils/localStorage";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    cacheTime: 1000 * 60 * 60 * 24, // 24 hours
+  },
+});
 
-const useAppState = createPersistedState("appState");
+// const useAppState = createPersistedState("appState");
 
 const MyApp = ({ Component, pageProps }) => {
-	const [appState, setState] = useAppState({
-		gear: [],
-		character: 0,
-		savedCharacters: [],
-		gameData: getGameData(),
-	});
+  const defaultState = getAppState();
+  // const [appState, setState] = useAppState({
+  // 	gear: [],
+  // 	character: 0,
+  // 	savedCharacters: [],
+  // 	gameData: getGameData(),
+  // });
+  const [appState, setState] = useState(
+    defaultState ?? {
+      gear: [],
+      character: 0,
+      savedCharacters: [],
+      gameData: getGameData(),
+    }
+  );
 
-	const updateGear = (gear) => {
-		const updatedList = appState.savedCharacters.map((savedCharacter) =>
-			savedCharacter.id === appState.character ? { ...savedCharacter, gear } : savedCharacter
-		);
-		setState({ ...appState, gear, savedCharacters: updatedList });
-	};
+  const updateGear = (gear) => {
+    const updatedList = appState.savedCharacters.map((savedCharacter) =>
+      savedCharacter.id === appState.character ? { ...savedCharacter, gear } : savedCharacter
+    );
+    setState({ ...appState, gear, savedCharacters: updatedList });
+  };
 
-	const addCharacter = (data) => {
-		const character = { ...data, id: Date.now() };
-		const savedCharacters = [...appState.savedCharacters, character];
-		setState({ ...appState, character: character.id, savedCharacters });
-		window.scrollTo(0, 0);
-	};
+  const addCharacter = (data) => {
+    const character = { ...data, id: Date.now() };
+    const savedCharacters = [...appState.savedCharacters, character];
+    setState({ ...appState, character: character.id, savedCharacters });
+    window.scrollTo(0, 0);
+  };
 
-	const updateCharacter = (updatedCharacter) => {
-		const characters = [...appState.savedCharacters];
-		const updatedList = characters.map((savedCharacter) =>
-			savedCharacter.id === updatedCharacter.id ? updatedCharacter : savedCharacter
-		);
-		setState({ ...appState, savedCharacters: updatedList });
-	};
+  const updateCharacter = (updatedCharacter) => {
+    const characters = [...appState.savedCharacters];
+    const updatedList = characters.map((savedCharacter) =>
+      savedCharacter.id === updatedCharacter.id ? updatedCharacter : savedCharacter
+    );
+    setState({ ...appState, savedCharacters: updatedList });
+  };
 
-	const removeCharacter = (id) => {
-		const newCharacterList = appState.savedCharacters.filter((character) => character.id !== id);
-		const isListEmpty = newCharacterList.length === 0;
-		const character = isListEmpty ? 0 : newCharacterList[0].id;
-		setState({
-			...appState,
-			character,
-			savedCharacters: newCharacterList,
-		});
-		window.scrollTo(0, 0);
-	};
+  const removeCharacter = (id) => {
+    const newCharacterList = appState.savedCharacters.filter((character) => character.id !== id);
+    const isListEmpty = newCharacterList.length === 0;
+    const character = isListEmpty ? 0 : newCharacterList[0].id;
+    setState({
+      ...appState,
+      character,
+      savedCharacters: newCharacterList,
+    });
+    window.scrollTo(0, 0);
+  };
 
-	const selectCharacter = (id) => {
-		const savedCharacters = [...appState.savedCharacters];
-		setState({
-			...appState,
-			character: savedCharacters.find((character) => character.id === id).id,
-		});
-	};
+  const selectCharacter = (id) => {
+    const savedCharacters = [...appState.savedCharacters];
+    setState({
+      ...appState,
+      character: savedCharacters.find((character) => character.id === id).id,
+    });
+  };
 
-	const updateState = {
-		updateGear,
-		addCharacter,
-		removeCharacter,
-		updateCharacter,
-		selectCharacter,
-	};
+  const updateState = {
+    updateGear,
+    addCharacter,
+    removeCharacter,
+    updateCharacter,
+    selectCharacter,
+  };
 
-	const router = useRouter();
-	const [currentPage, setPage] = useState("");
-	const changePage = (path) => setPage(path);
+  const router = useRouter();
+  const [currentPage, setPage] = useState("");
+  const changePage = (path) => setPage(path);
 
-	const [newCharacterModal, toggleNewCharacterModal] = useState(false);
-	const [modalData, setModalData] = useState(appState.gameData);
-	const buildNewCharacterModal = (gameData) => {
-		setModalData(gameData);
-		toggleNewCharacterModal(true);
-	};
+  const [newCharacterModal, toggleNewCharacterModal] = useState(false);
+  const [modalData, setModalData] = useState(appState.gameData);
+  const buildNewCharacterModal = (gameData) => {
+    setModalData(gameData);
+    toggleNewCharacterModal(true);
+  };
 
-	pageProps = {
-		...pageProps,
-		updateState,
-		appState,
-		currentPage,
-		changePage,
-		toggleNewCharacterModal,
-		buildNewCharacterModal,
-	};
+  pageProps = {
+    ...pageProps,
+    updateState,
+    appState,
+    currentPage,
+    changePage,
+    toggleNewCharacterModal,
+    buildNewCharacterModal,
+  };
 
-	useEffect(() => {
-		const handleRouteChange = (url) => {
-			gtag.pageview(url);
-		};
-		router.events.on("routeChangeComplete", handleRouteChange);
-		return () => {
-			router.events.off("routeChangeComplete", handleRouteChange);
-		};
-	}, [router.events]);
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      gtag.pageview(url);
+    };
+    router.events.on("routeChangeComplete", handleRouteChange);
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [router.events]);
 
-	return (
-		<>
-			<Head>
-				<title>WoW TBC Classic Character Guide</title>
-				<meta property="og:title" content="WoW TBC Classic Character Guide" />
-				<meta
-					property="og:image"
-					content="https://res.cloudinary.com/david-torres-design/image/upload/c_scale,w_1200/c_crop,h_630,w_1200/l_wow-character-guide:wccg.svg,e_shadow:100,x_0,y_5,co_rgb:000000/v1625720643/wow-character-guide/bg-tbc.jpg"
-				/>
-				<meta
-					property="og:description"
-					content="Your cheat sheet for playing World of Warcraft Classic and Burning Crusade Classic. Enter your character's details and get a list of gear to get, zones to go to, and class guides for your class."
-				/>
-				<meta property="og:image:width" content="1200" />
-				<meta property="og:image:height" content="630" />
-				<meta property="og:url" content="https://www.wowcharacter.guide/" />
-				<meta property="og:type" content="website" />
-				<meta name="viewport" content="width=device-width, user-scalable=no" />
-			</Head>
+  useEffect(() => {
+    setAppState(appState);
+  }, [JSON.stringify(appState)]);
+
+  return (
+    <>
+      <Head>
+        <title>WoW TBC Classic Character Guide</title>
+        <meta property="og:title" content="WoW TBC Classic Character Guide" />
+        <meta
+          property="og:image"
+          content="https://res.cloudinary.com/david-torres-design/image/upload/c_scale,w_1200/c_crop,h_630,w_1200/l_wow-character-guide:wccg.svg,e_shadow:100,x_0,y_5,co_rgb:000000/v1625720643/wow-character-guide/bg-tbc.jpg"
+        />
+        <meta
+          property="og:description"
+          content="Your cheat sheet for playing World of Warcraft Classic and Burning Crusade Classic. Enter your character's details and get a list of gear to get, zones to go to, and class guides for your class."
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:url" content="https://www.wowcharacter.guide/" />
+        <meta property="og:type" content="website" />
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
+      </Head>
       <QueryClientProvider client={queryClient}>
         <Navbar {...pageProps} />
         <SWRConfig
@@ -144,9 +165,10 @@ const MyApp = ({ Component, pageProps }) => {
           show={newCharacterModal}
           onClose={() => toggleNewCharacterModal(false)}
         />
+        <ReactQueryDevtools initialIsOpen={true} />
       </QueryClientProvider>
-		</>
-	);
+    </>
+  );
 };
 
 export default MyApp;
