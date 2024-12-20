@@ -1,29 +1,32 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import useSWR from "swr";
-import { Image, Placeholder } from "cloudinary-react";
+import { AdvancedImage } from "@cloudinary/react";
+import { transformationStringFromObject, Transformation } from "@cloudinary/url-gen";
+import { cld } from "../utils/cloudinary";
 
 import filterGearByLevel from "../utils/filterGearByLevel";
 import separateGearByType from "../utils/separateGearByType";
 import { weaponToFullName } from "../utils/weaponToFullName";
 
 import { GearSlot } from "../components/GearSlot";
-
-import { useClassGearQuery } from "../utils/getClassGear_Server.ts";
+import { getAppState } from "../utils/localStorage.ts";
+import { useClassGear } from "../utils/queries.ts";
 
 const Gear = (props) => {
   /* Check for saved/selected character, set up variables to access data */
-  const { savedCharacters, gameData } = props.appState;
-  const selectedCharacter =
-    savedCharacters.length > 0 &&
-    props.appState.savedCharacters.find((character) => character.id === props.appState.character);
-  const { playerClass, level, faction } = selectedCharacter.playerClass
+  const defaultAppState = getAppState();
+  const character = defaultAppState?.character || 0;
+  const savedCharacters = defaultAppState?.savedCharacters || [];
+  const gameData = defaultAppState?.gameData || {};
+
+  const selectedCharacter = savedCharacters.find((c) => c.id === character);
+  const { playerClass, level, faction } = selectedCharacter?.playerClass
     ? selectedCharacter
     : { playerClass: "Rogue", level: 1, faction: "Horde" };
-  const { data } = useClassGearQuery(playerClass);
+  const { data } = useClassGear(playerClass, level);
 
   /* Get class gear types available from server */
-  const classWepTypes = gameData.classes.find((className) => className.name === playerClass).reference
+  const classWepTypes = gameData.classes?.find((className) => className.name === playerClass).reference
     .weaponTypes;
   /* Get class gear data and filter */
   const { gearData } = filterGearByLevel(data || [], level);
@@ -97,6 +100,16 @@ const Gear = (props) => {
     },
   };
 
+  const img = cld.image("/wow-character-guide/Wow-Reaver.jpg").addTransformation(
+    transformationStringFromObject([
+      {
+        width: 680,
+        crop: "fill",
+        aspectRatio: "16:9",
+      },
+    ])
+  );
+
   return (
     <motion.section
       className="content gear"
@@ -115,21 +128,7 @@ const Gear = (props) => {
             </p>
           </div>
           <motion.aside className="img-container" initial="initial" animate="animate" variants={fadeUp}>
-            <Image
-              public-id="/wow-character-guide/Wow-Reaver.jpg"
-              cloudName="david-torres-design"
-              version="1618808611"
-              loading="lazy"
-              dpr="auto"
-              responsive
-              width="auto"
-              crop="fill"
-              aspectRatio="16:9"
-              responsiveUseBreakpoints="true"
-              secure="true"
-            >
-              <Placeholder type="predominant" />
-            </Image>
+            <AdvancedImage cldImg={img} />
           </motion.aside>
         </section>
         <motion.aside
@@ -202,7 +201,7 @@ const Gear = (props) => {
                     const typeName = Object.keys(itemType)[0];
                     const weaponTypeMatch =
                       type === "Weapons" &&
-                      classWepTypes.some((wepType) => wepType.name === weaponToFullName(typeName));
+                      classWepTypes?.some((wepType) => wepType.name === weaponToFullName(typeName));
                     if (weaponTypeMatch || type !== "Weapons") {
                       return (
                         <GearSlot

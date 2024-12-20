@@ -13,7 +13,7 @@ const ToggleItemStats = ({ drop, itemFaction, faction, reqLvl, iLvl }) => {
         <h4>
           Dropped by:
           <br />
-          {drop}
+          {drop === "Drop" ? "World Drop" : drop}
         </h4>
       )}
       {itemFaction && (

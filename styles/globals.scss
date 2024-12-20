@@ -1925,6 +1925,9 @@ header {
 			margin-bottom: 0;
 			max-width: calc(100% - 95px - 1.5ch);
 		}
+    img {
+      filter: none;
+    }
 		button {
 			display: flex;
 			cursor: pointer;

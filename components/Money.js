@@ -1,16 +1,12 @@
-import { Image } from "cloudinary-react";
-const MoneyIcon = ({name}) => (
-	<Image
-		public-id={`/wow-character-guide/money-${name}.gif`}
-		cloudName="david-torres-design"
-		version="1623049444"
-		width="13"
-		height="13"
-		class="money"
-		loading="lazy"
-		secure="true"
-		alt={name}
-	/>
+import { AdvancedImage } from "@cloudinary/react";
+import { cld } from "../utils/cloudinary";
+const MoneyIcon = ({ name }) => (
+  <AdvancedImage
+    cldImg={cld.image(`money-${name}.gif`).width(13).height(13).secure(true)}
+    class="money"
+    loading="lazy"
+    alt={name}
+  />
 );
 
 export default MoneyIcon;
