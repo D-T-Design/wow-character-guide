@@ -1,16 +1,68 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
 import { AdvancedImage } from "@cloudinary/react";
-import { transformationStringFromObject, Transformation } from "@cloudinary/url-gen";
+import { transformationStringFromObject } from "@cloudinary/url-gen";
+import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { GearSlot } from "../components/GearSlot";
 import { cld } from "../utils/cloudinary";
-
 import filterGearByLevel from "../utils/filterGearByLevel";
+import { getAppState } from "../utils/localStorage";
+import { useClassGear } from "../utils/queries.ts";
 import separateGearByType from "../utils/separateGearByType";
 import { weaponToFullName } from "../utils/weaponToFullName";
 
-import { GearSlot } from "../components/GearSlot";
-import { getAppState } from "../utils/localStorage.ts";
-import { useClassGear } from "../utils/queries.ts";
+const transition = {
+  duration: 0.3,
+  ease: "easeInOut",
+};
+
+const pageVariants = {
+  exit: { opacity: 0, transition },
+  enter: {
+    opacity: 1,
+    transition,
+  },
+  initial: {
+    opacity: 0,
+    transition,
+  },
+};
+
+const slotColumnVariants = {
+  animate: {
+    opacity: 1,
+    transition: { staggerChildren: 0.5, delayChildren: 0.5 },
+  },
+  initial: {
+    opacity: 0,
+  },
+  transition: { duration: 0.5 },
+};
+
+const slotVariants = {
+  animate: {
+    opacity: 1,
+    scale: 1,
+    transition: { staggerChildren: 1, delayChildren: 0.5 },
+  },
+  initial: {
+    opacity: 0,
+    scale: 0.8,
+  },
+  transition: { duration: 0.5 },
+};
+
+const fadeUp = {
+  initial: {
+    opacity: 0,
+    y: "5%",
+    transition,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition,
+  },
+};
 
 const Gear = (props) => {
   /* Check for saved/selected character, set up variables to access data */
@@ -34,71 +86,9 @@ const Gear = (props) => {
 
   /* Phase filter */
   const [phaseState, setPhase] = useState(1);
-  const [phasesActive, setActivePhases] = useState({
-    1: true,
-    2: false,
-    3: false,
-    4: false,
-    5: false,
-  });
 
   /* Level filter */
   const { updateCharacter } = props.updateState;
-
-  /* Framer Motion variants */
-  const transition = {
-    duration: 0.3,
-    ease: "easeInOut",
-  };
-
-  const pageVariants = {
-    exit: { opacity: 0, transition },
-    enter: {
-      opacity: 1,
-      transition,
-    },
-    initial: {
-      opacity: 0,
-      transition,
-    },
-  };
-
-  const slotColumnVariants = {
-    animate: {
-      opacity: 1,
-      transition: { staggerChildren: 0.5, delayChildren: 0.5 },
-    },
-    initial: {
-      opacity: 0,
-    },
-    transition: { duration: 0.5 },
-  };
-
-  const slotVariants = {
-    animate: {
-      opacity: 1,
-      scale: 1,
-      transition: { staggerChildren: 1, delayChildren: 0.5 },
-    },
-    initial: {
-      opacity: 0,
-      scale: 0.8,
-    },
-    transition: { duration: 0.5 },
-  };
-
-  const fadeUp = {
-    initial: {
-      opacity: 0,
-      y: "5%",
-      transition,
-    },
-    animate: {
-      opacity: 1,
-      y: 0,
-      transition,
-    },
-  };
 
   const img = cld.image("/wow-character-guide/Wow-Reaver.jpg").addTransformation(
     transformationStringFromObject([
