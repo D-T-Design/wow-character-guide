@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { cld } from "../utils/cloudinary";
 import ToggleItemStats from "./ToggleItemStats";
 
-const itemURLTBC = "https://tbc.wowhead.com/item=";
+const itemURLTBC = "https://wowhead.com/classic/item=";
 
 export const ItemDisplay = ({ item, index, faction }) => {
   const { item_id, quality, name, drop_location, phase, img_url, req_lvl, ilvl } = item;
