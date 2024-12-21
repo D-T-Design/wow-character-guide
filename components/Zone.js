@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import React from "react";
 import { cld } from "../utils/cloudinary";
 
-const zoneURL = "https://tbc.wowhead.com/zone=";
+const zoneURL = "https://wowhead.com/classic/zone=";
 const factionURL = "/static/img/faction/";
 const zoneURLString = "/static/img/zone/";
 
