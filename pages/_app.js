@@ -1,22 +1,16 @@
-import React, { useState, useEffect, use } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { AnimatePresence } from "framer-motion";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import { SWRConfig } from "swr";
-import { AnimatePresence } from "framer-motion";
-// import createPersistedState from "use-persisted-state";
-import getGameData from "../libs/gameData";
-import * as gtag from "../utils/gtag";
-
-import { Navbar } from "../components/Navbar";
 import Footer from "../components/Footer";
+import { Navbar } from "../components/Navbar";
 import { NewCharacterModal } from "../components/characterInput";
-
 import "../styles/globals.scss";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
-import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
-import { getAppState, setAppState } from "../utils/localStorage";
+import * as gtag from "../utils/gtag";
+import { DefaultAppState, getAppState, setAppState } from "../utils/localStorage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,24 +18,9 @@ const queryClient = new QueryClient({
   },
 });
 
-// const useAppState = createPersistedState("appState");
-
 const MyApp = ({ Component, pageProps }) => {
   const defaultState = getAppState();
-  // const [appState, setState] = useAppState({
-  // 	gear: [],
-  // 	character: 0,
-  // 	savedCharacters: [],
-  // 	gameData: getGameData(),
-  // });
-  const [appState, setState] = useState(
-    defaultState ?? {
-      gear: [],
-      character: 0,
-      savedCharacters: [],
-      gameData: getGameData(),
-    }
-  );
+  const [appState, setState] = useState(defaultState ?? DefaultAppState);
 
   const updateGear = (gear) => {
     const updatedList = appState.savedCharacters.map((savedCharacter) =>

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { raidPhases } from "../pages/zones";
+import debounce from "lodash.debounce";
 
 const ZoneTier = {
   0: "Zone",
@@ -120,11 +121,13 @@ type ZonesByCategory = {
   Battleground: Zone[];
 } & Record<string, any>;
 
+const debouncedFetch = debounce(fetch, 200, { leading: true, trailing: true });
+
 export const useZoneQuery = (level = 1, faction = "Alliance") =>
   useQuery<DbZone[]>({
     queryKey: ["zones", level, faction],
     queryFn: async () => {
-      const zones = await fetch(`/api/data/zones?level=${level}&faction=${faction}`);
+      const zones = await debouncedFetch(`/api/data/zones?level=${level}&faction=${faction}`);
       if (!zones.ok) {
         throw new Error("Failed to fetch zones data");
       }
@@ -138,7 +141,7 @@ export const useRaidQuery = (level = 1, tier?: number) =>
     queryKey: ["raids", level, tier],
     queryFn: async () => {
       const query = `/api/data/raids?level=${level}${tier ? `&tier=${tier}` : ""}`;
-      const raids = await fetch(query);
+      const raids = await debouncedFetch(query);
       if (!raids.ok) {
         throw new Error("Failed to fetch raids data");
       }
@@ -151,7 +154,7 @@ export const useDungeonQuery = (level = 1) =>
   useQuery<DbDungeon[]>({
     queryKey: ["dungeons", level],
     queryFn: async () => {
-      const dungeons = await fetch(`/api/data/dungeons?level=${level}`);
+      const dungeons = await debouncedFetch(`/api/data/dungeons?level=${level}`);
       if (!dungeons.ok) {
         throw new Error("Failed to fetch dungeons data");
       }
@@ -258,7 +261,7 @@ export const useClassGear = (className: string, level = 1) => {
   return useQuery<Item[]>({
     queryKey: ["classGear", className, level],
     queryFn: async () => {
-      const response = await fetch("/api/data/items?className=" + className + "&level=" + level);
+      const response = await debouncedFetch("/api/data/items?className=" + className + "&level=" + level);
       if (!response.ok) {
         throw new Error("Failed to fetch class gear data");
       }

@@ -22,7 +22,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         .from("items")
         .select(`*, class_items!inner(class_id)`)
         .eq("class_items.class_id", classData.class_id)
-        .lte("req_lvl", level);
+        .lte("req_lvl", level)
+        .gte("req_lvl", Number(level) - 10)
+        .order("req_lvl", { ascending: false });
 
       if (error) {
         return res.status(500).json({ error: error.message });

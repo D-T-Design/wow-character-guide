@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence, AnimateSharedLayout } from "framer-motion";
-import { getAppState, setAppState } from "../utils/localStorage";
+import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion";
+import React, { useState } from "react";
 
 const InputButtonSection = ({ title, currentState, changeState, itemList, gender }) => {
   const srcURL = `/static/img/${title.toLowerCase()}/`;
